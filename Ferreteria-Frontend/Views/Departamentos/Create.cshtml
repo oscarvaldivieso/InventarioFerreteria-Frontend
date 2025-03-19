@@ -1,0 +1,92 @@
+﻿@model Ferreteria_Frontend.Models.DepartamentoViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>DepartamentoViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Depa_Codigo" class="control-label"></label>
+                <input asp-for="Depa_Codigo" class="form-control" />
+                <span asp-validation-for="Depa_Codigo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Depa_Descripcion" class="control-label"></label>
+                <input asp-for="Depa_Descripcion" class="form-control" />
+                <span asp-validation-for="Depa_Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Usua_Creacion" class="control-label"></label>
+                <input asp-for="Usua_Creacion" class="form-control" />
+                <span asp-validation-for="Usua_Creacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Feca_Creacion" class="control-label"></label>
+                <input asp-for="Feca_Creacion" class="form-control" />
+                <span asp-validation-for="Feca_Creacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Usua_Modificacion" class="control-label"></label>
+                <input asp-for="Usua_Modificacion" class="form-control" />
+                <span asp-validation-for="Usua_Modificacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Feca_Modificacion" class="control-label"></label>
+                <input asp-for="Feca_Modificacion" class="form-control" />
+                <span asp-validation-for="Feca_Modificacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
+
+
+
+<form class="form-bookmark needs-validation custom-input was-validated" novalidate="">
+    <div class="row g-2">
+        <div class="mb-3 mt-0 col-md-12">
+            <label>Web Url</label>
+            <input class="form-control" id="editurl" type="text" required="" autocomplete="off" value="http://admin.pixelstrap.com/Riho/ltr/landing-page.html">
+        </div>
+        <div class="mb-3 mt-0 col-md-12">
+            <label>Title</label>
+            <input class="form-control" id="edittitle" type="text" required="" autocomplete="off" value="Admin Template">
+        </div>
+        <div class="mb-3 mt-0 col-md-12">
+            <label>Description</label>
+            <textarea class="form-control" id="editdesc" required="" autocomplete="off">Riho is beautifully crafted, clean and modern designed admin theme with 6 different demos and light - dark versions.</textarea>
+        </div>
+        <div class="mb-3 mt-0 col-md-6">
+            <label>Group</label>
+            <select class="js-example-basic-single">
+                <option value="AL">My Bookmarks</option>
+            </select>
+        </div>
+        <div class="mb-3 mt-0 col-md-6">
+            <label>Collection</label>
+            <select class="js-example-disabled-results">
+                <option value="general">General</option>
+                <option value="fs">fs</option>
+            </select>
+        </div>
+    </div>
+    <button class="btn btn-secondary" type="button">Save</button>
+    <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Cancel   </button>
+</form>

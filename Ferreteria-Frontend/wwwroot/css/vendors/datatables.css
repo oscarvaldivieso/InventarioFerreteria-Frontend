@@ -93,7 +93,7 @@ table.dataTable thead .sorting_desc_disabled:after {
   bottom: 8px;
   right: 8px;
   display: block;
-  font-family: "Glyphicons Halflings";
+  font-family: "Montserrat";
   opacity: 0.5;
 }
 table.dataTable thead .sorting:after {
@@ -411,8 +411,7 @@ table.dataTable.nowrap th, table.dataTable.nowrap td {
 }
 
 div.dataTables_wrapper {
-  position: relative;
-  font-family: "Open Sans", sans-serif;
+  position: "Montserrat", sans-serif;
 }
 div.dataTables_wrapper div.dataTables_length label {
   float: left;

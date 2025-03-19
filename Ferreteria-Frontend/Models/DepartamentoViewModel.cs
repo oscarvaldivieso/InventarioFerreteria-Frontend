@@ -1,9 +1,13 @@
-﻿namespace Ferreteria_Frontend.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Ferreteria_Frontend.Models
 {
     public class DepartamentoViewModel
     {
+        [Display(Name = "Código")]
         public string Depa_Codigo { get; set; }
 
+        [Display(Name = "Departamento")]
         public string Depa_Descripcion { get; set; }
 
         public int Usua_Creacion { get; set; }
