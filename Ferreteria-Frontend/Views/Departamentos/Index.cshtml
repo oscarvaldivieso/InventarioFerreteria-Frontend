@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="card">
+@* <div class="card">
     <div class="card-header">
         <p class="mb-0">
             <button type="button" class="secondary-button mx-2" data-dismiss="modal" id="crear">
@@ -72,3 +72,165 @@
         </div>
     </div>
 </div>
+ *@
+
+
+
+@* <div class="accordion" id="accordionDepartamentos">
+    @foreach (var item in Model)
+    {
+        <div class="card">
+            <div class="card-header" id="heading-@item.Depa_Codigo">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-@item.Depa_Codigo" aria-expanded="true" aria-controls="collapse-@item.Depa_Codigo">
+                        @Html.DisplayFor(modelItem => item.Depa_Descripcion)
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapse-@item.Depa_Codigo" class="collapse" aria-labelledby="heading-@item.Depa_Codigo" data-parent="#accordionDepartamentos">
+                <div class="card-body">
+                    <p><strong>Código:</strong> @Html.DisplayFor(modelItem => item.Depa_Codigo)</p>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-warning" onclick="edit('@item.Depa_Codigo')">
+                            <i class="fas fa-pencil-alt"></i> Editar
+                        </button>
+                        <a asp-action="Details" asp-route-id="@item.Depa_Codigo" class="btn btn-info">
+                            <i class="fas fa-info"></i> Detalles
+                        </a>
+                        <button class="btn btn-danger" onclick="eliminar('@item.Depa_Codigo')">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+ *@
+
+
+
+
+<div class="col-sm-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="list-product-header">
+                <div>
+                    <div class="light-box"><a data-bs-toggle="collapse" href="#collapseProduct" role="button" aria-expanded="false" aria-controls="collapseProduct"><i class="filter-icon show" data-feather="filter"></i><i class="icon-close filter-close hide"></i></a></div><a class="btn btn-primary" href="list-wish.html"><i class="fa fa-plus"></i>Agregar Departamento</a>
+                </div>
+                <div class="collapse" id="collapseProduct">
+                    <div class="card card-body list-product-body">
+                        <div class="row row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-2 g-3">
+                            <div class="col">
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected="">Choose Product</option>
+                                    <option value="1">Apple iphone 13 Pro</option>
+                                    <option value="2">Wood Chair</option>
+                                    <option value="3">M185 Compact Wireless Mouse</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected="">Choose Category</option>
+                                    <option value="1">Furniture</option>
+                                    <option value="2">Smart Gadgets</option>
+                                    <option value="3">Electrics</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected="">Choose Sub Category</option>
+                                    <option value="1">Smart Phones</option>
+                                    <option value="2">Smart Watches</option>
+                                    <option value="3">Wireless headphone</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected="">Status</option>
+                                    <option value="1">Sold Out </option>
+                                    <option value="2">In Stock</option>
+                                    <option value="3">Pre Order</option>
+                                    <option value="4">Limited Stock </option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected="">Price</option>
+                                    <option value="1">56000.00</option>
+                                    <option value="2">19000.00</option>
+                                    <option value="3">10000.00</option>
+                                    <option value="3">15000.00</option>
+                                    <option value="3">99000.00</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-product list-category">
+                <table class="table" id="tablaIndex">
+                    <thead>
+                        <tr>
+                            <th> <span class="f-light f-w-600">Codigo</span></th>
+                            <th> <span class="f-light f-w-600">Descripcion</span></th>
+                            <th> <span class="f-light f-w-600">Action</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in Model){
+                            <tr class="product-removes">
+                                <td>
+                                    <div class="product-names">
+                                        <p>@Html.DisplayFor(modelItem => item.Depa_Codigo)</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="f-light">@Html.DisplayFor(modelItem => item.Depa_Descripcion)</p>
+                                </td>
+                                <td>
+                                    <div class="product-action">
+                                        <svg>
+                                            <use href="~/svg/icon-sprite.svg#edit-content"></use>
+                                        </svg>
+                                        <svg>
+                                            <use href="~/svg/icon-sprite.svg#trash1"> </use>
+                                        </svg>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@* <link rel="stylesheet" type="text/css" href="~/css/vendors/js-datatables/style.css"> *@
+
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/js-datatables/simple-datatables@latest.js"></script>
+<script src="~/js/datatable/datatables/jquery.dataTables.min.js"></script>
+
+
+@* <script src="~/js/datatable/datatable/datatables/datatable.custom.js"></script>
+<script src="~/js/datatable/datatable-extension/dataTables.buttons.min.js"></script>
+<script src="~/js/datatable/datatable-extension/jszip.min.js"></script>
+<script src="~/js/datatable/datatable-extension/pdfmake.min.js"></script>
+<script src="~/js/datatable/datatable-extension/vfs_fonts.js"></script>
+<script src="~/js/datatable/datatable-extension/dataTables.autoFill.min.js"></script>
+<script src="~/js/datatable/datatable-extension/dataTables.select.min.js"></script>
+<script src="~/js/datatable/datatable-extension/buttons.print.min.js"></script>
+<script src="~/js/datatable/datatable-extension/buttons.html5.min.js"></script>
+<script src="~/js/datatable/datatable-extension/dataTables.bootstrap4.min.js"></script>
+<script src="~/js/datatable/datatable-extension/dataTables.responsive.min.js"></script>
+<script src="~/js/datatable/datatable-extension/responsive.bootstrap4.min.js"></script>
+<script src="~/js/datatable/datatable-extension/dataTables.keyTable.min.js"></script>
+<script src="~/js/datatable/datatable-extension/custom.js"></script> *@
+
+<script>
+    $(document).ready(function(){
+        $('#tablaIndex').DataTable();
+    });
+</script>

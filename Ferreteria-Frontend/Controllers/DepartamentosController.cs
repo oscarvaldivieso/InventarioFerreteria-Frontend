@@ -15,6 +15,8 @@ namespace Ferreteria_Frontend.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            ViewBag.PageTitle = "Departamentos";
+
             var response = await _httpClient.GetAsync("ListarDepartamento");
 
             if(response.IsSuccessStatusCode)
