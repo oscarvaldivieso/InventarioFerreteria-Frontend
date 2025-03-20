@@ -185,13 +185,22 @@
                         @foreach(var item in Model){
                             <tr class="product-removes">
                                 <td>
-                                    <div class="product-action">
-                                        <svg>
-                                            <use href="~/svg/icon-sprite.svg#edit-content"></use>
-                                        </svg>
-                                        <svg>
-                                            <use href="~/svg/icon-sprite.svg#trash1"> </use>
-                                        </svg>
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-cogs"></i> Acciones
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <!--Button para edit-->
+                                            <button class="btn btn-outline-warning" data-id="@item.Depa_Codigo" onclick="edit('@item.Depa_Codigo')" style="width:100%">
+                                                <i class="fas fa-pencil-alt"></i> Editar
+                                            </button>
+                                            <a asp-action="Details" asp-route-id="@item.Depa_Codigo" class="btn btn-outline-info" style="width:100%">
+                                                <i class="fas fa-info"></i> Detalles
+                                            </a>
+                                            <button class="btn btn-outline-danger" onclick="eliminar('@item.Depa_Codigo')" style="width:100%">
+                                                <i class="fas fa-trash-alt"></i> Eliminar
+                                            </button>
+                                        </div>
                                     </div>
                                 </td>
                                 <td>
@@ -220,6 +229,20 @@
                 </div>
                 <div class="modal-body">
                     <partial name="_Create" model="new Ferreteria_Frontend.Models.DepartamentoViewModel()"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade modal-bookmark" id="modalEditar" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar un departamento</h5>
+                </div>
+                <div class="modal-body">
+                    <partial name="_Edit" model="new Ferreteria_Frontend.Models.DepartamentoViewModel()" />
                 </div>
             </div>
         </div>
@@ -260,6 +283,11 @@
     $("#ModalNuevo").click(function () {
         $("#modalInsertar").modal({ backdrop: 'static', keyboard: false });
         $("#modalInsertar").modal('show');
+    });
+
+    $("#btnModalEditar").click(function () {
+        $("#modalEditar").modal({ backdrop: 'static', keyboard: false });
+        $("#modalEditar").modal('show');
     });
         
 
