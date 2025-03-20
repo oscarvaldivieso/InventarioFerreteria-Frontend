@@ -7657,7 +7657,6 @@ table.dataTable.display tbody tr.even .badge {
   padding: 6px 12px;
   border-top: 1px solid #efefef;
   background-color: #fff;
-  opacity: 0.6;
 }
 .dropdown-menu .input-group:hover, .dropdown-menu .input-group:active {
   background-color: #E6E9EB;
