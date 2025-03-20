@@ -19,7 +19,7 @@ namespace Ferreteria_Frontend.Controllers
         {
             ViewBag.PageTitle = "Departamentos";
 
-            var response = await _httpClient.GetAsync("ListarDepartamento");
+            var response = await _httpClient.GetAsync("ListarDepartamentos");
 
             if(response.IsSuccessStatusCode)
             {
