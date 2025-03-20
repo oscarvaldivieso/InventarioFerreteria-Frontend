@@ -23186,7 +23186,6 @@ footer.blockquote-footer {
 }
 .email-wrap .dropdown .dropdown-menu .dropdown-item {
   color: #2b2b2b;
-  opacity: 0.6;
   font-size: 13px;
   padding: 6px 12px;
   border-top: 1px solid #f5f5f5;
@@ -38235,7 +38234,6 @@ body[class*=dark-] .for-light {
 }
 .dropdown-menu .dropdown-item {
   color: #2b2b2b;
-  opacity: 0.6;
   font-size: 14px;
   padding: 6px 12px;
   border-top: 1px solid #efefef;

@@ -61,9 +61,10 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Edit(string id)
         {
+
             var data = new DepartamentoViewModel { Depa_Codigo = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("BuscarDepartamento", content2);
+            var response = await _httpClient.PostAsync("/BuscarDepartamento", content2);
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -74,13 +75,17 @@ namespace Ferreteria_Frontend.Controllers
                 {
                     depa.Depa_Codigo = item.Depa_Codigo;
                     depa.Depa_Descripcion = item.Depa_Descripcion;
+
+
                 }
 
                 return PartialView("_Edit", depa);
+
             }
             else
             {
                 return View();
+
             }
         }
 
@@ -125,5 +130,40 @@ namespace Ferreteria_Frontend.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            var data = new DepartamentoViewModel { Depa_Codigo = id };
+            var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/BuscarDepartamento", content2);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                List<DepartamentoViewModel> departa = JsonConvert.DeserializeObject<List<DepartamentoViewModel>>(content);
+
+                DepartamentoViewModel depa = new DepartamentoViewModel();
+                foreach (var item in departa)
+                {
+                    depa.Depa_Codigo = item.Depa_Codigo;
+                    depa.Depa_Descripcion = item.Depa_Descripcion;
+                    depa.Feca_Creacion = item.Feca_Creacion;
+                    depa.Feca_Creacion = item.Feca_Creacion;
+                    depa.Usua_Creacion = item.Usua_Creacion;
+                    depa.Usua_Modificacion = item.Usua_Modificacion;
+                    depa.UsuaC_Nombre = item.UsuaC_Nombre;
+                    depa.UsuaM_Nombre = item.UsuaM_Nombre;
+
+
+                }
+                return View(depa);
+            }
+            else
+            {
+                TempData["error"] = "Error al mostrar detalle";
+                return RedirectToAction("Index");
+            }
+        }
+
+
     }
 }
