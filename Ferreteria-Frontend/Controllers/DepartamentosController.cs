@@ -111,7 +111,9 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Delete (string id)
         {
-            var response = await _httpClient.DeleteAsync("EliminarDepartamento");
+            var data = new DepartamentoViewModel { Depa_Codigo = id };
+            var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("EliminarDepartamento",content2 );
 
             if (response.IsSuccessStatusCode)
             {
