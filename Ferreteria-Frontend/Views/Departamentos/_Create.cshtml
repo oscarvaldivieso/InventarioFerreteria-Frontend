@@ -1,29 +1,27 @@
 ﻿@model Ferreteria_Frontend.Models.DepartamentoViewModel
 
 
+<form asp-action="Create">
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="Create" >
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label asp-for="Depa_Codigo" class="control-label"></label>
-                    <input asp-for="Depa_Codigo" class="form-control" />
-                    <span asp-validation-for="Depa_Codigo" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <label asp-for="Depa_Descripcion" class="control-label"></label>
-                    <input asp-for="Depa_Descripcion" class="form-control" />
-                    <span asp-validation-for="Depa_Descripcion" class="text-danger"></span>
-                </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label asp-for="Depa_Codigo" class="control-label"></label>
+                <input asp-for="Depa_Codigo" class="form-control" />
+                <span asp-validation-for="Depa_Codigo" class="text-danger"></span>
             </div>
-           
-            
-            
-            <div class="form-group d-flex justify-content-end mt-3">
-                <input type="submit" value="Insertar" class="btn btn-primary mx-2" />
-                <input type="button" value="Regresar" id="btnCerrar" class="btn btn-rounded btn-outline-primary btn-md mx-2" data-dismiss="modal" />
+            <div class="form-group col-md-6">
+                <label asp-for="Depa_Descripcion" class="control-label"></label>
+                <input asp-for="Depa_Descripcion" class="form-control" />
+                <span asp-validation-for="Depa_Descripcion" class="text-danger"></span>
             </div>
-        </form>
+        </div>  
+        
+        <div class="form-group d-flex justify-content-end mt-3">
+            <input type="submit" value="Insertar" class="btn btn-primary mx-2" />
+            <input type="button" value="Regresar" id="btnCerrarCrear" class="btn btn-rounded btn-outline-primary btn-md mx-2" data-dismiss="modal" />
+        </div>
     </div>
 </div>
+</form>
