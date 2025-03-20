@@ -60,5 +60,39 @@ namespace Ferreteria_Frontend.Controllers
             }
             return View(depa);
         }
+
+
+        public async Task<IActionResult> Edit(string id)
+        {
+
+            var data = new DepartamentoViewModel { Depa_Codigo = id };
+            var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/BuscarDepartamento", content2);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                List<DepartamentoViewModel> departa = JsonConvert.DeserializeObject<List<DepartamentoViewModel>>(content);
+
+                DepartamentoViewModel depa = new DepartamentoViewModel();
+                foreach (var item in departa)
+                {
+                    depa.Depa_Codigo = item.Depa_Codigo;
+                    depa.Depa_Descripcion = item.Depa_Descripcion;
+
+
+                }
+
+                return PartialView("_Edit", depa);
+
+            }
+            else
+            {
+                return View();
+
+            }
+        }
+
+
+
     }
 }
