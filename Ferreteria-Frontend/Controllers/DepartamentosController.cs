@@ -83,5 +83,45 @@ namespace Ferreteria_Frontend.Controllers
                 return View();
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, DepartamentoViewModel depa)
+        {
+            depa.Usua_Modificacion = 1;
+            depa.Feca_Modificacion = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                var json = JsonConvert.SerializeObject(depa);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PutAsync("ActualizarDepartamento", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index", new { id });
+
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Error al actualizar departamento");
+                }
+            }
+            return View(depa);
+        }
+
+        public async Task<IActionResult> Delete (string id)
+        {
+            var response = await _httpClient.DeleteAsync("EliminarDepartamento");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Error"] = "Error al eliminar el departamento";
+                return RedirectToAction("Index");
+            }
+        }
     }
 }
