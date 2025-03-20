@@ -2,12 +2,10 @@
   4.3 Update CSS Start
 ==========================**/
 
-
 @import "../utils/variables";
 
 // jsgrid css
 .jsgrid-filter-row {
-
     select,
     input {
         padding: 6px 10px;
@@ -33,12 +31,14 @@
         color: rgba(43, 43, 43, 0.7);
     }
 }
-#calendar{
-    .fc-header-toolbar{
+
+#calendar {
+    .fc-header-toolbar {
         display: flex;
+
         @media (max-width:1690px) {
             display: none;
-          }
+        }
     }
 }
 // tooltip css start
@@ -190,9 +190,9 @@
             border-color: $light-semi-gray;
             border-radius: 0;
             border-bottom-left-radius: 5px;
-            border-bottom-right-radius: 5px; 
+            border-bottom-right-radius: 5px;
             color: $dark-color;
-            border-bottom: none; 
+            border-bottom: none;
         }
     }
 }
@@ -203,6 +203,7 @@
 
 .nav-tabs {
     border-bottom-color: $light-semi-gray;
+
     .nav-bottom {
         .nav-item {
             .nav-link.active {
@@ -211,7 +212,8 @@
         }
     }
 }
-.list-product{
+
+.list-product {
     .datatable-wrapper {
         .no-footer {
             .datatable-container {
@@ -220,6 +222,7 @@
         }
     }
 }
+
 .nav-tabs {
     .nav-item {
         &.show {
@@ -252,8 +255,8 @@
     -webkit-box-shadow: 0 0 20px rgba(89, 102, 122, 0.1);
     box-shadow: 0 0 20px rgba(89, 102, 122, 0.1);
     border: none;
-    padding: 0; 
-    z-index: 1; 
+    padding: 0;
+    z-index: 1;
 
     .dropdown-item {
         color: #2b2b2b;
@@ -261,9 +264,11 @@
         padding: 6px 12px;
         border-top: 1px solid $light-semi-gray;
         background: $white;
-        &:first-child{
+
+        &:first-child {
             border-top: none;
         }
+
         &:hover {
             background-color: $white;
         }
@@ -297,24 +302,26 @@
     }
 }
 
-
 .timeliny {
     .timeliny-dot::before {
         font-size: $btn-lg-font-size;
     }
 }
-.total-revenue{ 
+
+.total-revenue {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    span{
-      color: var(--body-font-color);
-      font-weight: 500;
+
+    span {
+        color: var(--body-font-color);
+        font-weight: 500;
     }
-    a{
-      font-weight: 600;
+
+    a {
+        font-weight: 600;
     }
-  }
+}
 
 .component {
     .input-group {
@@ -372,15 +379,13 @@
 .note-btn-group {
     .dropdown-toggle {
         &.show {
-            ~.dropdown-menu {
+            ~ .dropdown-menu {
                 display: block;
                 top: 30px;
             }
         }
     }
-
 }
-
 
 // owl-carousel css
 
@@ -426,12 +431,10 @@
     .carousel-control-next-icon {
         width: calc(23px + (32 - 23) * ((100vw - 320px) / (1920 - 320)));
         height: calc(23px + (32 - 23) * ((100vw - 320px) / (1920 - 320)));
-
     }
 }
 
-
-// Rating 
+// Rating
 .rating-header {
     h4 {
         [dir="rtl"] & {
@@ -558,7 +561,7 @@
         li {
             position: relative;
 
-            +li {
+            + li {
                 &::before {
                     position: absolute;
                     content: '';
@@ -568,7 +571,7 @@
                     transform: translateY(-50%);
                     border: 1px dashed var(--recent-dashed-border);
 
-                    [dir="rtl"] & { 
+                    [dir="rtl"] & {
                         left: unset;
                         right: -25px;
                     }
@@ -585,8 +588,6 @@
         }
     }
 }
-
- 
 
 /**=====================
     4.3 Update CSS Ends

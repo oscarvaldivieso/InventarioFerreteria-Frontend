@@ -186,9 +186,11 @@
                             <tr class="product-removes">
                                 <td>
                                     <div class="btn-group">
-                                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dashboard</button>
+                                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Acciones</button>
                                         <ul class="dropdown-menu dropdown-block" style="">
-                                            <li><a class="dropdown-item" href="#">Project</a></li>
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="editar('@item.Depa_Codigo')">
+                                                <i class="fa fa-edit"></i> Editar
+                                            </a>
                                             <li><a class="dropdown-item" href="#">Ecommerce</a></li>
                                             <li><a class="dropdown-item" href="#">Crypto</a></li>
                                         </ul>
@@ -232,7 +234,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title">Editar un departamento</h5>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="modalBody">
                     <partial name="_Edit" model="new Ferreteria_Frontend.Models.DepartamentoViewModel()" />
                 </div>
             </div>
@@ -276,13 +278,20 @@
         $("#modalInsertar").modal('show');
     });
 
-    $("#btnModalEditar").click(function () {
-        $("#modalEditar").modal({ backdrop: 'static', keyboard: false });
-        $("#modalEditar").modal('show');
-    });
-        
-
     $("#btnCerrar").click(function() {
         $("#modalInsertar").modal('hide');
+        location.reload();
+    });
+
+    function editar(id) {
+        var url = '/Departamentos/Edit/' + id;
+        $("#modalBody").load(url, function () {
+            $("#modalEditar").modal({ backdrop: 'static', keyboard: false });
+            $("#modalEditar").modal('show');
+        });
+    }
+
+    $(document).on('click', '#btnCerrarEditar', function() {
+        $("#modalEditar").modal('hide');
     });
 </script>

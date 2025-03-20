@@ -15,27 +15,26 @@ namespace Ferreteria_Frontend.Controllers
             _httpClient = httpClientFactory.CreateClient();
             _httpClient.BaseAddress = new Uri("https://localhost:7214/");
         }
+
         public async Task<IActionResult> Index()
         {
             ViewBag.PageTitle = "Departamentos";
 
             var response = await _httpClient.GetAsync("ListarDepartamentos");
 
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
                 var departamentos = JsonConvert.DeserializeObject<IEnumerable<DepartamentoViewModel>>(content);
                 return View("Index", departamentos);
-            }   
+            }
             return View(new List<DepartamentoViewModel>());
         }
-
 
         public IActionResult Create()
         {
             return View();
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Create(DepartamentoViewModel depa)
@@ -55,19 +54,16 @@ namespace Ferreteria_Frontend.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Error al crear el departamento");
-
                 }
             }
             return View(depa);
         }
 
-
         public async Task<IActionResult> Edit(string id)
         {
-
             var data = new DepartamentoViewModel { Depa_Codigo = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/BuscarDepartamento", content2);
+            var response = await _httpClient.PostAsync("BuscarDepartamento", content2);
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -78,21 +74,14 @@ namespace Ferreteria_Frontend.Controllers
                 {
                     depa.Depa_Codigo = item.Depa_Codigo;
                     depa.Depa_Descripcion = item.Depa_Descripcion;
-
-
                 }
 
                 return PartialView("_Edit", depa);
-
             }
             else
             {
                 return View();
-
             }
         }
-
-
-
     }
 }
