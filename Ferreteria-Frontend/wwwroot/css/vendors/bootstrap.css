@@ -8390,8 +8390,8 @@ textarea.form-control-lg {
 }
 
 .text-info {
-  --bs-text-opacity: 1;
-  color: rgba(var(--bs-info-rgb), var(--bs-text-opacity)) !important;
+    --bs-text-opacity: 1;
+    color: rgb(96 226 227) !important;
 }
 
 .text-warning {
