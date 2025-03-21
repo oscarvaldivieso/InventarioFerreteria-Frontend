@@ -1,12 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ferreteria_Frontend.Models
 {
     public class MunicipioViewModel
     {
+        [Display(Name = "Código")]
         public string Muni_Codigo { get; set; }
 
+        [Display(Name = "Municipio")]
+
         public string Muni_Descripcion { get; set; }
+
+        [Display(Name = "Departamento")]
 
         public string Depa_Codigo { get; set; }
 
