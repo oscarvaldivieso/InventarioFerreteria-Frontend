@@ -7,6 +7,7 @@
                 <div class="col-md-12">
                     <form asp-action="Edit" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="Medi_Id" type="hidden" />
                                     <div class="row">
                                     <div class="form-group col-md-12">
                                         <label asp-for="Medi_Descripcion" class="control-label"></label>
@@ -16,7 +17,7 @@
                                     
                         <div class="form-group d-flex justify-content-end mt-3">
                             <input type="submit" value="Insertar" class="btn btn-primary mx-2" />
-                            <input type="button" value="Regresar" id="btnCerrarCrear" class="btn btn-rounded btn-outline-primary btn-md mx-2" data-dismiss="modal" />
+                            <input type="button" value="Regresar" id="btnCerrarEditar" class="btn btn-rounded btn-outline-primary btn-md mx-2" data-dismiss="modal" />
                         </div>
                     </form>
                 </div>
