@@ -36,6 +36,7 @@
         //    PushIndent("    ");
     }
 }
+<div class="col-sm-12">
 <div class="card">
     <div class="card-header" style="display:flex; justify-content:space-between">
         <h1>Detalles</h1>
@@ -65,7 +66,7 @@
     {
         if (propertyLookup.TryGetValue(item.Name, out IPropertyMetadata property)
             && property.Scaffold && !property.IsForeignKey && !property.IsPrimaryKey
-            && !item.Name.Contains("Fecha") && !item.Name.Contains("Estado"))
+            && !item.Name.Contains("Feca") && !item.Name.Contains("Estado"))
         {
             <div class="col-sm-4">
                 <dt>
@@ -93,7 +94,7 @@
         else if (propertyLookup.TryGetValue(item.Name, out property)
             && property.Scaffold && !property.IsPrimaryKey)
         {
-            if (item.Name.Contains("Fecha"))
+            if (item.Name.Contains("Feca"))
             {
                 camposFiltrados.Add(item.Name);
             }
@@ -130,17 +131,18 @@
             <tbody>
                 <tr>
                     <th>Creacion</th>
-                    <td>@@Html.DisplayFor(model => model.Usuar_CreacionNavigation.Usuar_Nombre)</td>
-                    <td>@@Html.DisplayFor(model => model.Fecha_Creacion)</td>
+                    <td>@@Html.DisplayFor(model => model.UsuaC_Nombre)</td>
+                    <td>@@Html.DisplayFor(model => model.Feca_Creacion)</td>
                 </tr>
                 <tr>
                     <th>Modificacion</th>
-                    <td>@@Html.DisplayFor(model => model.Usuar_ModificacionNavigation.Usuar_Nombre)</td>
-                    <td>@@Html.DisplayFor(model => model.Fecha_Modificacion)</td>
+                    <td>@@Html.DisplayFor(model => model.UsuaM_Nombre)</td>
+                    <td>@@Html.DisplayFor(model => model.Feca_Modificacion)</td>
                 </tr>
             </tbody>
         </table>
     </div>
+</div>
 </div>
 @{
     if (!Model.IsPartialView && !Model.IsLayoutPageSelected)

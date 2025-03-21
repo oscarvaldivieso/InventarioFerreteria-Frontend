@@ -35,112 +35,112 @@
         //    PushIndent("    ");
     }
     string titulo = Model.ViewDataTypeShortName.Substring(2);
-    string titulo2 = Model.ViewDataTypeShortName + "()";
-@:<div class="card">
-    @:<div class="card-header">
-        @:<p>
-            // @:<a asp-action="Create" class="btn btn-warning" disable="disable">
-            //     @:Nuevo <i class="fa fa-plus-circle"></i></a>
-            @:<button class="btn btn-warning" id="crear">
-                @:Nuevo <i class="fa fa-plus-circle"></i></button>
-        @:</p>
-    @:</div>
-    @:<div class="card-body">
-        @:<div class="table-responsive">
-            @:<table class="table table-striped table-bordered" id="tablaIndex">
-                @:<thead>
-                    @:<tr>
-                    Dictionary<string, IPropertyMetadata> propertyLookup = ((IModelMetadata)Model.ModelMetadata).Properties.ToDictionary(x => x.PropertyName, x => x);
-                    Dictionary<string, INavigationMetadata> navigationLookup = ((IModelMetadata)Model.ModelMetadata).Navigations.ToDictionary(x => x.AssociationPropertyName, x => x);
-                        //Columna de acciones
-                        @:<th style="width:10%">
-                            @:Acciones
-                        @:</th>
-                    foreach (var item in Model.ModelMetadata.ModelType.GetProperties())
-                    {
-                        if (propertyLookup.TryGetValue(item.Name, out IPropertyMetadata property)
-                            && property.Scaffold && !property.IsForeignKey && !property.IsPrimaryKey
-                            && !item.Name.Contains("Fecha") && !item.Name.Contains("Estado"))
+    string titulo2 = Model.ViewDataTypeShortName + "ViewModel()";
+@:<div class="col-sm-12">
+    @:<div class="card">
+        @:<div class="card-body">
+            @:<div class="list-product-header">
+                @:<div class="light-box"></div>
+                    @:<button type="button" class="btn btn-rounded btn-outline-primary btn-md" id="ModalNuevo"><i class="fa fa-plus"></i> Agregar #Nombretabla</a></button>
+            @:</div>
+            @:<div class="list-product list-category">
+                @:<table class="table table-striped table-bordered" id="tablaIndex">
+                    @:<thead>
+                        @:<tr>
+                        Dictionary<string, IPropertyMetadata> propertyLookup = ((IModelMetadata)Model.ModelMetadata).Properties.ToDictionary(x => x.PropertyName, x => x);
+                        Dictionary<string, INavigationMetadata> navigationLookup = ((IModelMetadata)Model.ModelMetadata).Navigations.ToDictionary(x => x.AssociationPropertyName, x => x);
+                            //Columna de acciones
+                            @:<th style="width:10%">
+                                @:Acciones
+                            @:</th>
+                        foreach (var item in Model.ModelMetadata.ModelType.GetProperties())
                         {
-                        <th>
-                            @@Html.DisplayNameFor(model => model.@GetValueExpression(property))
-                        </th>
+                            if (propertyLookup.TryGetValue(item.Name, out IPropertyMetadata property)
+                                && property.Scaffold && !property.IsForeignKey && !property.IsPrimaryKey
+                                && !item.Name.Contains("Fecha") && !item.Name.Contains("Estado"))
+                            {
+                            <th>
+                                @@Html.DisplayNameFor(model => model.@GetValueExpression(property))
+                            </th>
+                            }
+                            else if (navigationLookup.TryGetValue(item.Name, out INavigationMetadata navigation)
+                                && !item.Name.Contains("Usua"))
+                            {
+                            <th>
+                                @@Html.DisplayNameFor(model => model.@GetValueExpression(navigation))
+                            </th>
+                            }
                         }
-                        else if (navigationLookup.TryGetValue(item.Name, out INavigationMetadata navigation)
-                            && !item.Name.Contains("Usua"))
+                        @:</tr>
+                    @:</thead>
+                    @:<tbody>
+                @:@@foreach (var item in Model) {
+                        @:<tr>
+                        //Botenes de acciones
+                        string pkName = GetPrimaryKeyName();
+                        if (pkName != null)
                         {
-                        <th>
-                            @@Html.DisplayNameFor(model => model.@GetValueExpression(navigation))
-                        </th>
-                        }
-                    }
-                    @:</tr>
-                @:</thead>
-                @:<tbody>
-            @:@@foreach (var item in Model) {
-                    @:<tr>
-                    //Botenes de acciones
-                    string pkName = GetPrimaryKeyName();
-                    if (pkName != null)
-                    {
-                        @:<td>
-                            @:<div class="dropdown">
-                                @:<button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    @:<i class="fas fa-cogs"></i> Acciones
-                                @:</button>
-                                @:<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    @:<!--Url para edit-->
-                                    @:<a asp-action="Edit" asp-route-id="@@item.@pkName" class="btn btn-outline-warning" style="width:100%">
-                                    @:  <i class="fas fa-pencil-alt"></i> Editar</a>
-                                    @:<!--Button para edit-->
-                                    @:<button class="btn btn-outline-warning" data-id="@@item.@pkName" onclick="edit(@@item.@pkName)" style="width:100%">
-                                    @:  <i class="fas fa-pencil-alt"></i> Editar</button>
-                                    @:<a asp-action="Details" asp-route-id="@@item.@pkName" class="btn btn-outline-info" style="width:100%">
-                                    @:  <i class="fas fa-info"></i> Detalles</a>
-                                    @:<button class="btn btn-outline-danger" onclick="eliminar(@@item.@pkName)"style="width:100%">
-                                    @:  <i class="fas fa-trash-alt"></i> Eliminar</button>
+                            @:<td>
+                                @:<div class="btn-group">
+                                    @:<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @:<i class="fas fa-cogs"></i> Acciones
+                                    @:</button>
+                                    @:<ul class="dropdown-menu dropdown-block" style="">
+                                        @:<a class="dropdown-item" href="javascript:void(0);" onclick="editar(@@item.@pkName)">
+                                            @:<i class="fa fa-edit"></i> Editar
+                                        @:</a>
+                                        @:<a asp-action="Details" asp-route-id="@@item.@pkName" class="dropdown-item">
+                                        @:<i class="fas fa-info"></i> Detalles</a>
+                                        @:<a class="dropdown-item" href="javascript:void(0);" onclick="eliminar(@@item.@pkName)">
+                                            @:<i class="fa fa-edit"></i> Eliminar
+                                        @:</a>
+                                        @:<li><a class="dropdown-item" href="#">Crypto</a></li>
+                                    @:</ul>
                                 @:</div>
-                            @:</div>
-                        @:</td>
-                    }
-                    else
-                    {
-                        <td>
-                            @@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                            @@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                            @@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                        </td>
-                    }
-                    foreach (var item in Model.ModelMetadata.ModelType.GetProperties())
-                    {
-                        if (propertyLookup.TryGetValue(item.Name, out IPropertyMetadata property)
-                            && property.Scaffold && !property.IsForeignKey && !property.IsPrimaryKey
-                            && !item.Name.Contains("Fecha") && !item.Name.Contains("Estado"))
-                        {
-                        <td>
-                            @@Html.DisplayFor(modelItem => item.@GetValueExpression(property))
-                        </td>
+                            @:</td>
                         }
-                        else if (navigationLookup.TryGetValue(item.Name, out INavigationMetadata navigation)
-                            && !item.Name.Contains("Usua"))
+                        else
                         {
-                        <td>
-                            @@Html.DisplayFor(modelItem => item.@GetValueExpression(navigation).@navigation.DisplayPropertyName)
-                        </td>
+                            <td>
+                                @@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                @@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                @@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                            </td>
                         }
-                    }                
-                    @:</tr>
-            @:}
-                @:</tbody>
+                        foreach (var item in Model.ModelMetadata.ModelType.GetProperties())
+                        {
+                            if (propertyLookup.TryGetValue(item.Name, out IPropertyMetadata property)
+                                && property.Scaffold && !property.IsForeignKey && !property.IsPrimaryKey
+                                && !item.Name.Contains("Feca") && !item.Name.Contains("Estado"))
+                            {
+                            <td>
+                                @@Html.DisplayFor(modelItem => item.@GetValueExpression(property))
+                            </td>
+                            }
+                            else if (navigationLookup.TryGetValue(item.Name, out INavigationMetadata navigation)
+                                && !item.Name.Contains("Usua"))
+                            {
+                            <td>
+                                @@Html.DisplayFor(modelItem => item.@GetValueExpression(navigation).@navigation.DisplayPropertyName)
+                            </td>
+                            }
+                        }                
+                        @:</tr>
+                @:}
+                    @:</tbody>
         
-            @:</table>
+                @:</table>
+            @:</div>
+                
         @:</div>
-    @:</div>
 @:</div>
 @:
-@:<div class="modal fadeInDownBig" tabindex="-1" role="dialog" id="modalCrear">
-    @:<div class="modal-dialog modal-dialog-centered" role="document">
+@:<div class="modal fade modal-bookmark" tabindex="-1" role="dialog" id="modalInsertar">
+    @:<div class="modal-dialog modal-md" role="document">
         @:<div class="modal-content">
+            @:<div class="modal-header">
+                @:<h5 class="modal-title">Insertar un departamento</h5>
+            @:</div>
             @:<div class="modal-body p-0">
                 @:<partial name="_Create" model="new GestionGimnasio.Models.@titulo2"/>
             @:</div>
@@ -148,32 +148,48 @@
     @:</div>
 @:</div>
 @:
-@:<div class="modal fadeInDownBig" tabindex="-1" role="dialog" id="modalEditar">
-    @:<div class="modal-dialog modal-dialog-centered" role="document">
+@:<div class="modal fade modal-bookmark" tabindex="-1" role="dialog" id="modalEditar">
+    @:<div class="modal-dialog modal-md" role="document">
         @:<div class="modal-content">
+            @:<div class="modal-header">
+                @:<h5 class="modal-title">Editar un departamento</h5>
+            @:</div>
             @:<div class="modal-body p-0" id="modalbody">
                 @:<partial name="_Edit" model="new GestionGimnasio.Models.@titulo2"/>
             @:</div>
         @:</div>
     @:</div>
 @:</div>
+@:</div>
 @:
-@:<script src="~/../js/core/jquery.3.2.1.min.js"></script>
-@:<script src="~/../js/plugin/datatables/datatables.min.js"></script>
+@:<script src="~/js/jquery.min.js"></script>
+@:<script src="~/js/sweet-alert/sweetalert.min.js"></script>
+@:<script src="~/js/js-datatables/simple-datatables@latest.js"></script>
+@:<script src="~/js/datatable/datatables/jquery.dataTables.min.js"></script>
 @:<script>
 @:    $(document).ready(function(){
 @:        $("#tablaIndex").DataTable();
 @:    });
+
+
 @:      //modal abrir
-@:    $("#crear").click(function(){
-@:        $("#modalCrear").modal("show");
-@:    });
+@:    $("#ModalNuevo").click(function () {
+@:       $("#modalInsertar").modal({ backdrop: 'static', keyboard: false });
+@:       $("#modalInsertar").modal('show');
+@:     });
+ @:       
+@:      $("#btnCerrarCrear").click(function() {
+@:        $("#modalInsertar").modal('hide');
+@:        location.reload();
+@:      });
+@:        
 @:
 @:    //modal editar
-@:    function edit(id){
+@:    function editar(id){
 @:        var url = "/@titulo/Edit/" + id;
-@:        $("#modalbody").load(url, function(){
-@:            $("#modalEditar").modal("show");
+@:        $("#modalBody").load(url, function () {
+@:           $("#modalEditar").modal({ backdrop: 'static', keyboard: false });
+@:            $("#modalEditar").modal('show');
 @:        });
 @:    }
 @:
@@ -188,11 +204,11 @@
 @:                buttons:{
 @:                    confirm: {
 @:                        text : 'Si, eliminar',
-@:                        className : 'btn btn-success'
+@:                        className : 'btn btn-danger'
 @:                    },
 @:                    cancel: {
 @:                        visible: true,
-@:                        className: 'btn btn-danger'
+@:                        className: 'btn btn-danger btn-border'
 @:                    }
 @:                }
 @:            }).then((Delete) => {
@@ -205,6 +221,11 @@
 @:                }
 @:            });
 @:    }
+ @:   
+ @:
+@:       $(document).on('click', '#btnCerrarEditar', function() {
+ @:       $("#modalEditar").modal('hide');
+ @:   });
 @:</script>
     if(!Model.IsPartialView && !Model.IsLayoutPageSelected)
     {
