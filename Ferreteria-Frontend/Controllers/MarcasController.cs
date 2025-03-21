@@ -25,8 +25,8 @@ namespace Ferreteria_Frontend.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var cargos = JsonConvert.DeserializeObject<IEnumerable<MarcaViewModel>>(content);
-                return View("Index", cargos);
+                var marcas = JsonConvert.DeserializeObject<IEnumerable<MarcaViewModel>>(content);
+                return View("Index", marcas);
             }
             return View(new List<MarcaViewModel>());
         }
@@ -61,10 +61,9 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-
-            var data = new CargoViewModel { Carg_Id = id };
+            var data = new MarcaViewModel { Marc_Id = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/BuscarMarca", content2);
+            var response = await _httpClient.PostAsync("BuscarMarca", content2);
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -75,10 +74,7 @@ namespace Ferreteria_Frontend.Controllers
                 {
                     marc.Marc_Id = item.Marc_Id;
                     marc.Marc_Descripcion = item.Marc_Descripcion;
-
-
                 }
-
                 return PartialView("_Edit", marc);
             }
             else
@@ -102,7 +98,6 @@ namespace Ferreteria_Frontend.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index", new { id });
-
                 }
                 else
                 {
@@ -116,7 +111,7 @@ namespace Ferreteria_Frontend.Controllers
         {
             var data = new MarcaViewModel { Marc_Id = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/EliminarMarca", content2);
+            var response = await _httpClient.PostAsync("EliminarMarca", content2);
 
             if (response.IsSuccessStatusCode)
             {
@@ -124,11 +119,10 @@ namespace Ferreteria_Frontend.Controllers
             }
             else
             {
-                TempData["Error"] = "Error al eliminar la marca";
+                TempData["Error"] = "Error al eliminar el cargo";
                 return RedirectToAction("Index");
             }
         }
-
 
         public async Task<IActionResult> Details(int id)
         {

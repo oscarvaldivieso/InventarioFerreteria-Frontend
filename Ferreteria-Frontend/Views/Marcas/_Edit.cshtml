@@ -1,9 +1,11 @@
 ﻿@model Ferreteria_Frontend.Models.MarcaViewModel
 
-<form asp-action="Edit" method="post">
+<form asp-action="Edit">
 <div class="row">
     <div class="col-sm-12">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Marc_Id" />
+
         <div class="row"> 
             <div class="form-group col-md-6">
                 <label asp-for="Marc_Descripcion" class="control-label"></label>
