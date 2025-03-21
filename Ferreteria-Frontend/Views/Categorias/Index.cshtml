@@ -28,18 +28,18 @@
                         <tr>
                             <td>
                                 <div class="btn-group">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Acciones</button>
-                                    <ul class="dropdown-menu dropdown-block" style="">
-                                        <a class="dropdown-item" href="javascript:void(0);" onclick="editar('@item.Cate_Id')">
-                                            <i class="fa fa-edit"></i> Editar
-                                        </a>
-                                        <a class="dropdown-item" href="javascript:void(0);" onclick="eliminar('@item.Cate_Id')">
-                                            <i class="fa fa-trash-o"></i> Eliminar
-                                        </a>
-                                        <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Cate_Id">
-                                            <i class="fa fa-info-circle"></i> Detalle
-                                        </a>
-                                    </ul>
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-gears"></i> Acciones</button>
+                                        <ul class="dropdown-menu dropdown-block" style="">
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="editar('@item.Cate_Id')">
+                                                <i class="fa fa-edit"></i> Editar
+                                            </a>
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="eliminar('@item.Cate_Id')">
+                                                <i class="fa fa-trash-o"></i> Eliminar
+                                            </a>
+                                            <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Cate_Id">
+                                                <i class="fa fa-info-circle"></i> Detalle
+                                            </a>
+                                        </ul>
                                 </div>
                             </td>
                             <td>

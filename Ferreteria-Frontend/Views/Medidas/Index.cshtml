@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Ferreteria_Frontend.Models.MedidasViewModel>
+﻿@model IEnumerable<MedidasViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,14 +9,14 @@
         <div class="card-body">
             <div class="list-product-header">
                 <div class="light-box"></div>
-                    <button type="button" class="btn btn-rounded btn-outline-primary btn-md" id="ModalNuevo"><i class="fa fa-plus"></i> Insertar medida</a></button>
+                    <button type="button" class="btn btn-rounded btn-outline-primary btn-md" id="ModalNuevo"><i class="fa fa-plus"></i> Agregar Medida</a></button>
             </div>
             <div class="list-product list-category">
                 <table class="table table-striped table-bordered" id="tablaIndex">
                     <thead>
                         <tr>
-                            <th style="width:10%">
-                                Acciones
+                            <th>
+                                <span class="f-light f-w-600">Acciones</span>
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Medi_Descripcion)
@@ -28,18 +28,18 @@
                         <tr>
                             <td>
                                 <div class="btn-group">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Acciones</button>
-                                    <ul class="dropdown-menu dropdown-block" style="">
-                                        <a class="dropdown-item" href="javascript:void(0);" onclick="editar(@item.Medi_Id)">
-                                            <i class="fa fa-edit"></i> Editar
-                                        </a>
-                                        <a asp-action="Details" asp-route-id="@item.Medi_Id" class="dropdown-item">
-                                            <i class="fas fa-info"></i> Detalles
-                                        </a>
-                                        <a class="dropdown-item" href="javascript:void(0);" onclick="eliminar(@item.Medi_Id)">
-                                            <i class="fa fa-edit"></i> Eliminar
-                                        </a>
-                                    </ul>
+                                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-gears"></i> Acciones</button>
+                                        <ul class="dropdown-menu dropdown-block" style="">
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="editar('@item.Medi_Id')">
+                                                <i class="fa fa-edit"></i> Editar
+                                            </a>
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="eliminar('@item.Medi_Id')">
+                                                <i class="fa fa-trash-o"></i> Eliminar
+                                            </a>
+                                            <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Medi_Id">
+                                                <i class="fa fa-info-circle"></i> Detalle
+                                            </a>
+                                        </ul>
                                 </div>
                             </td>
                             <td>
@@ -57,7 +57,7 @@
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Insertar un departamento</h5>
+                <h5 class="modal-title">Insertar una medida</h5>
             </div>
             <div class="modal-body p-0">
                     <partial name="_Create" model="new Ferreteria_Frontend.Models.MedidasViewModel()" />
@@ -70,7 +70,7 @@
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Editar un departamento</h5>
+                <h5 class="modal-title">Editar una medida</h5>
             </div>
             <div class="modal-body p-0" id="modalBody">
                     <partial name="_Edit" model="new Ferreteria_Frontend.Models.MedidasViewModel()" />
