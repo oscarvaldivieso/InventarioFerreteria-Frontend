@@ -5,7 +5,6 @@ namespace Ferreteria_Frontend.Models
 {
     public class MedidasViewModel
     {
-        [Display(Name = "Id")]
         public int Medi_Id { get; set; }
 
         [Display(Name = "Medida")]
