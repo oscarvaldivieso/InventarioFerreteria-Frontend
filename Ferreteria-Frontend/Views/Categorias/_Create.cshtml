@@ -1,0 +1,21 @@
+﻿@model Ferreteria_Frontend.Models.CategoriaViewModel
+
+
+<form asp-action="Create">
+    <!-- Card Structure -->
+<div class="row">
+    <div class="col-sm-12">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row"> 
+            <div class="form-group col-md-6">
+                <label asp-for="Cate_Descripcion" class="control-label"></label>
+                <input asp-for="Cate_Descripcion" class="form-control" />
+            </div>
+        </div>  <!-- Cierra la fila después de dos campos -->
+        <div class="form-group d-flex justify-content-end mt-3">
+                <input type="submit" value="Guardar" class="btn btn-primary mx-2" />
+            <input type="button" value="Regresar" id="btnCerrarCrear" class="btn btn-rounded btn-outline-primary btn-md mx-2" data-dismiss="modal" />
+        </div>
+    </div>
+</div>
+</form>

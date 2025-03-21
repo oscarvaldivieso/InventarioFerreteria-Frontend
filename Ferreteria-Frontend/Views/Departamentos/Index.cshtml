@@ -35,9 +35,11 @@
                                                 <i class="fa fa-edit"></i> Editar
                                             </a>
                                             <a class="dropdown-item" href="javascript:void(0);" onclick="eliminar('@item.Depa_Codigo')">
-                                                <i class="fa fa-edit"></i> Eliminar
+                                                <i class="fa fa-trash-o"></i> Eliminar
                                             </a>
-                                            <li><a class="dropdown-item" href="#">Crypto</a></li>
+                                            <a class="dropdown-item " asp-action="Details" asp-route-id="@item.Depa_Codigo">
+                                                <i class="fa fa-info-circle"></i> Detalle
+                                            </a>
                                         </ul>
                                     </div>
                                 </td>

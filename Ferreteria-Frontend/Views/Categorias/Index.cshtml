@@ -1,0 +1,144 @@
+﻿@model IEnumerable<Ferreteria_Frontend.Models.CategoriaViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="col-sm-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="list-product-header">
+                <div class="light-box"></div>
+                    <button type="button" class="btn btn-rounded btn-outline-primary btn-md" id="ModalNuevo"><i class="fa fa-plus"></i> Agregar Categoria</a></button>
+            </div>
+            <div class="list-product list-category">
+                <table class="table table-striped table-bordered" id="tablaIndex">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="f-light f-w-600">Acciones</span>
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Cate_Descripcion)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                @foreach (var item in Model) {
+                        <tr>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Acciones</button>
+                                    <ul class="dropdown-menu dropdown-block" style="">
+                                        <a class="dropdown-item" href="javascript:void(0);" onclick="editar('@item.Cate_Id')">
+                                            <i class="fa fa-edit"></i> Editar
+                                        </a>
+                                        <a class="dropdown-item" href="javascript:void(0);" onclick="eliminar('@item.Cate_Id')">
+                                            <i class="fa fa-trash-o"></i> Eliminar
+                                        </a>
+                                        <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Cate_Id">
+                                            <i class="fa fa-info-circle"></i> Detalle
+                                        </a>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cate_Descripcion)
+                            </td>
+                        </tr>
+                }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</div>
+
+    <div class="modal fade modal-bookmark" id="modalInsertar" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Insertar un cargo</h5>
+                </div>
+                <div class="modal-body">
+                    <partial name="_Create" model="new Ferreteria_Frontend.Models.CategoriaViewModel()" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-bookmark" id="modalEditar" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar un cargo</h5>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <partial name="_Edit" model="new Ferreteria_Frontend.Models.CategoriaViewModel()" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/sweet-alert/sweetalert.min.js"></script>
+<script src="~/js/js-datatables/simple-datatables@latest.js"></script>
+<script src="~/js/datatable/datatables/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#tablaIndex").DataTable();
+    });
+      //modal abrir
+    $("#ModalNuevo").click(function () {
+       $("#modalInsertar").modal({ backdrop: 'static', keyboard: false });
+       $("#modalInsertar").modal('show');
+     });
+        
+      $("#btnCerrarCrear").click(function() {
+        $("#modalInsertar").modal('hide');
+        location.reload();
+      });
+        
+
+    //modal editar
+    function editar(id){
+        var url = "/Categorias/Edit/" + id;
+        $("#modalBody").load(url, function () {
+           $("#modalEditar").modal({ backdrop: 'static', keyboard: false });
+            $("#modalEditar").modal('show');
+        });
+    }
+
+    $(document).on('click', '#btnCerrarEditar', function() {
+        $("#modalEditar").modal('hide');
+    });
+
+	//eliminar
+    function eliminar(id) {
+        localStorage.setItem("Cate_Id", id);
+            swal({
+                icon : "error",
+                title: 'Eliminar',
+                text: "¿Deseas eliminar este registro?",
+                type: 'warning',
+                buttons:{
+                    confirm: {
+                        text : 'Si, eliminar',
+                        className : 'btn btn-danger'
+                    },
+                    cancel: {
+                        visible: true,
+                        className: 'btn btn-danger btn-border'
+                    }
+                }
+            }).then((Delete) => {
+                if (Delete) {
+                    var id = localStorage.getItem("Cate_Id");
+                    var url = "/Categorias/Delete/" + id;
+                    location.href = url;
+                } else {
+                    swal.close();
+                }
+            });
+    }
+</script>

@@ -1,0 +1,77 @@
+﻿@model Ferreteria_Frontend.Models.MarcaViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form asp-action="Create">
+    <!-- Card Structure -->
+    <div class="col-sm-12">
+    <div class="card mb-0" style="border-radius: 10px; overflow: hidden;">
+        <div class="card-header">
+            <h5 class="card-title" style="font-size: 21px; color: white; font-weight:600">Create</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        { 
+                        }
+                                    <div class="row"> 
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Marc_Id" class="control-label"></label>
+                                        <input asp-for="Marc_Id" class="form-control" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Marc_Descripcion" class="control-label"></label>
+                                        <input asp-for="Marc_Descripcion" class="form-control" />
+                                    </div>
+                                    </div>  <!-- Cierra la fila después de dos campos -->
+                                    <div class="row"> 
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Usua_Creacion" class="control-label"></label>
+                                        <input asp-for="Usua_Creacion" class="form-control" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Feca_Creacion" class="control-label"></label>
+                                        <input asp-for="Feca_Creacion" class="form-control" />
+                                    </div>
+                                    </div>  <!-- Cierra la fila después de dos campos -->
+                                    <div class="row"> 
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Usua_Modificacion" class="control-label"></label>
+                                        <input asp-for="Usua_Modificacion" class="form-control" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Feca_Modificacion" class="control-label"></label>
+                                        <input asp-for="Feca_Modificacion" class="form-control" />
+                                    </div>
+                                    </div>  <!-- Cierra la fila después de dos campos -->
+                                    <div class="row"> 
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Marc_Estado" class="control-label"></label>
+                                        <input asp-for="Marc_Estado" class="form-control" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="UsuaC_Nombre" class="control-label"></label>
+                                        <input asp-for="UsuaC_Nombre" class="form-control" />
+                                    </div>
+                                    </div>  <!-- Cierra la fila después de dos campos -->
+                                    <div class="row"> 
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="UsuaM_Nombre" class="control-label"></label>
+                                        <input asp-for="UsuaM_Nombre" class="form-control" />
+                                    </div>
+                        <div class="form-group d-flex justify-content-end mt-3">
+                            <input type="submit" value="Insertar" class="btn btn-primary mx-2" />
+                            <input type="button" value="Regresar" id="btnCerrarCrear" class="btn btn-rounded btn-outline-primary btn-md mx-2" data-dismiss="modal" />
+                        </div>
+                </div>
+            </div>
+       </div>
+   </div>
+   </div>
+{
+</form>
