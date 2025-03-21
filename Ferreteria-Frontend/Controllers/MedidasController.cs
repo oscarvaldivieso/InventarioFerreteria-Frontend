@@ -64,7 +64,7 @@ namespace Ferreteria_Frontend.Controllers
 
             var data = new MedidasViewModel { Medi_Id = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/BuscarMedida", content2);
+            var response = await _httpClient.PostAsync("BuscarMedida", content2);
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();

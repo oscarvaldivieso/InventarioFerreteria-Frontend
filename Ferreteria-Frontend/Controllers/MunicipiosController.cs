@@ -65,7 +65,7 @@ namespace Ferreteria_Frontend.Controllers
 
             var data = new MunicipioViewModel { Muni_Codigo = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/BuscarMunicipio", content2);
+            var response = await _httpClient.PostAsync("BuscarMunicipio", content2);
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -114,6 +114,59 @@ namespace Ferreteria_Frontend.Controllers
                 }
             }
             return View(muni);
+        }
+
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var data = new MunicipioViewModel { Muni_Codigo = id };
+            var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("EliminarMunicipio", content2);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Error"] = "Error al eliminar el departamento";
+                return RedirectToAction("Index");
+            }
+        }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            var data = new MunicipioViewModel { Muni_Codigo = id };
+            var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("BuscarMunicipio", content2);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                List<MunicipioViewModel> municip = JsonConvert.DeserializeObject<List<MunicipioViewModel>>(content);
+
+                MunicipioViewModel muni = new MunicipioViewModel();
+                foreach (var item in municip)
+                {
+
+                    muni.Muni_Codigo = item.Muni_Codigo;
+                    muni.Muni_Descripcion = item.Muni_Descripcion;
+                    muni.Depa_Codigo = item.Depa_Codigo;
+                    muni.Feca_Creacion = item.Feca_Creacion;
+                    muni.Feca_Creacion = item.Feca_Creacion;
+                    muni.Usua_Creacion = item.Usua_Creacion;
+                    muni.Usua_Modificacion = item.Usua_Modificacion;
+                    muni.UsuaC_Nombre = item.UsuaC_Nombre;
+                    muni.UsuaM_Nombre = item.UsuaM_Nombre;
+
+
+                }
+                return View(muni);
+            }
+            else
+            {
+                TempData["error"] = "Error al mostrar detalle";
+                return RedirectToAction("Index");
+            }
         }
     }
 }
