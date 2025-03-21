@@ -19,6 +19,7 @@ namespace Ferreteria_Frontend.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.PageTitle = "Marcas";
+            ViewBag.SubTitle = "Productos";
 
             var response = await _httpClient.GetAsync("ListarMarcas");
 

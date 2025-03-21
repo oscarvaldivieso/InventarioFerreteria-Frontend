@@ -18,6 +18,7 @@ namespace Ferreteria_Frontend.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.PageTitle = "Municipios";
+            ViewBag.SubTitle = "General";
 
             var response = await _httpClient.GetAsync("ListarMunicipios");
 
@@ -29,7 +30,6 @@ namespace Ferreteria_Frontend.Controllers
             }
             return View(new List<MunicipioViewModel>());
         }
-
 
         public IActionResult Create()
         {
@@ -59,10 +59,8 @@ namespace Ferreteria_Frontend.Controllers
             return View(muni);
         }
 
-
         public async Task<IActionResult> Edit(string id)
         {
-
             var data = new MunicipioViewModel { Muni_Codigo = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("BuscarMunicipio", content2);
@@ -77,17 +75,13 @@ namespace Ferreteria_Frontend.Controllers
                     muni.Muni_Codigo = item.Muni_Codigo;
                     muni.Muni_Descripcion = item.Muni_Descripcion;
                     muni.Depa_Codigo = item.Depa_Codigo;
-
-
                 }
 
                 return PartialView("_Edit", muni);
-
             }
             else
             {
                 return View();
-
             }
         }
 
@@ -106,7 +100,6 @@ namespace Ferreteria_Frontend.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index", new { id });
-
                 }
                 else
                 {
@@ -115,7 +108,6 @@ namespace Ferreteria_Frontend.Controllers
             }
             return View(muni);
         }
-
 
         public async Task<IActionResult> Delete(string id)
         {
@@ -147,7 +139,6 @@ namespace Ferreteria_Frontend.Controllers
                 MunicipioViewModel muni = new MunicipioViewModel();
                 foreach (var item in municip)
                 {
-
                     muni.Muni_Codigo = item.Muni_Codigo;
                     muni.Muni_Descripcion = item.Muni_Descripcion;
                     muni.Depa_Codigo = item.Depa_Codigo;
@@ -157,8 +148,6 @@ namespace Ferreteria_Frontend.Controllers
                     muni.Usua_Modificacion = item.Usua_Modificacion;
                     muni.UsuaC_Nombre = item.UsuaC_Nombre;
                     muni.UsuaM_Nombre = item.UsuaM_Nombre;
-
-
                 }
                 return View(muni);
             }

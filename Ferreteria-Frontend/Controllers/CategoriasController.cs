@@ -18,6 +18,7 @@ namespace Ferreteria_Frontend.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.PageTitle = "Categorias";
+            ViewBag.SubTitle = "Productos";
 
             var response = await _httpClient.GetAsync("ListarCategorias");
 
@@ -60,7 +61,6 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-
             var data = new CategoriaViewModel { Cate_Id = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("/BuscarCategoria", content2);
@@ -74,8 +74,6 @@ namespace Ferreteria_Frontend.Controllers
                 {
                     cate.Cate_Id = item.Cate_Id;
                     cate.Cate_Descripcion = item.Cate_Descripcion;
-
-
                 }
 
                 return PartialView("_Edit", cate);
@@ -101,7 +99,6 @@ namespace Ferreteria_Frontend.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index", new { id });
-
                 }
                 else
                 {
@@ -127,7 +124,6 @@ namespace Ferreteria_Frontend.Controllers
                 return RedirectToAction("Index");
             }
         }
-
 
         public async Task<IActionResult> Details(int id)
         {

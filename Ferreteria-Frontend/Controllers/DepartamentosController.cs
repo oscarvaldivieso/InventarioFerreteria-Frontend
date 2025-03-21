@@ -19,6 +19,7 @@ namespace Ferreteria_Frontend.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.PageTitle = "Departamentos";
+            ViewBag.SubTitle = "General";
 
             var response = await _httpClient.GetAsync("ListarDepartamentos");
 
@@ -61,7 +62,6 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Edit(string id)
         {
-
             var data = new DepartamentoViewModel { Depa_Codigo = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("/BuscarDepartamento", content2);
@@ -75,17 +75,13 @@ namespace Ferreteria_Frontend.Controllers
                 {
                     depa.Depa_Codigo = item.Depa_Codigo;
                     depa.Depa_Descripcion = item.Depa_Descripcion;
-
-
                 }
 
                 return PartialView("_Edit", depa);
-
             }
             else
             {
                 return View();
-
             }
         }
 
@@ -104,7 +100,6 @@ namespace Ferreteria_Frontend.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index", new { id });
-
                 }
                 else
                 {
@@ -114,11 +109,11 @@ namespace Ferreteria_Frontend.Controllers
             return View(depa);
         }
 
-        public async Task<IActionResult> Delete (string id)
+        public async Task<IActionResult> Delete(string id)
         {
             var data = new DepartamentoViewModel { Depa_Codigo = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("EliminarDepartamento",content2 );
+            var response = await _httpClient.PostAsync("EliminarDepartamento", content2);
 
             if (response.IsSuccessStatusCode)
             {
@@ -152,8 +147,6 @@ namespace Ferreteria_Frontend.Controllers
                     depa.Usua_Modificacion = item.Usua_Modificacion;
                     depa.UsuaC_Nombre = item.UsuaC_Nombre;
                     depa.UsuaM_Nombre = item.UsuaM_Nombre;
-
-
                 }
                 return View(depa);
             }
@@ -163,7 +156,5 @@ namespace Ferreteria_Frontend.Controllers
                 return RedirectToAction("Index");
             }
         }
-
-
     }
 }

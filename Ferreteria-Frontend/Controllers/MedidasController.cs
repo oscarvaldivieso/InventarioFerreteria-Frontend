@@ -18,6 +18,7 @@ namespace Ferreteria_Frontend.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.PageTitle = "Medidas";
+            ViewBag.SubTitle = "Productos";
 
             var response = await _httpClient.GetAsync("ListarMedidas");
 
@@ -58,10 +59,8 @@ namespace Ferreteria_Frontend.Controllers
             return View(medi);
         }
 
-
         public async Task<IActionResult> Edit(int id)
         {
-
             var data = new MedidasViewModel { Medi_Id = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("BuscarMedida", content2);
@@ -78,12 +77,10 @@ namespace Ferreteria_Frontend.Controllers
                 }
 
                 return PartialView("_Edit", medi);
-
             }
             else
             {
                 return View();
-
             }
         }
 
@@ -102,7 +99,6 @@ namespace Ferreteria_Frontend.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index", new { id });
-
                 }
                 else
                 {
@@ -111,7 +107,6 @@ namespace Ferreteria_Frontend.Controllers
             }
             return View(medi);
         }
-
 
         public async Task<IActionResult> Delete(int id)
         {
@@ -151,8 +146,6 @@ namespace Ferreteria_Frontend.Controllers
                     medi.Usua_Modificacion = item.Usua_Modificacion;
                     medi.UsuaC_Nombre = item.UsuaC_Nombre;
                     medi.UsuaM_Nombre = item.UsuaM_Nombre;
-
-
                 }
                 return View(medi);
             }
