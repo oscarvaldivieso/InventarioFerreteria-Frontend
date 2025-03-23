@@ -10,5 +10,12 @@ namespace Ferreteria_Frontend.Controllers
             ViewBag.SubTitle = "Acceso";
             return View();
         }
+
+        public IActionResult Create()
+        {
+            ViewBag.PageTitle = "Crear un rol";
+            ViewBag.SubTitle = "Acceso";
+            return View();
+        }
     }
 }
