@@ -1,0 +1,86 @@
+﻿@model Ferreteria_Frontend.Models.EmpleadoViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form asp-action="Edit">
+    <div class="row">
+        <div class="col-sm-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Empl_Id" name="id"/>
+            <div class="row"> 
+                <div class="form-group col-md-6">
+                    <label asp-for="Empl_DNI" class="control-label"></label>
+                    <input asp-for="Empl_DNI" class="form-control" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Empl_Nombre" class="control-label"></label>
+                    <input asp-for="Empl_Nombre" class="form-control" />
+                </div>
+            </div>  <!-- Cierra la fila después de dos campos -->
+            <div class="row"> 
+                <div class="form-group col-md-6">
+                    <label asp-for="Empl_Apellido" class="control-label"></label>
+                    <input asp-for="Empl_Apellido" class="form-control" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Empl_Sexo" class="control-label"></label>
+                    <div class="d-flex">
+                        <div class="form-check me-3">
+                            <input type="radio" asp-for="Empl_Sexo" value="M" class="form-check-input" id="sexoM">
+                            <label class="form-check-label" for="sexoM">Masculino</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" asp-for="Empl_Sexo" value="F" class="form-check-input" id="sexoF">
+                            <label class="form-check-label" for="sexoF">Femenino</label>
+                        </div>
+                    </div>
+                </div>
+            </div>  <!-- Cierra la fila después de dos campos -->
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="EsCv_Id" class="control-label"></label>
+                    <select asp-for="EsCv_Id" class="form-select" asp-items="ViewBag.EsCv_Id">
+                        <option value="">Seleccione Un Estado Civil</option>
+                    </select>
+                    <span asp-validation-for="EsCv_Id" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Carg_Id" class="control-label"></label>
+                    <select asp-for="Carg_Id" class="form-select" asp-items="ViewBag.Carg_Id">
+                        <option value="">Seleccione Un Cargo</option>
+                    </select>
+                    <span asp-validation-for="Carg_Id" class="text-danger"></span>
+                </div>
+            </div>  <!-- Cierra la fila después de dos campos -->
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Depa_Codigo" class="control-label"></label>
+                    <select asp-for="Depa_Codigo" class="form-control" asp-items="ViewBag.Depa_Codigo">
+                        <option value="">Seleccione Un Departamento</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Muni_Codigo" class="control-label"></label>
+                    <select asp-for="Muni_Codigo" class="form-select" asp-items="ViewBag.Muni_Codigo">
+                        <option value="">Seleccione Un Municipio</option>
+                    </select>
+                    <span asp-validation-for="Muni_Codigo" class="text-danger"></span>
+                </div>
+            </div>  <!-- Cierra la fila después de dos campos -->
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Empl_Direccion" class="control-label"></label>
+                    <input asp-for="Empl_Direccion" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group d-flex justify-content-end mt-3">
+                <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
+                <a asp-action="Index" class="btn btn-rounded btn-outline-primary btn-md mx-2"><i class="icofont icofont-close-circled"></i> Cancelar</a>
+            </div>
+        </div>
+    </div>
+</form>

@@ -79,18 +79,13 @@ namespace Ferreteria_Frontend.Controllers
         {
             clie.Usua_Creacion = 1;
             clie.Feca_Creacion = DateTime.Now;
-            ModelState.Remove("Usua_Creacion");
-            ModelState.Remove("Usua_Modificacion");
-            ModelState.Remove("Feca_Creacion");
-            ModelState.Remove("Feca_Modificacion");
-            ModelState.Remove("Clie_Estado");
             if (ModelState.IsValid)
             {
                 var json = JsonConvert.SerializeObject(clie);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var responsePost = await _httpClient.PostAsync("InsertarCliente", content);
-                if (responsePost.IsSuccessStatusCode)
+                var response = await _httpClient.PostAsync("InsertarCliente", content);
+                if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
                 }
@@ -106,11 +101,11 @@ namespace Ferreteria_Frontend.Controllers
             return View(clie);
         }
 
-        public async Task<IActionResult> Edit(string dni)
+        public async Task<IActionResult> Edit(string id)
         {
-            var data = new ClienteViewModel { Clie_DNI = dni };
+            var data = new ClienteViewModel { Clie_DNI = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("BuscarCliente", content2);
+            var response = await _httpClient.PostAsync("/BuscarCliente", content2);
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -125,6 +120,7 @@ namespace Ferreteria_Frontend.Controllers
                     clie.Clie_Apellido = item.Clie_Apellido;
                     clie.Clie_Sexo = item.Clie_Sexo;
                     clie.EsCv_Id = item.EsCv_Id;
+                    clie.Depa_Codigo = item.Depa_Codigo;
                     clie.Muni_Codigo = item.Muni_Codigo;
                     clie.Clie_Direccion = item.Clie_Direccion;
                 }
@@ -144,6 +140,7 @@ namespace Ferreteria_Frontend.Controllers
         {
             clie.Usua_Modificacion = 1;
             clie.Feca_Modificacion = DateTime.Now;
+            clie.Clie_Id = id;
             if (ModelState.IsValid)
             {
                 var json = JsonConvert.SerializeObject(clie);
@@ -183,9 +180,9 @@ namespace Ferreteria_Frontend.Controllers
             }
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(string id)
         {
-            var data = new ClienteViewModel { Clie_Id = id };
+            var data = new ClienteViewModel { Clie_DNI = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("/BuscarCliente", content2);
             if (response.IsSuccessStatusCode)

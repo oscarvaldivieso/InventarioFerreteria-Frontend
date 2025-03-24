@@ -9,11 +9,9 @@
         <div class="card-body">
             <div class="list-product-header">
                 <div class="light-box"></div>
-                <button type="button" class="btn btn-rounded btn-outline-primary btn-md">
-                    <a asp-action="Create" >
-                        <i class="fa fa-plus"></i> Agregar Cliente
-                    </a>
-                </button>
+                <div class="list-product-header d-flex justify-content-start ">
+                    <a type="button" class="btn btn-rounded btn-outline-primary btn-md" asp-area="" asp-controller="Clientes" asp-action="Create" id="ModalNuevo"><i class="fa fa-plus"></i> Agregar Cliente</a>
+                </div>
             </div>
             <div class="list-product list-category">
                 <div class="table-responsive">
@@ -50,13 +48,13 @@
                                     <div class="btn-group">
                                         <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-gears"></i> Acciones</button>
                                         <ul class="dropdown-menu dropdown-block" style="">
-                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Clie_Id">
+                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Clie_DNI">
                                                 <i class="fa fa-edit"></i> Editar
                                             </a>
                                             <a class="dropdown-item" href="javascript:void(0);" onclick="eliminar(@item.Clie_Id)">
                                                 <i class="fa fa-trash" aria-hidden="true"></i> Eliminar
                                             </a>
-                                            <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Clie_Id">
+                                            <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Clie_DNI">
                                                 <i class="fa fa-info-circle"></i> Detalle
                                             </a>
                                         </ul>
