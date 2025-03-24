@@ -1,6 +1,7 @@
 ﻿using Ferreteria_Frontend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace Ferreteria_Frontend.Controllers
 {
@@ -35,6 +36,29 @@ namespace Ferreteria_Frontend.Controllers
             ViewBag.PageTitle = "Crear un rol";
             ViewBag.SubTitle = "Acceso";
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(RolViewModel rol)
+        {
+            rol.Usua_Creacion = 1;
+            rol.Feca_Creacion = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                var json = JsonConvert.SerializeObject(rol);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync("InsertarRol", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Error al crear el departamento");
+                }
+            }
+            return View(rol);
         }
     }
 }
