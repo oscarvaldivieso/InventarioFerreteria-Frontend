@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CargoViewModel>
+﻿@model IEnumerable<Ferreteria_Frontend.Models.SucursalViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,7 +9,7 @@
         <div class="card-body">
             <div class="list-product-header">
                 <div class="light-box"></div>
-                    <button type="button" class="btn btn-rounded btn-outline-primary btn-md" id="ModalNuevo"><i class="fa fa-plus"></i> Agregar Cargo</a></button>
+                    <button type="button" class="btn btn-rounded btn-outline-primary btn-md" id="ModalNuevo"><i class="fa fa-plus"></i> Agregar Sucursal</a></button>
             </div>
             <div class="list-product list-category">
                 <table class="table table-striped table-bordered" id="tablaIndex">
@@ -19,7 +19,13 @@
                                 <span class="f-light f-w-600">Acciones</span>
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Carg_Descripcion)
+                                @Html.DisplayNameFor(model => model.Sucu_Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Muni_Codigo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Sucu_DireccionExacta)
                             </th>
                         </tr>
                     </thead>
@@ -28,22 +34,28 @@
                         <tr>
                             <td>
                                 <div class="btn-group">
-                                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-gears"></i> Acciones</button>
-                                        <ul class="dropdown-menu dropdown-block" style="">
-                                            <a class="dropdown-item" href="javascript:void(0);" onclick="editar('@item.Carg_Id')">
-                                                <i class="fa fa-edit"></i> Editar
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:void(0);" onclick="eliminar('@item.Carg_Id')">
-                                                <i class="fa fa-trash-o"></i> Eliminar
-                                            </a>
-                                            <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Carg_Id">
-                                                <i class="fa fa-info-circle"></i> Detalle
-                                            </a>
-                                        </ul>
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-gears"></i> Acciones</button>
+                                    <ul class="dropdown-menu dropdown-block" style="">
+                                        <a class="dropdown-item" href="javascript:void(0);" onclick="editar('@item.Sucu_Id')">
+                                            <i class="fa fa-edit"></i> Editar
+                                        </a>
+                                        <a class="dropdown-item" href="javascript:void(0);" onclick="eliminar('@item.Sucu_Id')">
+                                            <i class="fa fa-trash-o"></i> Eliminar
+                                        </a>
+                                        <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Sucu_Id">
+                                            <i class="fa fa-info-circle"></i> Detalle
+                                        </a>
+                                    </ul>
                                 </div>
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Carg_Descripcion)
+                                @Html.DisplayFor(modelItem => item.Sucu_Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Muni_Codigo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Sucu_DireccionExacta)
                             </td>
                         </tr>
                 }
@@ -60,7 +72,7 @@
                     <h5 class="modal-title">Insertar un estado civil</h5>
                 </div>
                 <div class="modal-body">
-                    <partial name="_Create" model="new Ferreteria_Frontend.Models.CargoViewModel()" />
+                    <partial name="_Create" model="new Ferreteria_Frontend.Models.SucursalViewModel()" />
                 </div>
             </div>
         </div>
@@ -74,7 +86,7 @@
                     <h5 class="modal-title">Editar un estado civil</h5>
                 </div>
                 <div class="modal-body" id="modalBody">
-                    <partial name="_Edit" model="new Ferreteria_Frontend.Models.CargoViewModel()" />
+                    <partial name="_Edit" model="new Ferreteria_Frontend.Models.SucursalViewModel()" />
                 </div>
             </div>
         </div>
@@ -114,16 +126,16 @@
        $("#modalInsertar").modal({ backdrop: 'static', keyboard: false });
        $("#modalInsertar").modal('show');
      });
-        
+
       $("#btnCerrarCrear").click(function() {
         $("#modalInsertar").modal('hide');
         location.reload();
       });
-        
+
 
     //modal editar
     function editar(id){
-        var url = "/Cargos/Edit/" + id;
+        var url = "/Sucursales/Edit/" + id;
         $("#modalBody").load(url, function () {
            $("#modalEditar").modal({ backdrop: 'static', keyboard: false });
             $("#modalEditar").modal('show');
@@ -134,9 +146,9 @@
         $("#modalEditar").modal('hide');
     });
 
-	//eliminar
+    //eliminar
     function eliminar(id){
-        localStorage.setItem("Carg_Id", id);
+        localStorage.setItem("Sucu_Id", id);
         swal({
             icon:"error",
             title:'Eliminar',
@@ -154,8 +166,8 @@
             }
         }).then((Delete) => {
             if(Delete){
-                var id = localStorage.getItem("Carg_Id");
-                var url = "/Cargos/Delete/"+id;
+                var id = localStorage.getItem("Sucu_Id");
+                var url = "/Sucursales/Delete/"+id;
                 location.href = url;
             }
             else{

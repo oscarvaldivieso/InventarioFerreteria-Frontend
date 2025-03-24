@@ -1,0 +1,161 @@
+﻿@model Ferreteria_Frontend.Models.ProductoViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="col-sm-12">
+<div class="card">
+    <div class="card-header" style="display:flex; justify-content:space-between">
+        <h1>Detalles</h1>
+        <div>
+            <a asp-action="Index" class="btn btn-warning" disable="disable">Volver</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <div class="col-sm-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Prod_Id)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Prod_Id)
+                </dd>
+            </div>
+            <div class="col-sm-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Prod_Descripcion)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Prod_Descripcion)
+                </dd>
+            </div>
+            <div class="col-sm-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Marc_Id)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Marc_Id)
+                </dd>
+            </div>
+        </dl>
+        <dl class="row">
+            <div class="col-sm-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Cate_Id)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Cate_Id)
+                </dd>
+            </div>
+            <div class="col-sm-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Prov_Id)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Prov_Id)
+                </dd>
+            </div>
+            <div class="col-sm-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Prod_Modelo)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Prod_Modelo)
+                </dd>
+            </div>
+        </dl>
+        <dl class="row">
+            <div class="col-sm-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Prod_Cantidad)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Prod_Cantidad)
+                </dd>
+            </div>
+            <div class="col-sm-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Usua_Creacion)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Usua_Creacion)
+                </dd>
+            </div>
+            <div class="col-sm-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Usua_Modificacion)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Usua_Modificacion)
+                </dd>
+            </div>
+        </dl>
+        <dl class="row">
+            <div class="col-sm-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Prod_URLImg)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Prod_URLImg)
+                </dd>
+            </div>
+            <div class="col-sm-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Medi_Id)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Medi_Id)
+                </dd>
+            </div>
+            <div class="col-sm-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.UsuaC_Nombre)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UsuaC_Nombre)
+                </dd>
+            </div>
+        </dl>
+        <dl class="row">
+            <div class="col-sm-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.UsuaM_Nombre)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UsuaM_Nombre)
+                </dd>
+            </div>
+        </dl>
+    </div>
+</div>
+<div class="row"></div>
+<div class="card">
+    <div class="card-header">
+        <h3>Auditoria</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Accion</th>
+                    <th>Usuario</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Creacion</th>
+                    <td>@Html.DisplayFor(model => model.UsuaC_Nombre)</td>
+                    <td>@Html.DisplayFor(model => model.Feca_Creacion)</td>
+                </tr>
+                <tr>
+                    <th>Modificacion</th>
+                    <td>@Html.DisplayFor(model => model.UsuaM_Nombre)</td>
+                    <td>@Html.DisplayFor(model => model.Feca_Modificacion)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>

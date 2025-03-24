@@ -1,0 +1,24 @@
+﻿@model Ferreteria_Frontend.Models.EstadoCivilViewModel
+
+<form asp-action="Edit">
+<div class="row">
+    <div class="col-sm-12">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="EsCv_Id" />
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label asp-for="EsCv_Descripcion" class="control-label"></label>
+                <input asp-for="EsCv_Descripcion" class="form-control" />
+                    <div class="invalid-feedback">Por favor rellena el campo </div>
+                    <div class="valid-feedback">Excelente </div>
+                    <span asp-validation-for="EsCv_Descripcion" class="text-danger"></span>
+                </div>
+        </div>  <!-- Cierra la fila después de dos campos -->
+        
+        <div class="form-group d-flex justify-content-end mt-3">
+            <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
+            <button type="button" id="btnCerrarEditar" class="btn btn-rounded btn-outline-primary btn-md mx-2"><i class="icofont icofont-close-circled"></i> Cancelar</button>
+        </div>
+    </div>
+</div>
+</form>
