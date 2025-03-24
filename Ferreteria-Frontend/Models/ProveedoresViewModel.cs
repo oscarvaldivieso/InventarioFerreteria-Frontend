@@ -3,30 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ferreteria_Frontend.Models
 {
-    public class ClienteViewModel
+    public class ProveedoresViewModel
     {
         [Display(Name = "Id")]
-        public int Clie_Id { get; set; }
-
-        [Display(Name = "DNI")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public string Clie_DNI { get; set; }
+        public int Prov_Id { get; set; }
 
         [Display(Name = "Nombre")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public string Clie_Nombre { get; set; }
+        public string Prov_Nombre { get; set; }
 
-        [Display(Name = "Apellido")]
+        [Display(Name = "Contacto")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public string Clie_Apellido { get; set; }
-
-        [Display(Name = "Sexo")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public string Clie_Sexo { get; set; }
-
-        [Display(Name = "Estado Civil")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public int EsCv_Id { get; set; }
+        public string Prov_Contacto { get; set; }
 
         [Display(Name = "Municipio")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
@@ -34,7 +22,7 @@ namespace Ferreteria_Frontend.Models
 
         [Display(Name = "Dirección Exacta")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public string Clie_Direccion { get; set; }
+        public string Prov_DireccionExacta { get; set; }
 
         public int Usua_Creacion { get; set; }
 
@@ -44,7 +32,7 @@ namespace Ferreteria_Frontend.Models
 
         public DateTime? Feca_Modificacion { get; set; }
 
-        public bool? Clie_Estado { get; set; }
+        public bool? Prov_Estado { get; set; }
 
         [NotMapped]
         public string? UsuaC_Nombre { get; set; }
@@ -58,11 +46,5 @@ namespace Ferreteria_Frontend.Models
         [NotMapped]
         [Display(Name = "Departamento")]
         public string? Depa_Codigo { get; set; }
-
-        [NotMapped]
-        public string? Depa_Descripcion { get; set; }
-
-        [NotMapped]
-        public string? EsCv_Descripcion { get; set; }
     }
 }

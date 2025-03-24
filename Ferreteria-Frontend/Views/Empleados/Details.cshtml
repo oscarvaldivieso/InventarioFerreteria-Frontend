@@ -1,4 +1,4 @@
-﻿@model Ferreteria_Frontend.Models.ClienteViewModel
+﻿@model Ferreteria_Frontend.Models.EmpleadoViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -16,44 +16,36 @@
         <dl class="row">
             <div class="col-sm-4">
                 <dt>
-                    @Html.DisplayNameFor(model => model.Clie_Id)
+                    @Html.DisplayNameFor(model => model.Empl_DNI)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Clie_Id)
+                    @Html.DisplayFor(model => model.Empl_DNI)
                 </dd>
             </div>
             <div class="col-sm-4">
                 <dt>
-                    @Html.DisplayNameFor(model => model.Clie_DNI)
+                    @Html.DisplayNameFor(model => model.Empl_Nombre)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Clie_DNI)
-                </dd>
-            </div>
-            <div class="col-sm-4">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Clie_Nombre)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Clie_Nombre)
+                    @Html.DisplayFor(model => model.Empl_Nombre)
                 </dd>
             </div>
         </dl>
         <dl class="row">
             <div class="col-sm-4">
                 <dt>
-                    @Html.DisplayNameFor(model => model.Clie_Apellido)
+                    @Html.DisplayNameFor(model => model.Empl_Apellido)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Clie_Apellido)
+                    @Html.DisplayFor(model => model.Empl_Apellido)
                 </dd>
             </div>
             <div class="col-sm-4">
                 <dt>
-                    @Html.DisplayNameFor(model => model.Clie_Sexo)
+                    @Html.DisplayNameFor(model => model.Empl_Sexo)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Clie_Sexo)
+                    @Html.DisplayFor(model => model.Empl_Sexo)
                 </dd>
             </div>
             <div class="col-sm-4">
@@ -68,6 +60,14 @@
         <dl class="row">
             <div class="col-sm-4">
                 <dt>
+                    @Html.DisplayNameFor(model => model.Carg_Id)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Carg_Id)
+                </dd>
+            </div>
+            <div class="col-sm-4">
+                <dt>
                     @Html.DisplayNameFor(model => model.Muni_Codigo)
                 </dt>
                 <dd>
@@ -76,12 +76,14 @@
             </div>
             <div class="col-sm-4">
                 <dt>
-                    @Html.DisplayNameFor(model => model.Clie_Direccion)
+                    @Html.DisplayNameFor(model => model.Empl_Direccion)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Clie_Direccion)
+                    @Html.DisplayFor(model => model.Empl_Direccion)
                 </dd>
             </div>
+        </dl>
+        <dl class="row">
         </dl>
     </div>
 </div>

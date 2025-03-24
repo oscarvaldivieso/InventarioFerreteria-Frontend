@@ -1,4 +1,4 @@
-﻿@model Ferreteria_Frontend.Models.ClienteViewModel
+﻿@model Ferreteria_Frontend.Models.ProveedoresViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -16,52 +16,18 @@
         <dl class="row">
             <div class="col-sm-4">
                 <dt>
-                    @Html.DisplayNameFor(model => model.Clie_Id)
+                    @Html.DisplayNameFor(model => model.Prov_Nombre)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Clie_Id)
+                    @Html.DisplayFor(model => model.Prov_Nombre)
                 </dd>
             </div>
             <div class="col-sm-4">
                 <dt>
-                    @Html.DisplayNameFor(model => model.Clie_DNI)
+                    @Html.DisplayNameFor(model => model.Prov_Contacto)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Clie_DNI)
-                </dd>
-            </div>
-            <div class="col-sm-4">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Clie_Nombre)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Clie_Nombre)
-                </dd>
-            </div>
-        </dl>
-        <dl class="row">
-            <div class="col-sm-4">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Clie_Apellido)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Clie_Apellido)
-                </dd>
-            </div>
-            <div class="col-sm-4">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Clie_Sexo)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Clie_Sexo)
-                </dd>
-            </div>
-            <div class="col-sm-4">
-                <dt>
-                    @Html.DisplayNameFor(model => model.EsCv_Id)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.EsCv_Id)
+                    @Html.DisplayFor(model => model.Prov_Contacto)
                 </dd>
             </div>
         </dl>
@@ -76,10 +42,10 @@
             </div>
             <div class="col-sm-4">
                 <dt>
-                    @Html.DisplayNameFor(model => model.Clie_Direccion)
+                    @Html.DisplayNameFor(model => model.Prov_DireccionExacta)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Clie_Direccion)
+                    @Html.DisplayFor(model => model.Prov_DireccionExacta)
                 </dd>
             </div>
         </dl>

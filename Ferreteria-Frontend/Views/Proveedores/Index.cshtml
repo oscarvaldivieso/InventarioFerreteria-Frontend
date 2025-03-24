@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ClienteViewModel>
+﻿@model IEnumerable<ProveedoresViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,9 +9,7 @@
         <div class="card-body">
             <div class="list-product-header">
                 <div class="light-box"></div>
-                <div class="list-product-header d-flex justify-content-start ">
-                    <a type="button" class="btn btn-rounded btn-outline-primary btn-md" asp-area="" asp-controller="Clientes" asp-action="Create" id="ModalNuevo"><i class="fa fa-plus"></i> Agregar Cliente</a>
-                </div>
+                    <button type="button" class="btn btn-rounded btn-outline-primary btn-md" id="ModalNuevo"><i class="fa fa-plus"></i> Agregar Proveedor</a></button>
             </div>
             <div class="list-product list-category">
                 <div class="table-responsive">
@@ -22,24 +20,18 @@
                                     <span class="f-light f-w-600">Acciones</span>
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Clie_DNI)
+                                    @Html.DisplayNameFor(model => model.Prov_Nombre)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Clie_Nombre)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Clie_Sexo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.EsCv_Id)
+                                    @Html.DisplayNameFor(model => model.Prov_Contacto)
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.Muni_Codigo)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Clie_Direccion)
+                                    @Html.DisplayNameFor(model => model.Prov_DireccionExacta)
                                 </th>
-                           </tr>
+                            </tr>
                         </thead>
                         <tbody>
                     @foreach (var item in Model) {
@@ -48,35 +40,29 @@
                                     <div class="btn-group">
                                         <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-gears"></i> Acciones</button>
                                         <ul class="dropdown-menu dropdown-block" style="">
-                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Clie_DNI">
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="editar('@item.Prov_Id')">
                                                 <i class="fa fa-edit"></i> Editar
                                             </a>
-                                            <a class="dropdown-item" href="javascript:void(0);" onclick="eliminar(@item.Clie_Id)">
-                                                <i class="fa fa-trash" aria-hidden="true"></i> Eliminar
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="eliminar('@item.Prov_Id')">
+                                                <i class="fa fa-trash-o"></i> Eliminar
                                             </a>
-                                            <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Clie_DNI">
+                                            <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Prov_Id">
                                                 <i class="fa fa-info-circle"></i> Detalle
                                             </a>
                                         </ul>
                                     </div>
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Clie_DNI)
+                                    @Html.DisplayFor(modelItem => item.Prov_Nombre)
                                 </td>
                                 <td>
-                                    @item.Clie_Nombre @item.Clie_Apellido
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Clie_Sexo)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.EsCv_Descripcion)
+                                    @Html.DisplayFor(modelItem => item.Prov_Contacto)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Muni_Codigo)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Clie_Direccion)
+                                    @Html.DisplayFor(modelItem => item.Prov_DireccionExacta)
                                 </td>
                             </tr>
                     }
@@ -86,15 +72,14 @@
             </div>
         </div>
 </div>
-
-@*     <div class="modal fade modal-bookmark" id="modalInsertar" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-hidden="true">
+    <div class="modal fade modal-bookmark" id="modalInsertar" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Insertar un cargo</h5>
+                    <h5 class="modal-title">Insertar un proveedor</h5>
                 </div>
                 <div class="modal-body">
-                    <partial name="_Create" model="new Ferreteria_Frontend.Models.ClienteViewModel()" />
+                    <partial name="_Create" model="new Ferreteria_Frontend.Models.ProveedoresViewModel()" />
                 </div>
             </div>
         </div>
@@ -105,20 +90,38 @@
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Editar un cargo</h5>
+                    <h5 class="modal-title">Editar un proveedor</h5>
                 </div>
                 <div class="modal-body" id="modalBody">
-                    <partial name="_Edit" model="new Ferreteria_Frontend.Models.ClienteViewModel()" />
+                    <partial name="_Edit" model="new Ferreteria_Frontend.Models.ProveedoresViewModel()" />
                 </div>
             </div>
         </div>
-    </div> *@
+    </div>
 </div>
+
+@* <link rel="stylesheet" type="text/css" href="~/css/vendors/js-datatables/style.css"> *@
 
 <script src="~/js/jquery.min.js"></script>
 <script src="~/js/sweet-alert/sweetalert.min.js"></script>
 <script src="~/js/js-datatables/simple-datatables@latest.js"></script>
 <script src="~/js/datatable/datatables/jquery.dataTables.min.js"></script>
+
+
+@* <script src="~/js/datatable/datatable/datatables/datatable.custom.js"></script>
+<script src="~/js/datatable/datatable-extension/dataTables.buttons.min.js"></script>
+<script src="~/js/datatable/datatable-extension/jszip.min.js"></script>
+<script src="~/js/datatable/datatable-extension/pdfmake.min.js"></script>
+<script src="~/js/datatable/datatable-extension/vfs_fonts.js"></script>
+<script src="~/js/datatable/datatable-extension/dataTables.autoFill.min.js"></script>
+<script src="~/js/datatable/datatable-extension/dataTables.select.min.js"></script>
+<script src="~/js/datatable/datatable-extension/buttons.print.min.js"></script>
+<script src="~/js/datatable/datatable-extension/buttons.html5.min.js"></script>
+<script src="~/js/datatable/datatable-extension/dataTables.bootstrap4.min.js"></script>
+<script src="~/js/datatable/datatable-extension/dataTables.responsive.min.js"></script>
+<script src="~/js/datatable/datatable-extension/responsive.bootstrap4.min.js"></script>
+<script src="~/js/datatable/datatable-extension/dataTables.keyTable.min.js"></script>
+<script src="~/js/datatable/datatable-extension/custom.js"></script> *@
 
 <script>
     $(document).ready(function(){
@@ -126,33 +129,33 @@
     });
 
       //modal abrir
-    // $("#ModalNuevo").click(function () {
-    //    $("#modalInsertar").modal({ backdrop: 'static', keyboard: false });
-    //    $("#modalInsertar").modal('show');
-    //  });
+    $("#ModalNuevo").click(function () {
+       $("#modalInsertar").modal({ backdrop: 'static', keyboard: false });
+       $("#modalInsertar").modal('show');
+     });
 
-    //   $("#btnCerrarCrear").click(function() {
-    //     $("#modalInsertar").modal('hide');
-    //     location.reload();
-    //   });
+      $("#btnCerrarCrear").click(function() {
+        $("#modalInsertar").modal('hide');
+        location.reload();
+      });
 
 
-    // //modal editar
-    // function editar(id){
-    //     var url = "/Clientes/Edit/" + id;
-    //     $("#modalBody").load(url, function () {
-    //        $("#modalEditar").modal({ backdrop: 'static', keyboard: false });
-    //         $("#modalEditar").modal('show');
-    //     });
-    // }
+    //modal editar
+    function editar(id){
+        var url = "/Proveedores/Edit/" + id;
+        $("#modalBody").load(url, function () {
+           $("#modalEditar").modal({ backdrop: 'static', keyboard: false });
+            $("#modalEditar").modal('show');
+        });
+    }
 
-    // $(document).on('click', '#btnCerrarEditar', function() {
-    //     $("#modalEditar").modal('hide');
-    // });
+    $(document).on('click', '#btnCerrarEditar', function() {
+        $("#modalEditar").modal('hide');
+    });
 
     //eliminar
     function eliminar(id){
-        localStorage.setItem("Clie_Id", id);
+        localStorage.setItem("Prov_Id", id);
         swal({
             icon:"error",
             title:'Eliminar',
@@ -170,8 +173,8 @@
             }
         }).then((Delete) => {
             if(Delete){
-                var id = localStorage.getItem("Clie_Id");
-                var url = "/Clientes/Delete/"+id;
+                var id = localStorage.getItem("Prov_Id");
+                var url = "/Proveedores/Delete/"+id;
                 location.href = url;
             }
             else{
@@ -180,4 +183,3 @@
         })
     }
 </script>
-
