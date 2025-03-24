@@ -16,6 +16,28 @@ namespace Ferreteria_Frontend.Controllers
             _httpClient.BaseAddress = new Uri("https://localhost:7214/");
         }
 
+        private async Task CargarMunicipios()
+        {
+            var response = await _httpClient.GetAsync("ListarMunicipios");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var municipios = JsonConvert.DeserializeObject<IEnumerable<MunicipioViewModel>>(content);
+                ViewBag.Muni_Codigo = new SelectList(municipios, "Muni_Codigo", "Muni_Descripcion");
+            }
+        }
+
+        private async Task CargarDepartamentos()
+        {
+            var response = await _httpClient.GetAsync("ListarDepartamentos");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var departamentos = JsonConvert.DeserializeObject<IEnumerable<DepartamentoViewModel>>(content);
+                ViewBag.Depa_Codigo = new SelectList(departamentos, "Depa_Codigo", "Depa_Descripcion");
+            }
+        }
+
         public async Task<IActionResult> Index()
         {
             ViewBag.PageTitle = "Sucursales";
@@ -35,6 +57,7 @@ namespace Ferreteria_Frontend.Controllers
         public async Task<IActionResult> Create()
         {
             await CargarMunicipios();
+
             return View();
         }
 
@@ -118,7 +141,7 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var data = new SucursalViewModel{ Sucu_Id = id };
+            var data = new SucursalViewModel { Sucu_Id = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("/EliminarSucursal", content2);
 
@@ -161,17 +184,6 @@ namespace Ferreteria_Frontend.Controllers
             {
                 TempData["error"] = "Error al mostrar detalle";
                 return RedirectToAction("Index");
-            }
-        }
-
-        private async Task CargarMunicipios()
-        {
-            var response = await _httpClient.GetAsync("ListarMunicipios");
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                var municipios = JsonConvert.DeserializeObject<IEnumerable<MunicipioViewModel>>(content);
-                ViewBag.Muni_Codigo = new SelectList(municipios, "Muni_Codigo", "Muni_Descripcion");
             }
         }
     }

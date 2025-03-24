@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Clie_Id" />
+            
             <div class="row">
                 <div class="form-group col-md-6">
                     <label asp-for="Clie_DNI" class="control-label"></label>
@@ -80,7 +80,7 @@
 
             <div class="form-group d-flex justify-content-end mt-3">
                 <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
-                <a asp-action="Index" class="btn btn-danger"><i class="bi bi-x-circle"></i> Cancelar</a>
+                <a asp-action="Index" class="btn btn-rounded btn-outline-primary btn-md mx-2"><i class="icofont icofont-close-circled"></i> Cancelar</a>
             </div>
         </div>
     </div>

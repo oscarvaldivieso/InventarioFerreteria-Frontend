@@ -62,6 +62,6 @@ namespace Ferreteria_Frontend.Models
         public string? Depa_Descripcion { get; set; }
 
         [NotMapped]
-        public string EsCv_Descripcion { get; set; }
+        public string? EsCv_Descripcion { get; set; }
     }
 }
