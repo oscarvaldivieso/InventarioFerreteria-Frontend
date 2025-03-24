@@ -1,5 +1,6 @@
 ﻿using Ferreteria_Frontend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -14,7 +15,16 @@ namespace Ferreteria_Frontend.Controllers
             _httpClient = httpClientFactory.CreateClient();
             _httpClient.BaseAddress = new Uri("https://localhost:7214/");
         }
-
+        private async Task CargarDepartamentos()
+        {
+            var response = await _httpClient.GetAsync("ListarDepartamentos");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var departamentos = JsonConvert.DeserializeObject<IEnumerable<DepartamentoViewModel>>(content);
+                ViewBag.Depa_Codigo = new SelectList(departamentos, "Depa_Codigo", "Depa_Descripcion");
+            }
+        }
         public async Task<IActionResult> Index()
         {
             ViewBag.PageTitle = "Municipios";
@@ -31,8 +41,9 @@ namespace Ferreteria_Frontend.Controllers
             return View(new List<MunicipioViewModel>());
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            await CargarDepartamentos();
             return View();
         }
 
@@ -76,7 +87,7 @@ namespace Ferreteria_Frontend.Controllers
                     muni.Muni_Descripcion = item.Muni_Descripcion;
                     muni.Depa_Codigo = item.Depa_Codigo;
                 }
-
+                await CargarDepartamentos();
                 return PartialView("_Edit", muni);
             }
             else
@@ -106,6 +117,7 @@ namespace Ferreteria_Frontend.Controllers
                     ModelState.AddModelError(string.Empty, "Error al actualizar el municipio");
                 }
             }
+
             return View(muni);
         }
 
