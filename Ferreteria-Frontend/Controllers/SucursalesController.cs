@@ -1,5 +1,6 @@
 ﻿using Ferreteria_Frontend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -31,8 +32,9 @@ namespace Ferreteria_Frontend.Controllers
             return View(new List<SucursalViewModel>());
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            await CargarMunicipios();
             return View();
         }
 
@@ -56,6 +58,7 @@ namespace Ferreteria_Frontend.Controllers
                     ModelState.AddModelError(string.Empty, "Error al crear la sucursal");
                 }
             }
+            await CargarMunicipios();
             return View(sucu);
         }
 
@@ -79,6 +82,7 @@ namespace Ferreteria_Frontend.Controllers
                     sucu.Sucu_DireccionExacta = item.Sucu_DireccionExacta;
                 }
 
+                await CargarMunicipios();
                 return PartialView("_Edit", sucu);
             }
             else
@@ -108,6 +112,7 @@ namespace Ferreteria_Frontend.Controllers
                     ModelState.AddModelError(string.Empty, "Error al actualizar la sucursal");
                 }
             }
+            await CargarMunicipios();
             return View(sucu);
         }
 
@@ -156,6 +161,17 @@ namespace Ferreteria_Frontend.Controllers
             {
                 TempData["error"] = "Error al mostrar detalle";
                 return RedirectToAction("Index");
+            }
+        }
+
+        private async Task CargarMunicipios()
+        {
+            var response = await _httpClient.GetAsync("ListarMunicipios");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var municipios = JsonConvert.DeserializeObject<IEnumerable<MunicipioViewModel>>(content);
+                ViewBag.Muni_Codigo = new SelectList(municipios, "Muni_Codigo", "Muni_Descripcion");
             }
         }
     }

@@ -39,5 +39,8 @@ namespace Ferreteria_Frontend.Models
         public string? UsuaC_Nombre { get; set; }
         [NotMapped]
         public string? UsuaM_Nombre { get; set; }
+
+        [NotMapped]
+        public string? Muni_Descripcion { get; set; }
     }
 }

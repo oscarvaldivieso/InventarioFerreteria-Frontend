@@ -16,10 +16,13 @@
                 <input asp-for="Depa_Codigo" class="form-control" />
             </div>
         </div>  <!-- Cierra la fila después de dos campos -->
-        <div class="row">     
+        <div class="row">
             <div class="form-group col-md-6">
                 <label asp-for="Muni_Codigo" class="control-label"></label>
-                <input asp-for="Muni_Codigo" class="form-control" />
+                <select asp-for="Muni_Codigo" class="form-control" asp-items="ViewBag.Muni_Codigo">
+                    <option value="">Seleccione Un Municipio</option>
+                </select>
+                <span asp-validation-for="Muni_Codigo" class="text-danger"></span>
             </div>
             <div class="form-group col-md-6">
                 <label asp-for="Sucu_DireccionExacta" class="control-label"></label>
