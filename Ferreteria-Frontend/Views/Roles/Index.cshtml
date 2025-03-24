@@ -4,6 +4,7 @@
 @{
 }
 
+@model IEnumerable<RolViewModel>
 
 
 <style>
@@ -97,10 +98,13 @@
 			</div>
 		</div>
 		<div class="card-body d-flex">
+
+            @foreach(var item in Model)
+            {
 			<div class="card-role">
 				<div class="text">
 					<p class="subtitle">Nombre del rol</p>
-					<span>Administrador</span>
+					<span>@Html.DisplayFor(modelItem => item.Role_Descripcion)</span>
 				</div>
 				<div class="icons">
 					<a class="btn-card" href="#">
@@ -127,7 +131,7 @@
 					</a>
 				</div>
 			</div>
-
+			}
 			<div class="card-role">
 				<div class="text">
 					<p class="subtitle">Nombre del rol</p>
