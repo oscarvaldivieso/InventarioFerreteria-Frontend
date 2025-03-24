@@ -42,7 +42,9 @@ namespace Ferreteria_Frontend.Controllers
         {
             ViewBag.PageTitle = "Proveedores";
             ViewBag.SubTitle = "Compras";
+
             var response = await _httpClient.GetAsync("ListarProveedores");
+
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -54,8 +56,8 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Create()
         {
-            await CargarDepartamentos();
             await CargarMunicipios();
+            await CargarDepartamentos();
             return View();
         }
 
@@ -68,14 +70,15 @@ namespace Ferreteria_Frontend.Controllers
             {
                 var json = JsonConvert.SerializeObject(prov);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PostAsync("CrearProveedor", content);
+
+                var response = await _httpClient.PostAsync("InsertarProveedor", content);
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Error al crear el cliente");
+                    ModelState.AddModelError(string.Empty, "Error al crear el proveedor");
                 }
             }
 
@@ -84,15 +87,16 @@ namespace Ferreteria_Frontend.Controllers
             return View(prov);
         }
 
-        public async Task<IActionResult> Editar(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var data = new ProveedoresViewModel { Prov_Id = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("BuscarProveedor", content2);
+            var response = await _httpClient.PostAsync("/BuscarProveedor", content2);
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
                 List<ProveedoresViewModel> proveedores = JsonConvert.DeserializeObject<List<ProveedoresViewModel>>(content);
+
                 ProveedoresViewModel prov = new ProveedoresViewModel();
                 foreach (var item in proveedores)
                 {
@@ -104,7 +108,7 @@ namespace Ferreteria_Frontend.Controllers
                 }
                 await CargarDepartamentos();
                 await CargarMunicipios();
-                return View(prov);
+                return PartialView("_Edit", prov);
             }
             else
             {
@@ -121,10 +125,12 @@ namespace Ferreteria_Frontend.Controllers
             {
                 var json = JsonConvert.SerializeObject(prov);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
+
                 var response = await _httpClient.PostAsync("ActualizarProveedor", content);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new { id });
                 }
                 else
                 {
