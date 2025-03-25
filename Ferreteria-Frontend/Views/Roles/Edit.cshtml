@@ -4,6 +4,7 @@
 @{
 }
 
+
 @model Ferreteria_Frontend.Models.RolViewModel
 
 
@@ -11,7 +12,7 @@
     <div class="card">
         <div class="card-header">
             <div class="list-product-header ">
-                <a type="button" class="btn btn-rounded btn-primary btn-md" asp-area="" asp-controller="Roles" asp-action="Create" id="ModalNuevo"><i class="fa fa-arrow"></i>Regresar</a>
+                <a type="button" class="btn btn-rounded btn-primary btn-outline btn-md" asp-area="" asp-controller="Roles" asp-action="Create" id="ModalNuevo"><i class="fa fa-arrow"></i>Regresar</a>
             </div>
         </div>
         <div card="card-body d-flex">
@@ -19,8 +20,9 @@
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label asp-for="Role_Descripcion" class="control-label">
-                            Rol</label>
-                            <input asp-for="Role_Descripcion" placeholder="Ingresa un rol" class="form-control" />
+                            Rol
+                        </label>
+                        <input asp-for="Role_Descripcion" placeholder="Ingresa un rol" class="form-control" />
                     </div>
                 </div>
 
@@ -86,7 +88,7 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="Compras" class="me-2">Compras</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="pantIds2" name="Compras" value="14" >
+                                                    <input class="form-check-input" type="checkbox" id="Compras" name="Compras" value="14">
                                                 </div>
                                             </div>
                                         </td>
@@ -104,7 +106,7 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="Roles" class="me-2">Roles</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Roles" name="pantIds" value="2" >
+                                                    <input class="form-check-input" type="checkbox" id="Roles" name="pantIds" value="2">
                                                 </div>
                                             </div>
                                         </td>
@@ -120,7 +122,7 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="Empleados" class="me-2">Empleados</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Empleados" name="pantIds" value="7" >
+                                                    <input class="form-check-input" type="checkbox" id="Empleados" name="pantIds" value="7">
                                                 </div>
                                             </div>
                                         </td>
@@ -148,7 +150,7 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="EstadosCiviles" class="me-2">Estados Civiles</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="EstadosCiviles" name="pantIds" value="5" >
+                                                    <input class="form-check-input" type="checkbox" id="EstadosCiviles" name="pantIds" value="5">
                                                 </div>
                                             </div>
                                         </td>
@@ -200,7 +202,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        
+
                     </div>
                 </div>
                 <!--El gpt dis que si funciona pa guardar los id de las pantIdss en el servidor, como ni idea-->
@@ -210,7 +212,7 @@
                     <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
                     <button type="button" id="btnCerrarCrear" class="btn btn-rounded btn-outline-primary btn-md mx-2"><i class="icofont icofont-close-circled"></i> Cancelar</button>
                 </div>
-            </form>        
+            </form>
         </div>
     </div>
 </div>

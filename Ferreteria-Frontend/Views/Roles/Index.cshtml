@@ -107,7 +107,7 @@
 					<span>@Html.DisplayFor(modelItem => item.Role_Descripcion)</span>
 				</div>
 				<div class="icons">
-					<a class="btn-card" href="#">
+						<a class="btn-card" asp-area="" asp-controller="Roles" asp-action="Edit">
 						<svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100" height="100" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 							<path d="M12 20h9" />
 							<path d="M16.5 3.5a2.1 2.1 0 1 1 3 3L6 20H3v-3L16.5 3.5z" />
@@ -120,7 +120,7 @@
 						</svg>
 
 					</a>
-					<a class="btn-card" href="#">
+					<a class="btn-card" onclick="eliminar(@item.Role_Id)">
 						<svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100" height="100" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 							<path d="M3 6h18" />
 							<path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
@@ -165,3 +165,39 @@
 		</div>
 	</div>
 </div>
+
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/sweet-alert/sweetalert.min.js"></script>
+<script src="~/js/js-datatables/simple-datatables@latest.js"></script>
+<script src="~/js/datatable/datatables/jquery.dataTables.min.js"></script>
+
+<script>
+	function eliminar(id){
+		localStorage.setItem("Role_Id", id);
+		swal({
+			icon:"error",
+			title:'Eliminar',
+			text: "¿Deseas eliminar este registro?",
+			type:'warning',
+			buttons:{
+				confirm:{
+					text:'Si, eliminar',
+					className: 'btn btn-danger'
+				},
+				cancel:{
+					visible: true,
+					className: 'btn btn-danger btn-outline text-danger bg-white'
+				}
+			}
+		}).then((Delete) => {
+			if(Delete){
+				var id = localStorage.getItem("Role_Id");
+				var url = "/Roles/Delete/"+id;
+				location.href = url;
+			}
+			else{
+				swal.close();
+			}
+		})
+	}
+</script>
