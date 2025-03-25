@@ -15,6 +15,7 @@ namespace Ferreteria_Frontend.Controllers
             _httpClient = httpClientFactory.CreateClient();
             _httpClient.BaseAddress = new Uri("https://localhost:7214/");
         }
+
         private async Task CargarDepartamentos()
         {
             var response = await _httpClient.GetAsync("ListarDepartamentos");
@@ -25,10 +26,13 @@ namespace Ferreteria_Frontend.Controllers
                 ViewBag.Depa_Codigo = new SelectList(departamentos, "Depa_Codigo", "Depa_Descripcion");
             }
         }
+
         public async Task<IActionResult> Index()
         {
             ViewBag.PageTitle = "Municipios";
             ViewBag.SubTitle = "General";
+
+            await CargarDepartamentos();
 
             var response = await _httpClient.GetAsync("ListarMunicipios");
 
@@ -42,10 +46,9 @@ namespace Ferreteria_Frontend.Controllers
             return View(new List<MunicipioViewModel>());
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            await CargarDepartamentos();
-            return PartialView("_Create");
+            return View();
         }
 
         [HttpPost]

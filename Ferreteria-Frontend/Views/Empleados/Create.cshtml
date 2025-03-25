@@ -18,12 +18,14 @@
                 <div class="form-group col-md-6">
                     <label asp-for="Empl_Nombre" class="control-label"></label>
                     <input asp-for="Empl_Nombre" class="form-control" />
+                    <br />
                 </div>
            </div>  <!-- Cierra la fila después de dos campos -->
            <div class="row"> 
                <div class="form-group col-md-6">
                    <label asp-for="Empl_Apellido" class="control-label"></label>
                    <input asp-for="Empl_Apellido" class="form-control" />
+                   <br />
                </div>
                 <div class="form-group col-md-6">
                     <label asp-for="Empl_Sexo" class="control-label"></label>
@@ -37,6 +39,7 @@
                             <label class="form-check-label" for="sexoF">Femenino</label>
                         </div>
                     </div>
+                    <br />
                 </div>
            </div>  <!-- Cierra la fila después de dos campos -->
            <div class="row"> 
@@ -53,12 +56,13 @@
                         <option value="">Seleccione Un Cargo</option>
                     </select>
                     <span asp-validation-for="Carg_Id" class="text-danger"></span>
+                    <br />
                 </div>
            </div>  <!-- Cierra la fila después de dos campos -->
            <div class="row">
                 <div class="form-group col-md-6">
                     <label asp-for="Depa_Codigo" class="control-label"></label>
-                    <select asp-for="Depa_Codigo" class="form-control" asp-items="ViewBag.Depa_Codigo">
+                    <select asp-for="Depa_Codigo" class="form-select" asp-items="ViewBag.Depa_Codigo">
                         <option value="">Seleccione Un Departamento</option>
                     </select>
                 </div>
@@ -68,6 +72,7 @@
                         <option value="">Seleccione Un Municipio</option>
                     </select>
                     <span asp-validation-for="Muni_Codigo" class="text-danger"></span>
+                    <br />
                </div>
            </div>  <!-- Cierra la fila después de dos campos -->
            <div class="row">

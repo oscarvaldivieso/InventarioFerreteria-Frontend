@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Ferreteria_Frontend.Controllers
 {
@@ -43,6 +44,9 @@ namespace Ferreteria_Frontend.Controllers
             ViewBag.PageTitle = "Sucursales";
             ViewBag.SubTitle = "Ferreteria";
 
+            await CargarMunicipios();
+            await CargarDepartamentos();
+
             var response = await _httpClient.GetAsync("ListarSucursales");
 
             if (response.IsSuccessStatusCode)
@@ -56,8 +60,11 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Create()
         {
-            await CargarMunicipios();
+            ViewBag.PageTitle = "Crear Sucursal";
+            ViewBag.SubTitle = "Ferreteria";
+
             await CargarDepartamentos();
+            await CargarMunicipios();
             return View();
         }
 

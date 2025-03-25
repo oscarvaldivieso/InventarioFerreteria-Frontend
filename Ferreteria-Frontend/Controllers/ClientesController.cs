@@ -1,9 +1,11 @@
 ﻿using Ferreteria_Frontend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Ferreteria_Frontend.Controllers
 {
@@ -68,6 +70,9 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Create()
         {
+            ViewBag.PageTitle = "Crear Cliente";
+            ViewBag.SubTitle = "General";
+
             await CargarEstadosCiviles();
             await CargarMunicipios();
             await CargarDepartamentos();
@@ -77,6 +82,9 @@ namespace Ferreteria_Frontend.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ClienteViewModel clie)
         {
+            ViewBag.PageTitle = "Crear Cliente";
+            ViewBag.SubTitle = "General";
+
             clie.Usua_Creacion = 1;
             clie.Feca_Creacion = DateTime.Now;
             if (ModelState.IsValid)
@@ -103,6 +111,9 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Edit(string id)
         {
+            ViewBag.PageTitle = "Editar Cliente";
+            ViewBag.SubTitle = "General";
+
             var data = new ClienteViewModel { Clie_DNI = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("/BuscarCliente", content2);
@@ -138,6 +149,9 @@ namespace Ferreteria_Frontend.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, ClienteViewModel clie)
         {
+            ViewBag.PageTitle = "Editar Cliente";
+            ViewBag.SubTitle = "General";
+
             clie.Usua_Modificacion = 1;
             clie.Feca_Modificacion = DateTime.Now;
             clie.Clie_Id = id;

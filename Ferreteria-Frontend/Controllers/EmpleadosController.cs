@@ -66,6 +66,11 @@ namespace Ferreteria_Frontend.Controllers
             ViewBag.PageTitle = "Empleados";
             ViewBag.SubTitle = "Ferreteria";
 
+            await CargarDepartamentos();
+            await CargarMunicipios();
+            await CargarEstadosCiviles();
+            await CargarCargos();
+
             var response = await _httpClient.GetAsync("ListarEmpleados");
 
             if (response.IsSuccessStatusCode)
@@ -79,6 +84,9 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Create()
         {
+            ViewBag.PageTitle = "Crear Empleado";
+            ViewBag.SubTitle = "Ferreteria";
+
             await CargarDepartamentos();
             await CargarMunicipios();
             await CargarEstadosCiviles();
@@ -114,6 +122,9 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Edit(string id)
         {
+            ViewBag.PageTitle = "Editar Empleado";
+            ViewBag.SubTitle = "Ferreteria";
+
             var data = new EmpleadoViewModel { Empl_DNI = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("BuscarEmpleado", content2);

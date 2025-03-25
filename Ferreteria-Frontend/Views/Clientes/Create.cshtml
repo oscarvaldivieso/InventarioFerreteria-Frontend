@@ -25,6 +25,7 @@
                         <div class="invalid-feedback">Por favor rellena el campo </div>
                         <div class="valid-feedback">Excelente </div>
                         <span asp-validation-for="Clie_Nombre" class="text-danger"></span>
+                        <br />
                     </div>
                </div>  <!-- Cierra la fila después de dos campos -->
                <div class="row"> 
@@ -48,6 +49,7 @@
                             </div>
                         </div>
                         <span asp-validation-for="Clie_Sexo" class="text-danger"></span>
+                        <br />
                     </div>
                </div>  <!-- Cierra la fila después de dos campos -->
                <div class="row">
@@ -60,15 +62,16 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label asp-for="Depa_Codigo" class="control-label"></label>
-                        <select asp-for="Depa_Codigo" class="form-control" asp-items="ViewBag.Depa_Codigo">
+                        <select asp-for="Depa_Codigo" class="form-select" asp-items="ViewBag.Depa_Codigo">
                             <option value="">Seleccione Un Departamento</option>
                         </select>
+                        <br />
                     </div>
                </div>  <!-- Cierra la fila después de dos campos -->
                <div class="row">
                    <div class="form-group col-md-6">
                        <label asp-for="Muni_Codigo" class="control-label"></label>
-                        <select asp-for="Muni_Codigo" class="form-control" asp-items="ViewBag.Muni_Codigo">
+                        <select asp-for="Muni_Codigo" class="form-select" asp-items="ViewBag.Muni_Codigo">
                             <option value="">Seleccione Un Municipio</option>
                         </select>
                    </div>

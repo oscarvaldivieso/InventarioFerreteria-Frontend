@@ -43,6 +43,9 @@ namespace Ferreteria_Frontend.Controllers
             ViewBag.PageTitle = "Proveedores";
             ViewBag.SubTitle = "Compras";
 
+            await CargarMunicipios();
+            await CargarDepartamentos();
+
             var response = await _httpClient.GetAsync("ListarProveedores");
 
             if (response.IsSuccessStatusCode)
@@ -56,6 +59,9 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Create()
         {
+            ViewBag.PageTitle = "Crear Proveedor";
+            ViewBag.SubTitle = "Compras";
+
             await CargarMunicipios();
             await CargarDepartamentos();
             return View();
@@ -89,6 +95,9 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
+            ViewBag.PageTitle = "Editar Proveedor";
+            ViewBag.SubTitle = "Compras";
+
             var data = new ProveedoresViewModel { Prov_Id = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("/BuscarProveedor", content2);
@@ -109,7 +118,7 @@ namespace Ferreteria_Frontend.Controllers
                 }
                 await CargarDepartamentos();
                 await CargarMunicipios();
-                return PartialView("_Edit", prov);
+                return View(prov);
             }
             else
             {
