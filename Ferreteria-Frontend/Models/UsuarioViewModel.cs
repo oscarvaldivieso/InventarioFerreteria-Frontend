@@ -20,7 +20,7 @@ namespace Ferreteria_Frontend.Models
         [NotMapped]
         public string Role_Descripcion { get; set; }
 
-        public bool? Usua_EsAdmin { get; set; }
+        public bool Usua_EsAdmin { get; set; }
 
         public int Usua_Creacion { get; set; }
 

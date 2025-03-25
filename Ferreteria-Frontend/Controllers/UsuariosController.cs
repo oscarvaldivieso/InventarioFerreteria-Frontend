@@ -1,6 +1,8 @@
 ﻿using Ferreteria_Frontend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace Ferreteria_Frontend.Controllers
 {
@@ -29,5 +31,46 @@ namespace Ferreteria_Frontend.Controllers
             }
             return View(new List<UsuarioViewModel>());
         }
+
+        private async Task ListarRoles()
+        {
+            var response = await _httpClient.GetAsync("ListarRoles");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var roles = JsonConvert.DeserializeObject<IEnumerable<RolViewModel>>(content);
+                ViewBag.Role_Id = new SelectList(roles, "Role_Id", "Role_Descripcion");
+            }
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(UsuarioViewModel usu)
+        {
+            usu.Usua_Creacion = 1;
+            usu.Feca_Creacion = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                var json = JsonConvert.SerializeObject(usu);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync("InsertarDepartamento", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Error al crear el departamento");
+                }
+            }
+            return View(usu);
+        }
+
+
     }
 }
