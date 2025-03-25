@@ -70,10 +70,26 @@
                                     @Html.DisplayFor(modelItem => item.Clie_Sexo)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.EsCv_Id)
+                                    @{
+                                        var estadosciviles = ViewBag.estados as List<Ferreteria_Frontend.Models.EstadoCivilViewModel>;
+                                        var estadoCivil = estadosciviles?.FirstOrDefault(p => p.EsCv_Id== item.EsCv_Id);
+                                        if (estadoCivil != null)
+                                        {
+                                            @estadoCivil.EsCv_Descripcion
+                                        }
+                                    }
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Muni_Codigo)
+                                    @{
+                                        var municipios = ViewBag.municipios as List<Ferreteria_Frontend.Models.MunicipioViewModel>;
+                                        var municipio = municipios?.FirstOrDefault(p => p.Muni_Codigo == item.Muni_Codigo);
+                                        if (municipio != null)
+                                        {
+                                            @municipio.Muni_Codigo 
+                                            <text> - </text>
+                                            @municipio.Muni_Descripcion
+                                        }
+                                    }
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Clie_Direccion)

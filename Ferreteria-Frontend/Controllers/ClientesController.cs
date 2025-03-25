@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using NuGet.Protocol;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -52,11 +53,35 @@ namespace Ferreteria_Frontend.Controllers
             }
         }
 
+        public async Task<List<EstadoCivilViewModel>> ObtenerEstadosCivilesAsync()
+        {
+            var response = await _httpClient.GetAsync("/ListarEstadosCiviles");
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<EstadoCivilViewModel>>(jsonString);
+            }
+            return new List<EstadoCivilViewModel>();
+        }
+
+        public async Task<List<MunicipioViewModel>> ObtenerMunicipiosAsync()
+        {
+            var response = await _httpClient.GetAsync("ListarMunicipios");
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<MunicipioViewModel>>(jsonString);
+            }
+            return new List<MunicipioViewModel>();
+        }
+
         public async Task<IActionResult> Index()
         {
             ViewBag.PageTitle = "Clientes";
             ViewBag.SubTitle = "General";
 
+            ViewBag.estados = await ObtenerEstadosCivilesAsync();
+            ViewBag.municipios = await ObtenerMunicipiosAsync();
             var response = await _httpClient.GetAsync("ListarClientes");
 
             if (response.IsSuccessStatusCode)
@@ -114,6 +139,7 @@ namespace Ferreteria_Frontend.Controllers
             ViewBag.PageTitle = "Editar Cliente";
             ViewBag.SubTitle = "General";
 
+            ViewBag.estados = await ObtenerEstadosCivilesAsync();
             var data = new ClienteViewModel { Clie_DNI = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("/BuscarCliente", content2);

@@ -42,9 +42,12 @@ namespace Ferreteria_Frontend.Models
 
         public bool? Prod_Estado { get; set; }
 
-        public string Prod_URLImg { get; set; }
+        [Display(Name = "Imagen")]
+        public string? Prod_URLImg { get; set; }
 
-        public int Medi_Id { get; set; }
+        [Display(Name = "Medida")]
+        [Required(ErrorMessage = "El campo {0} es requerido")]
+        public int? Medi_Id { get; set; }
 
         [NotMapped]
         public string? UsuaC_Nombre { get; set; }

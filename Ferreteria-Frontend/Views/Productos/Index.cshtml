@@ -24,7 +24,7 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.Prod_Descripcion)
                                 </th>
-                                <th style="width: 15px;">
+                                <th>
                                     @Html.DisplayNameFor(model => model.Marc_Id)
                                 </th>
                                 <th>
@@ -66,14 +66,35 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Prod_Descripcion)
                                 </td>
-                                <td style="width: 15px;">
-                                    @Html.DisplayFor(modelItem => item.Marc_Descripcion)
+                                <td>
+                                    @{
+                                        var marcas = ViewBag.marcas as List<Ferreteria_Frontend.Models.MarcaViewModel>;
+                                        var marca = marcas?.FirstOrDefault(p => p.Marc_Id == item.Marc_Id);
+                                        if (marcas != null)
+                                        {
+                                            @marca.Marc_Descripcion
+                                        }
+                                    }
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Cate_Id)
+                                    @{
+                                        var categorias = ViewBag.categorias as List<Ferreteria_Frontend.Models.CategoriaViewModel>;
+                                        var categoria = categorias?.FirstOrDefault(p => p.Cate_Id == item.Cate_Id);
+                                        if (categorias != null)
+                                        {
+                                            @categoria.Cate_Descripcion
+                                        }
+                                    }
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Prov_Id)
+                                    @{
+                                        var proveedores = ViewBag.proveedores as List<Ferreteria_Frontend.Models.ProveedoresViewModel>;
+                                        var proveedor = proveedores?.FirstOrDefault(p => p.Prov_Id == item.Prov_Id);
+                                        if (proveedores != null)
+                                        {
+                                            @proveedor.Prov_Nombre
+                                        }
+                                    }
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Prod_Modelo)
@@ -82,7 +103,14 @@
                                     @Html.DisplayFor(modelItem => item.Prod_Cantidad)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Medi_Id)
+                                    @{
+                                        var medidas = ViewBag.medidas as List<Ferreteria_Frontend.Models.MedidasViewModel>;
+                                        var medida = medidas?.FirstOrDefault(p => p.Medi_Id == item.Medi_Id);
+                                        if (medidas != null)
+                                        {
+                                            @medida.Medi_Descripcion
+                                        }
+                                    }
                                 </td>
                             </tr>
                     }

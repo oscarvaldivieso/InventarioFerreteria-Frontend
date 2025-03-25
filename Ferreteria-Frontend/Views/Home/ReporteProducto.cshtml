@@ -1,0 +1,114 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h5>"S.O TOOLS"</h5>
+    <br />
+    <h6>REPORTE PRODUCTOS</h6>
+</div>
+
+<iframe id="pdfViewer" style="width:100%; height:500px;"></iframe>  <!-- Un iframe para visualizar el PDF generado -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>  <!-- Carga la librería jsPDF para el PDF -->
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        generarPDF();
+    });
+
+    function generarPDF() {
+        fetch('/Productos/ListarProductos')
+            .then(response => response.json())
+            .then(data => {
+                console.log("Respuesta de la API:", data);
+
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                const empleados = Array.isArray(data) ? data : data.empleados || [];
+                const usuario = data.usuario || "Desconocido";
+
+                const logo = new Image();
+                logo.src = '../images/Logo__2_-removebg-preview.png';
+
+                // Agregar el logo y el título
+                doc.addImage(logo, 'PNG', 22, 10, 60, 45);
+                doc.setFontSize(18);
+                doc.text("Reporte de Productos", 75, 30);
+
+                // Fecha y usuario arriba del reporte
+                const fecha = new Date().toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' });
+                doc.setFontSize(10);
+                doc.text(`Fecha: ${fecha}`, 20, 290);  // Mostrar la fecha más arriba
+                doc.setFontSize(10);;
+                doc.text("Generado por:  @Context.Session.GetString("usuario")@@sotools.hn", 80, 290);
+
+                // Línea separadora debajo de la fecha y el usuario
+                doc.setLineWidth(0.4);
+                doc.line(15, 53, 190, 53);
+
+                // Nombres de los campos (entre las dos líneas)
+                doc.setFontSize(10);
+                doc.text("Producto", 20, 60);
+
+
+                // Segunda línea separadora justo después de los nombres de los campos
+                doc.line(15, 63, 190, 63);
+
+                let yPosition = 70;
+
+                // Paginación y datos
+                const maxRowsPerPage = 15;
+                let rowCount = 0;
+                let pageCount = 1;
+
+                empleados.forEach((emp, index) => {
+                    const valores = [emp.nombre || 'N/A', emp.apellido || 'N/A', emp.sexo || 'N/A', emp.cargo || 'N/A'];
+                    const colWidths = [50, 50, 30, 45];
+                    let xPos = 15;
+
+                    if (rowCount >= maxRowsPerPage) {
+                        doc.addPage();
+                        yPosition = 20;
+
+                        // Redibujar fecha y usuario en la nueva página
+                        doc.setFontSize(10);
+                        doc.text(`Fecha: ${fecha}`, 20, 290);  // Mostrar la fecha más arriba
+                        doc.setFontSize(10);;
+                        doc.text("Generado por:  @Context.Session.GetString("usuario")@@hopefoundation.hn", 80, 290);
+                        doc.line(15, 38, 190, 38);
+
+                        // Redibujar los nombres de los campos
+                        doc.text("Nombre", 20, 45);
+                        doc.text("Apellido", 70, 45);
+                        doc.text("Sexo", 120, 45);
+                        doc.text("Cargo", 150, 45);
+                        doc.line(15, 48, 190, 48);
+                        yPosition = 55;
+
+                        rowCount = 0;
+                        pageCount++;
+                    }
+
+                    valores.forEach((valor, i) => {
+                        doc.text(valor, xPos + 5, yPosition);
+                        xPos += colWidths[i];
+                    });
+
+                    yPosition += 7;
+                    rowCount++;
+
+                    if (rowCount >= maxRowsPerPage || index === empleados.length - 1) {
+                        doc.text(`Página ${pageCount}`, 180, 290);
+                    }
+                });
+
+                const pdfBlob = doc.output("blob");
+                const pdfURL = URL.createObjectURL(pdfBlob);
+                document.getElementById("pdfViewer").src = pdfURL;
+            })
+            .catch(error => console.error("Error al generar el reporte:", error));
+    }
+</script>
