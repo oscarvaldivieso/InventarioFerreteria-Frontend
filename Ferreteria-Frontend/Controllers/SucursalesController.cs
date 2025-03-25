@@ -57,7 +57,7 @@ namespace Ferreteria_Frontend.Controllers
         public async Task<IActionResult> Create()
         {
             await CargarMunicipios();
-
+            await CargarDepartamentos();
             return View();
         }
 
@@ -82,6 +82,7 @@ namespace Ferreteria_Frontend.Controllers
                 }
             }
             await CargarMunicipios();
+            await CargarDepartamentos();
             return View(sucu);
         }
 
@@ -106,6 +107,7 @@ namespace Ferreteria_Frontend.Controllers
                 }
 
                 await CargarMunicipios();
+                await CargarDepartamentos();
                 return PartialView("_Edit", sucu);
             }
             else
@@ -119,6 +121,7 @@ namespace Ferreteria_Frontend.Controllers
         {
             sucu.Usua_Modificacion = 1;
             sucu.Feca_Modificacion = DateTime.Now;
+            sucu.Sucu_Id = id;
             if (ModelState.IsValid)
             {
                 var json = JsonConvert.SerializeObject(sucu);
@@ -136,6 +139,7 @@ namespace Ferreteria_Frontend.Controllers
                 }
             }
             await CargarMunicipios();
+            await CargarDepartamentos();
             return View(sucu);
         }
 

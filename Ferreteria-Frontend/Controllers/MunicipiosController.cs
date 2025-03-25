@@ -38,13 +38,14 @@ namespace Ferreteria_Frontend.Controllers
                 var municipios = JsonConvert.DeserializeObject<IEnumerable<MunicipioViewModel>>(content);
                 return View("Index", municipios);
             }
+            await CargarDepartamentos();
             return View(new List<MunicipioViewModel>());
         }
 
         public async Task<IActionResult> Create()
         {
             await CargarDepartamentos();
-            return View();
+            return PartialView("_Create");
         }
 
         [HttpPost]
@@ -52,6 +53,7 @@ namespace Ferreteria_Frontend.Controllers
         {
             muni.Usua_Creacion = 1;
             muni.Feca_Creacion = DateTime.Now;
+            await CargarDepartamentos();
             if (ModelState.IsValid)
             {
                 var json = JsonConvert.SerializeObject(muni);
@@ -67,6 +69,7 @@ namespace Ferreteria_Frontend.Controllers
                     ModelState.AddModelError(string.Empty, "Error al crear el municipio");
                 }
             }
+            await CargarDepartamentos();
             return View(muni);
         }
 
@@ -117,7 +120,7 @@ namespace Ferreteria_Frontend.Controllers
                     ModelState.AddModelError(string.Empty, "Error al actualizar el municipio");
                 }
             }
-
+            await CargarDepartamentos();
             return View(muni);
         }
 

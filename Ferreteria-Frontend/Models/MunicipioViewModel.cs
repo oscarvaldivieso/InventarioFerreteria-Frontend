@@ -28,6 +28,8 @@ namespace Ferreteria_Frontend.Models
         public string? UsuaC_Nombre { get; set; }
         [NotMapped]
         public string? UsuaM_Nombre { get; set; }
+        [NotMapped]
+        public string? Depa_Descripcion { get; set; }
 
         //public virtual tbDepartamentos Depa_CodigoNavigation { get; set; }
 

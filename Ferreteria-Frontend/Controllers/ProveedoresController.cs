@@ -103,6 +103,7 @@ namespace Ferreteria_Frontend.Controllers
                     prov.Prov_Id = item.Prov_Id;
                     prov.Prov_Nombre = item.Prov_Nombre;
                     prov.Prov_Contacto = item.Prov_Contacto;
+                    prov.Depa_Codigo = item.Depa_Codigo;
                     prov.Muni_Codigo = item.Muni_Codigo;
                     prov.Prov_DireccionExacta = item.Prov_DireccionExacta;
                 }
