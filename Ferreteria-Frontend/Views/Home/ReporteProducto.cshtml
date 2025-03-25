@@ -1,114 +1,92 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<Ferreteria_Frontend.Models.ProductoViewModel>
+
+@{
+    ViewData["Title"] = "Reporte de Productos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h5>"S.O TOOLS"</h5>
-    <br />
-    <h6>REPORTE PRODUCTOS</h6>
+<div class="row">
+    <div class="col-md-4">
+        <input type="text" id="filtroProductos" class="form-control" placeholder="Buscar por descripción" />
+    </div>
 </div>
+<iframe id="pdfPreview" width="100%" height="500px"></iframe>
 
-<iframe id="pdfViewer" style="width:100%; height:500px;"></iframe>  <!-- Un iframe para visualizar el PDF generado -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>  <!-- Carga la librería jsPDF para el PDF -->
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        generarPDF();
+        generarVistaPrevia();
+
+        document.getElementById("filtroProductos").addEventListener("input", generarVistaPrevia);
     });
 
-    function generarPDF() {
-        fetch('/Productos/ListarProductos')
+    function generarVistaPrevia() {
+        var filtroSeleccionado = document.getElementById("filtroProductos").value;
+
+        fetch(`/Home/ObtenerProductos?filtro=${filtroSeleccionado}`)
             .then(response => response.json())
             .then(data => {
-                console.log("Respuesta de la API:", data);
+                var { jsPDF } = window.jspdf;
+                var doc = new jsPDF();
 
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
+                var usuarioSesion = "@ViewBag.UsuarioSesion";
+                var fechaHoraActual = new Date().toLocaleString();
 
-                const empleados = Array.isArray(data) ? data : data.empleados || [];
-                const usuario = data.usuario || "Desconocido";
+                doc.setProperties({
+                    title: "Reporte de Productos",
+                    subject: "Productos Filtrados",
+                    author: usuarioSesion,
+                    keywords: "Productos, Reporte, PDF",
+                    creator: "Sistema de Gestión"
+                });
 
-                const logo = new Image();
-                logo.src = '../images/Logo__2_-removebg-preview.png';
+                doc.addImage("@Url.Content("~/images/logo/logo.png")", "PNG", 30, 0, 29, 29);
+                doc.setFontSize(16);
+                doc.text("Listado de Productos", 60, 17, 0, 0);
 
-                // Agregar el logo y el título
-                doc.addImage(logo, 'PNG', 22, 10, 60, 45);
-                doc.setFontSize(18);
-                doc.text("Reporte de Productos", 75, 30);
+                var columnas = ["ID", "Descripción", "ID Marca", "ID Categoría", "ID Proveedor", "Modelo", "Cantidad", "ID Medida"];
+                var filas = data.productos.map(p => [
+                    p.prod_Id,
+                    p.prod_Descripcion,
+                    p.marc_Id,
+                    p.cate_Id,
+                    p.prov_Id,
+                    p.prod_Modelo,
+                    p.prod_Cantidad,
+                    p.medi_Id
+                ]);
 
-                // Fecha y usuario arriba del reporte
-                const fecha = new Date().toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' });
-                doc.setFontSize(10);
-                doc.text(`Fecha: ${fecha}`, 20, 290);  // Mostrar la fecha más arriba
-                doc.setFontSize(10);;
-                doc.text("Generado por:  @Context.Session.GetString("usuario")@@sotools.hn", 80, 290);
+                doc.autoTable({
+                    head: [columnas],
+                    body: filas,
+                    startY: 28,
+                    theme: 'grid',
+                    headStyles: { fillColor: [104, 97, 206], textColor: [255, 255, 255], fontStyle: 'bold' },
+                    didDrawPage: function (data) {
+                        var pageSize = doc.internal.pageSize;
+                        var pageWidth = pageSize.width;
+                        var pageHeight = pageSize.height;
+                        var pageNumber = doc.internal.getNumberOfPages();
 
-                // Línea separadora debajo de la fecha y el usuario
-                doc.setLineWidth(0.4);
-                doc.line(15, 53, 190, 53);
+                        doc.setDrawColor(150);
+                        doc.line(20, pageHeight - 15, pageWidth - 20, pageHeight - 15);
 
-                // Nombres de los campos (entre las dos líneas)
-                doc.setFontSize(10);
-                doc.text("Producto", 20, 60);
-
-
-                // Segunda línea separadora justo después de los nombres de los campos
-                doc.line(15, 63, 190, 63);
-
-                let yPosition = 70;
-
-                // Paginación y datos
-                const maxRowsPerPage = 15;
-                let rowCount = 0;
-                let pageCount = 1;
-
-                empleados.forEach((emp, index) => {
-                    const valores = [emp.nombre || 'N/A', emp.apellido || 'N/A', emp.sexo || 'N/A', emp.cargo || 'N/A'];
-                    const colWidths = [50, 50, 30, 45];
-                    let xPos = 15;
-
-                    if (rowCount >= maxRowsPerPage) {
-                        doc.addPage();
-                        yPosition = 20;
-
-                        // Redibujar fecha y usuario en la nueva página
                         doc.setFontSize(10);
-                        doc.text(`Fecha: ${fecha}`, 20, 290);  // Mostrar la fecha más arriba
-                        doc.setFontSize(10);;
-                        doc.text("Generado por:  @Context.Session.GetString("usuario")@@hopefoundation.hn", 80, 290);
-                        doc.line(15, 38, 190, 38);
-
-                        // Redibujar los nombres de los campos
-                        doc.text("Nombre", 20, 45);
-                        doc.text("Apellido", 70, 45);
-                        doc.text("Sexo", 120, 45);
-                        doc.text("Cargo", 150, 45);
-                        doc.line(15, 48, 190, 48);
-                        yPosition = 55;
-
-                        rowCount = 0;
-                        pageCount++;
-                    }
-
-                    valores.forEach((valor, i) => {
-                        doc.text(valor, xPos + 5, yPosition);
-                        xPos += colWidths[i];
-                    });
-
-                    yPosition += 7;
-                    rowCount++;
-
-                    if (rowCount >= maxRowsPerPage || index === empleados.length - 1) {
-                        doc.text(`Página ${pageCount}`, 180, 290);
+                        doc.text(`Generado por: ${usuarioSesion}`, 20, pageHeight - 10);
+                        doc.text(`Fecha y Hora: ${fechaHoraActual}`, pageWidth / 2, pageHeight - 10, { align: "center" });
+                        doc.text(`Página ${pageNumber}`, pageWidth - 20, pageHeight - 10, { align: "right" });
                     }
                 });
 
-                const pdfBlob = doc.output("blob");
-                const pdfURL = URL.createObjectURL(pdfBlob);
-                document.getElementById("pdfViewer").src = pdfURL;
+                var pdfBlob = doc.output("blob");
+                var pdfUrl = URL.createObjectURL(pdfBlob);
+
+                document.getElementById("pdfPreview").src = pdfUrl;
+
+                window.generatedPDF = doc;
             })
-            .catch(error => console.error("Error al generar el reporte:", error));
+            .catch(error => console.error("Error al obtener los productos:", error));
     }
 </script>
