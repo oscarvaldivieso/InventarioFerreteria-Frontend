@@ -9,7 +9,7 @@
 
 <style>
 	.card-role {
-		width: 250px;
+		width: 200px;
 		height: 200px;
 		border-radius: 15px;
 		background: rgb(0 102 102);
@@ -61,7 +61,7 @@
 
 	.btn-card {
 		border: none;
-		width: 84px;
+		width: 67px;
 		height: 35px;
 		background-color: rgb(231 231 231);
 		display: flex;
@@ -97,11 +97,11 @@
 				<a type="button" class="btn btn-rounded btn-outline-primary btn-md" asp-area="" asp-controller="Roles" asp-action="Create" id="ModalNuevo"><i class="fa fa-plus"></i> Agregar rol</a>
 			</div>
 		</div>
-		<div class="card-body d-flex">
+		<div class="card-body d-flex flex-sm-wrap">
 
             @foreach(var item in Model)
             {
-			<div class="card-role">
+			<div class="card-role col-sm-6">
 				<div class="text">
 					<p class="subtitle">Nombre del rol</p>
 					<span>@Html.DisplayFor(modelItem => item.Role_Descripcion)</span>

@@ -9,18 +9,17 @@
 
 <div class="col-sm-12">
     <div class="card">
-        <div class="card-header">
-            <div class="list-product-header ">
-                <a type="button" class="btn btn-rounded btn-primary btn-md" asp-area="" asp-controller="Roles" asp-action="Create" id="ModalNuevo"><i class="fa fa-arrow"></i>Regresar</a>
-            </div>
-        </div>
         <div card="card-body d-flex">
             <form id="crearRolForm" asp-action="Create" method="post" class="p-3">
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label asp-for="Role_Descripcion" class="control-label">
-                            Rol</label>
+                            Nombre del rol</label>
                             <input asp-for="Role_Descripcion" placeholder="Ingresa un rol" class="form-control" />
+                    </div>
+                    <div class="form-group col-md-6 d-flex justify-content-end mt-3">
+                        <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
+                        <a asp-action="Index" class="btn btn-rounded btn-outline-primary btn-md mx-2"><i class="icofont icofont-close-circled"></i> Cancelar</a>
                     </div>
                 </div>
 
@@ -204,12 +203,7 @@
                     </div>
                 </div>
                 <!--El gpt dis que si funciona pa guardar los id de las pantIdss en el servidor, como ni idea-->
-                <input type="text" id="pantIdssSeleccionadasInput" asp-for="PantIds" name="pantIds[]" />
-
-                <div class="form-group d-flex justify-content-end mt-3">
-                    <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
-                    <button type="button" id="btnCerrarCrear" class="btn btn-rounded btn-outline-primary btn-md mx-2"><i class="icofont icofont-close-circled"></i> Cancelar</button>
-                </div>
+                <input type="hidden" id="pantIdssSeleccionadasInput" asp-for="PantIds" name="pantIds[]" />
             </form>        
         </div>
     </div>
