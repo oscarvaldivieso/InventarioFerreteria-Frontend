@@ -60,5 +60,32 @@ namespace Ferreteria_Frontend.Controllers
             }
             return View(rol);
         }
+
+
+        public IActionResult Edit()
+        {
+            ViewBag.PageTitle = "Editar un rol";
+            ViewBag.SubTitle = "Acceso";
+            return View();
+        }
+
+
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var data = new RolViewModel { Role_Id= id };
+            var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("EliminarRol", content2);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Error"] = "Error al eliminar el rol";
+                return RedirectToAction("Index");
+            }
+        }
     }
 }
