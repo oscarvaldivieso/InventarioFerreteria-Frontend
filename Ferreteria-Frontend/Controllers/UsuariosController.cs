@@ -201,6 +201,27 @@ namespace Ferreteria_Frontend.Controllers
         }
 
 
+        public async Task<IActionResult> ActivarDesactivarUsuario(int id)
+        {
+            var data = new UsuarioViewModel { Usua_Id = id };
+
+            var json = JsonConvert.SerializeObject(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync("ActivarDesactivarUsuario", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");  // Redirige a la lista de usuarios después de realizar la acción
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Error al activar/desactivar el usuario");
+                return RedirectToAction("Index");  // Redirige a la lista con un mensaje de error si no tuvo éxito
+            }
+        }
+
+
 
 
 

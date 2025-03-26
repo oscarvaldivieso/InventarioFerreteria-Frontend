@@ -240,29 +240,4 @@
 
 
 
-		function toggleEstado(userId, estadoActual) {
-		let nuevoEstado = !estadoActual;
-
-		fetch('/ActivarDesactivarUsuario', {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				Usua_Id: userId,
-				Usua_Estado: nuevoEstado
-			})
-		})
-		.then(response => response.json())
-		.then(data => {
-			if (data.codeStatus === 1) {
-				alert("Estado actualizado correctamente");
-				location.reload(); // Recargar la página para ver el cambio
-			} else {
-				alert("Error al actualizar el estado");
-			}
-		})
-		.catch(error => console.error("Error:", error));
-	}
-
 </script>
