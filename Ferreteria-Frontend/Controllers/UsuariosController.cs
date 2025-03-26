@@ -68,6 +68,8 @@ namespace Ferreteria_Frontend.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(UsuarioViewModel usu)
         {
+            ModelState.Remove("NuevaClave");
+            ModelState.Remove("ConfirmarClave");
             ModelState.Remove("Empl_NombreCompleto");
             ModelState.Remove("Role_Descripcion");
             usu.Usua_Creacion = 1;
@@ -126,6 +128,8 @@ namespace Ferreteria_Frontend.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, UsuarioViewModel usu)
         {
+            ModelState.Remove("ConfirmarClave");
+            ModelState.Remove("NuevaClave");
             ModelState.Remove("Empl_NombreCompleto");
             ModelState.Remove("Role_Descripcion");
             ModelState.Remove("Usua_Clave");
@@ -163,7 +167,7 @@ namespace Ferreteria_Frontend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RestablecerClave(int id, UsuarioViewModel model)
+        public async Task<IActionResult> RestablecerClave(int id, UsuarioViewModel item)
         {
 
             ModelState.Remove("Empl_Id");
@@ -173,16 +177,16 @@ namespace Ferreteria_Frontend.Controllers
             ModelState.Remove("Usua_EsAdmin");
             ModelState.Remove("Role_Descripcion");
             ModelState.Remove("Usua_Clave");
-            if (model == null || model.Usua_Id == 0 || string.IsNullOrEmpty(model.NuevaClave))
+            if (item == null || item.Usua_Id == 0 || string.IsNullOrEmpty(item.NuevaClave))
             {
                 ModelState.AddModelError(string.Empty, "Datos inválidos");
-                return PartialView("_Restablecer", model);
+                return PartialView("_Restablecer", item);
             }
 
             var json = JsonConvert.SerializeObject(new
             {
-                usua_Id = model.Usua_Id,
-                nuevaClave = model.NuevaClave
+                usua_Id = item.Usua_Id,
+                nuevaClave = item.NuevaClave
             });
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -191,12 +195,12 @@ namespace Ferreteria_Frontend.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id });
             }
             else
             {
                 ModelState.AddModelError(string.Empty, "Error al restablecer la clave");
-                return PartialView("_Restablecer", model);
+                return PartialView("_Restablecer", item);
             }
         }
 
