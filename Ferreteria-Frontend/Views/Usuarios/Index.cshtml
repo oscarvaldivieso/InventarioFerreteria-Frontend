@@ -97,8 +97,9 @@
 						<a class="dropdown-item" href="javascript:void(0);" onclick="editar(@item.Usua_Id)">
 							<i class="fa fa-edit"></i> Editar
 						</a>
-						<a class="dropdown-item" href="javascript:void(0);" onclick="editar(@item.Usua_Id)">
-							<i class="fa fa-edit"></i> Editar
+						<a class="dropdown-item" href="javascript:void(0);" onclick="toggleEstado(@item.Usua_Id, @item.Usua_Estado)">
+							<i class="fa @(item.Usua_Estado == true ? "fa-toggle-on" : "fa-toggle-off")"></i>
+							@(item.Usua_Estado == true ? "Desactivar" : "Activar")
 						</a>
 						<a class="dropdown-item" href="javascript:void(0);" onclick="restablecer(@item.Usua_Id)">
 							<i class="fa fa-trash-o"></i> Restablecer contraseña
@@ -187,7 +188,7 @@
 
 	function restablecer(id){
 		var url = "/Usuarios/RestablecerClave/" + id;
-		$("#modalbody").load(url, function(){
+		$("#modalBody").load(url, function(){
 			$("#modalRestablecer").modal({ backdrop: 'static', keyboard: false });
 			$("#modalRestablecer").modal("show");
 		});
@@ -233,4 +234,35 @@
 			}
 		})
 	}
+
+
+
+
+
+
+		function toggleEstado(userId, estadoActual) {
+		let nuevoEstado = !estadoActual;
+
+		fetch('/ActivarDesactivarUsuario', {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				Usua_Id: userId,
+				Usua_Estado: nuevoEstado
+			})
+		})
+		.then(response => response.json())
+		.then(data => {
+			if (data.codeStatus === 1) {
+				alert("Estado actualizado correctamente");
+				location.reload(); // Recargar la página para ver el cambio
+			} else {
+				alert("Error al actualizar el estado");
+			}
+		})
+		.catch(error => console.error("Error:", error));
+	}
+
 </script>

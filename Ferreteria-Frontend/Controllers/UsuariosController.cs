@@ -152,42 +152,55 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> RestablecerClave(int id)
         {
-                var data = new UsuarioViewModel { Usua_Id = id }; // Crear el modelo con el ID de usuario
+            if (id == 0)
+            {
+                ModelState.AddModelError(string.Empty, "ID de usuario inválido");
+                return PartialView("_Restablecer", new UsuarioViewModel());
+            }
+
+            var data = new UsuarioViewModel { Usua_Id = id }; // Crear el modelo con el ID de usuario
                 return PartialView("_Restablecer", data); // Devolver la vista parcial con el modelo
         }
 
         [HttpPost]
-        public async Task<IActionResult> RestablecerClave(RestablecerClaveViewModel model)
+        public async Task<IActionResult> RestablecerClave(int id, UsuarioViewModel model)
         {
-            if (ModelState.IsValid)
+
+            ModelState.Remove("Empl_Id");
+            ModelState.Remove("Empl_NombreCompleto");
+            ModelState.Remove("Empl_NombreCompleto");
+            ModelState.Remove("Role_Id");
+            ModelState.Remove("Usua_EsAdmin");
+            ModelState.Remove("Role_Descripcion");
+            ModelState.Remove("Usua_Clave");
+            if (model == null || model.Usua_Id == 0 || string.IsNullOrEmpty(model.NuevaClave))
             {
-                // Realizar la actualización de la contraseña en la base de datos.
-                // Puedes encriptar la nueva contraseña aquí si es necesario.
-
-                var usuario = new UsuarioViewModel
-                {
-                    Usua_Id = model.Usua_Id,
-                    Usua_Clave = model.NuevaClave // Asegúrate de encriptar la contraseña antes de guardarla
-                };
-
-                var json = JsonConvert.SerializeObject(usuario);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var response = await _httpClient.PutAsync("RestablecerClave", content); // Ajusta la URL para la actualización de la clave
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction("Index"); // O a la vista que prefieras
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Error al restablecer la contraseña.");
-                }
+                ModelState.AddModelError(string.Empty, "Datos inválidos");
+                return PartialView("_Restablecer", model);
             }
 
-            // Si la validación falla, devolver el formulario con errores
-            return PartialView("_Restablecer", model);
+            var json = JsonConvert.SerializeObject(new
+            {
+                usua_Id = model.Usua_Id,
+                nuevaClave = model.NuevaClave
+            });
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("RestablecerClave", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Error al restablecer la clave");
+                return PartialView("_Restablecer", model);
+            }
         }
+
+
 
 
 
