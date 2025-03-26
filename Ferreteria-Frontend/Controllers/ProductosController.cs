@@ -16,13 +16,15 @@ namespace Ferreteria_Frontend.Controllers
             _httpClient.BaseAddress = new Uri("https://localhost:7214/");
         }
 
+
+
         public async Task<IActionResult> ReporteProducto()
         {
             var response = await _httpClient.GetAsync("ProductoPorCategoria");
+            await CargarMedidas();
 
             await CargarMarcas();
             await CargarCategorias();
-            await CargarMedidas();
             await CargarProveedores();
             await ObtenerCategoriasAsync();
             await ObtenerMarcasAsync();
@@ -31,6 +33,7 @@ namespace Ferreteria_Frontend.Controllers
 
 
             ViewBag.Marc_Id = await ObtenerMarcasAsync();
+            ViewBag.Cate_Id = await ObtenerCategoriasAsync();
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();

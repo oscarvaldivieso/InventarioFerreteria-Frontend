@@ -7,8 +7,8 @@
 
 <div class="row">
     <div class="col-md-4">
-        <select id="filtroProductos" class="form-select" asp-items="ViewBag.Marc_Id">
-            <option value="">Seleccione Una Marca</option>
+        <select id="filtroProductos" class="form-select" asp-items="ViewBag.Cate_Id">
+            <option value="">Seleccione Una Categoría</option>
         </select>
     </div>
 </div>
@@ -48,16 +48,16 @@
                 doc.setFontSize(16);
                 doc.text("Listado de Productos", 60, 17, 0, 0);
 
-                var columnas = ["ID", "Descripción", "Marca", "Categoría", "Proveedor", "Modelo", "Cantidad", "Medida"];
+                var columnas = ["ID", "Descripción", "Marca", "Categoría", "Modelo", "Cantidad", "Medida", "Proveedor"];
                 var filas = data.productos.map(p => [
                     p.prod_Id,
                     p.prod_Descripcion,
                     p.Marc_Descripcion,
                     p.cate_Descripcion,
-                    p.prov_Nombre,
                     p.prod_Modelo,
                     p.prod_Cantidad,
-                    p.medi_Descripcion
+                    p.medi_Descripcion,
+                    p.prov_Nombre,
                 ]);
 
                 doc.autoTable({

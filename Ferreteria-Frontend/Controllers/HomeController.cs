@@ -38,38 +38,6 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    public IActionResult ReporteProducto()
-    {
-        ViewBag.PageTitle = "Reporte Productos";
-        ViewBag.SubTitle = "Producto";
-        ViewBag.UsuarioSesion = "YO";
-        return View();
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> ObtenerProductos(string filtro)
-    {
-        await CargarMarcas();
-        await CargarCategorias();
-        await CargarMedidas();
-        await CargarProveedores();
-        await ObtenerCategoriasAsync();
-        await ObtenerMarcasAsync();
-        await ObtenerMedidasAsync();
-        await ObtenerProveedoresAsync();
-
-
-        ViewBag.Marc_Id = await ObtenerMarcasAsync();
-        var response = await _httpClient.GetAsync($"ProductoPorCategoria?filtro={filtro}");
-        if (response.IsSuccessStatusCode)
-        {
-            var jsonString = await response.Content.ReadAsStringAsync();
-            var productos = JsonConvert.DeserializeObject<List<ProductoViewModel>>(jsonString);
-            return Json(new { productos });
-        }
-        return Json(new { productos = new List<ProductoViewModel>() });
-    }
-
     private async Task CargarMarcas()
     {
         var response = await _httpClient.GetAsync("ListarMarcas");
@@ -79,6 +47,28 @@ public class HomeController : Controller
             var marcas = JsonConvert.DeserializeObject<IEnumerable<MarcaViewModel>>(content);
             ViewBag.Marc_Id = new SelectList(marcas, "Marc_Id", "Marc_Descripcion");
         }
+    }
+
+    public async Task<IActionResult> ReporteProductoAsync()
+    {
+        ViewBag.PageTitle = "Reporte Productos";
+        ViewBag.SubTitle = "Producto";
+        ViewBag.UsuarioSesion = "YO";
+        await CargarCategorias();
+        return View();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ObtenerProductos(int filtro)
+    {
+        var response = await _httpClient.GetAsync($"/Productos/ObtenerProductosPorCategoria?Cate_Id={filtro}");
+        if (response.IsSuccessStatusCode)
+        {
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var productos = JsonConvert.DeserializeObject<List<ProductoViewModel>>(jsonString);
+            return Json(new { productos });
+        }
+        return Json(new { productos = new List<ProductoViewModel>() });
     }
 
     private async Task CargarCategorias()
