@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text;
 
 namespace Ferreteria_Frontend.Controllers;
 
@@ -54,14 +55,24 @@ public class HomeController : Controller
         ViewBag.PageTitle = "Reporte Productos";
         ViewBag.SubTitle = "Producto";
         ViewBag.UsuarioSesion = "YO";
+        await CargarMedidas();
+        await CargarMarcas();
         await CargarCategorias();
+        await CargarProveedores();
+
+        await ObtenerCategoriasAsync();
+        await ObtenerMarcasAsync();
+        await ObtenerMedidasAsync();
+        await ObtenerProveedoresAsync();
         return View();
     }
 
     [HttpGet]
     public async Task<IActionResult> ObtenerProductos(int filtro)
     {
-        var response = await _httpClient.GetAsync($"/Productos/ObtenerProductosPorCategoria?Cate_Id={filtro}");
+        var data = new { Cate_Id = filtro };
+        var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync("/ProductoPorCategoria", content2);
         if (response.IsSuccessStatusCode)
         {
             var jsonString = await response.Content.ReadAsStringAsync();
