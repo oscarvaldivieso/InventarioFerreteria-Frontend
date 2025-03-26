@@ -68,16 +68,16 @@
             </div>
             <!-- Cierra la fila después de dos campos -->
             <div class="row">
-                <div class="product-upload">
-                    <p>Product Image </p>
-                    <form class="dropzone dropzone-light" id="multiFileUploadA" action="/upload.php">
-                        <div class="dz-message needsclick">
-                            <svg>
-                                <use href="assets/svg/icon-sprite.svg#file-upload"></use>
-                            </svg>
-                            <h6>Drag your image here, or <a class="txt-primary" href="#!">browser</a></h6><span class="note needsclick">SVG,PNG,JPG or GIF</span>
-                        </div>
-                    </form>
+                <div class="col">
+                    <div class="mb-3">
+                        <label>Upload project file</label>
+                        <form class="dropzone" id="singleFileUpload" action="/upload.php">
+                            <div class="dz-message needsclick">
+                                <i class="icon-cloud-up"></i>
+                                <h6 class="f-w-600">Drop files here or click to upload.</h6><span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
 
@@ -90,3 +90,4 @@
 </form>
 
 <script src="~/js/dropzone/dropzone.js"></script>
+<script src="~/js/dropzone/dropzone-script.js"></script>
