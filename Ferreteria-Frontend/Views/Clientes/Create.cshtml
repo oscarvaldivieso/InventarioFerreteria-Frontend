@@ -5,6 +5,9 @@
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+
 
     <form asp-action="Create">
         <!-- Card Structure -->
@@ -14,17 +17,11 @@
                <div class="row"> 
                    <div class="form-group col-md-6">
                        <label asp-for="Clie_DNI" class="control-label"></label>
-                       <input asp-for="Clie_DNI" class="form-control" placeholder="Ingrese El DNI"  id="dni" maxlength="15" required/>
-                        <div class="invalid-feedback">Por favor rellena el campo </div>
-                        <div class="valid-feedback">Excelente </div>
-                        <span asp-validation-for="Clie_DNI" class="text-danger"></span>
+                       <input asp-for="Clie_DNI" class="form-control" id="dni" maxlength="15" required/>
                    </div>
                     <div class="form-group col-md-6">
                         <label asp-for="Clie_Nombre" class="control-label"></label>
                         <input asp-for="Clie_Nombre" class="form-control" id="validationCustom01" required/>
-                        <div class="invalid-feedback">Por favor rellena el campo </div>
-                        <div class="valid-feedback">Excelente </div>
-                        <span asp-validation-for="Clie_Nombre" class="text-danger"></span>
                         <br />
                     </div>
                </div>  <!-- Cierra la fila después de dos campos -->
@@ -32,15 +29,12 @@
                    <div class="form-group col-md-6">
                        <label asp-for="Clie_Apellido" class="control-label"></label>
                        <input asp-for="Clie_Apellido" class="form-control" id="validationCustom01" required/>
-                        <div class="invalid-feedback">Por favor rellena el campo </div>
-                        <div class="valid-feedback">Excelente </div>
-                        <span asp-validation-for="Clie_Apellido" class="text-danger"></span>
                    </div>
                     <div class="form-group col-md-6">
                         <label asp-for="Clie_Sexo" class="form-label"></label>
                         <div class="d-flex">
                             <div class="form-check me-3">
-                                <input type="radio" asp-for="Clie_Sexo" value="M" class="form-check-input" id="sexoM">
+                                <input type="radio" asp-for="Clie_Sexo" value="M" class="form-check-input" id="sexoM" required>
                                 <label class="form-check-label" for="sexoM">Masculino</label>
                             </div>
                             <div class="form-check">
@@ -55,14 +49,14 @@
                <div class="row">
                     <div class="form-group col-md-6">
                         <label asp-for="EsCv_Id" class="control-label"></label>
-                        <select asp-for="EsCv_Id" class="form-select" asp-items="ViewBag.EsCv_Id">
+                        <select asp-for="EsCv_Id" class="form-select" asp-items="ViewBag.EsCv_Id" required>
                             <option value="">Seleccione Un Estado Civil</option>
                         </select>
                         <span asp-validation-for="EsCv_Id" class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-6">
                         <label asp-for="Depa_Codigo" class="control-label"></label>
-                        <select asp-for="Depa_Codigo" class="form-select" asp-items="ViewBag.Depa_Codigo">
+                        <select asp-for="Depa_Codigo" class="form-select" asp-items="ViewBag.Depa_Codigo" required>
                             <option value="">Seleccione Un Departamento</option>
                         </select>
                         <br />
@@ -71,16 +65,13 @@
                <div class="row">
                    <div class="form-group col-md-6">
                        <label asp-for="Muni_Codigo" class="control-label"></label>
-                        <select asp-for="Muni_Codigo" class="form-select" asp-items="ViewBag.Muni_Codigo">
+                        <select asp-for="Muni_Codigo" class="form-select" asp-items="ViewBag.Muni_Codigo" required>
                             <option value="">Seleccione Un Municipio</option>
                         </select>
                    </div>
                    <div class="form-group col-md-6">
                        <label asp-for="Clie_Direccion" class="control-label"></label>
                        <input asp-for="Clie_Direccion" class="form-control" id="validationCustom01" required/>
-                        <div class="invalid-feedback">Por favor rellena el campo </div>
-                        <div class="valid-feedback">Excelente </div>
-                        <span asp-validation-for="Clie_Direccion" class="text-danger"></span>
                    </div>
                </div>  <!-- Cierra la fila después de dos campos -->
 
@@ -91,3 +82,12 @@
            </div>
        </div>
     </form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#dni').mask('0000-0000-0000', {reverse: true});
+        $('#dni').mask('0000-0000-0000');
+    });
+</script>

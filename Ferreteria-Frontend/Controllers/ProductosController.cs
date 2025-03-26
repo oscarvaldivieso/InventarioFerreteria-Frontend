@@ -176,6 +176,7 @@ namespace Ferreteria_Frontend.Controllers
                 var response = await _httpClient.PostAsync("InsertarProducto", content);
                 if (response.IsSuccessStatusCode)
                 {
+                    TempData["MensajeExito"] = "Creado Correctamente";
                     return RedirectToAction("Index");
                 }
                 else
@@ -243,6 +244,7 @@ namespace Ferreteria_Frontend.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
+                    TempData["MensajeExito"] = "Actualizado Correctamente";
                     return RedirectToAction("Index", new { id });
                 }
                 else
@@ -261,6 +263,7 @@ namespace Ferreteria_Frontend.Controllers
 
             if (response.IsSuccessStatusCode)
             {
+                TempData["MensajeExito"] = "Eliminado Correctamente";
                 return RedirectToAction("Index");
             }
             else

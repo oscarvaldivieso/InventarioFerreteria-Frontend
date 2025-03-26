@@ -16,6 +16,7 @@ namespace Ferreteria_Frontend.Controllers
             _httpClient = httpClientFactory.CreateClient();
             _httpClient.BaseAddress = new Uri("https://localhost:7214/");
         }
+
         private async Task ListarRoles()
         {
             var response = await _httpClient.GetAsync("ListarRoles");
@@ -38,7 +39,6 @@ namespace Ferreteria_Frontend.Controllers
             }
         }
 
-
         public async Task<IActionResult> Index()
         {
             ViewBag.PageTitle = "Usuarios";
@@ -59,7 +59,6 @@ namespace Ferreteria_Frontend.Controllers
             return View(new List<UsuarioViewModel>());
         }
 
-        
         public IActionResult Create()
         {
             return View();
@@ -84,6 +83,7 @@ namespace Ferreteria_Frontend.Controllers
                 var response = await _httpClient.PostAsync("InsertarUsuario", content);
                 if (response.IsSuccessStatusCode)
                 {
+                    TempData["MensajeExito"] = "Creado Correctamente";
                     return RedirectToAction("Index");
                 }
                 else
@@ -112,7 +112,7 @@ namespace Ferreteria_Frontend.Controllers
                     usu.Usua_Id = item.Usua_Id;
                     usu.Usua_Nombre = item.Usua_Nombre;
                     usu.Empl_Id = item.Empl_Id;
-                    usu.Role_Id = item.Role_Id; 
+                    usu.Role_Id = item.Role_Id;
                     usu.Usua_EsAdmin = item.Usua_EsAdmin;
                 }
                 await ListarRoles();
@@ -144,6 +144,7 @@ namespace Ferreteria_Frontend.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
+                    TempData["MensajeExito"] = "Actualizado Correctamente";
                     return RedirectToAction("Index", new { id });
                 }
                 else
@@ -163,51 +164,36 @@ namespace Ferreteria_Frontend.Controllers
             }
 
             var data = new UsuarioViewModel { Usua_Id = id }; // Crear el modelo con el ID de usuario
-                return PartialView("_Restablecer", data); // Devolver la vista parcial con el modelo
+            return PartialView("_Restablecer", data); // Devolver la vista parcial con el modelo
         }
 
         [HttpPost]
         public async Task<IActionResult> RestablecerClave(int id, UsuarioViewModel item)
         {
 
-            ModelState.Remove("Empl_Id");
-            ModelState.Remove("Empl_NombreCompleto");
-            ModelState.Remove("Empl_NombreCompleto");
-            ModelState.Remove("Role_Id");
-            ModelState.Remove("Usua_EsAdmin");
-            ModelState.Remove("Role_Descripcion");
-            ModelState.Remove("Usua_Clave");
-            if (item == null || item.Usua_Id == 0 || string.IsNullOrEmpty(item.NuevaClave))
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError(string.Empty, "Datos inválidos");
-                return PartialView("_Restablecer", item);
+                var json = JsonConvert.SerializeObject(item);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PutAsync("/RestablecerClave", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["MensajeExito"] = "Clave Actualizada Correctamente";
+                    return RedirectToAction("Index", new { id });
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Error al actualizar la clave");
+                }
             }
-
-            var json = JsonConvert.SerializeObject(new
-            {
-                usua_Id = item.Usua_Id,
-                nuevaClave = item.NuevaClave
-            });
-
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.PostAsync("RestablecerClave", content);
-
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index", new { id });
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Error al restablecer la clave");
-                return PartialView("_Restablecer", item);
-            }
+            return View(item);
         }
 
-
-        public async Task<IActionResult> ActivarDesactivarUsuario(int id, bool estado)
+        public async Task<IActionResult> ActivarDesactivarUsuario(int id)
         {
-            var data = new UsuarioViewModel { Usua_Id = id, Usua_Estado = estado };
+            var data = new UsuarioViewModel { Usua_Id = id };
 
             var json = JsonConvert.SerializeObject(data);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -216,6 +202,7 @@ namespace Ferreteria_Frontend.Controllers
 
             if (response.IsSuccessStatusCode)
             {
+                TempData["MensajeExito"] = "Ináctivado Correctamente";
                 return RedirectToAction("Index");  // Redirige a la lista de usuarios después de realizar la acción
             }
             else
@@ -224,14 +211,5 @@ namespace Ferreteria_Frontend.Controllers
                 return RedirectToAction("Index");  // Redirige a la lista con un mensaje de error si no tuvo éxito
             }
         }
-
-
-
-
-
-
-
-
-
     }
 }

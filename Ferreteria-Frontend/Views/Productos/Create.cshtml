@@ -13,11 +13,11 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label asp-for="Prod_Descripcion" class="control-label"></label>
-                    <input asp-for="Prod_Descripcion" class="form-control" />
+                    <input asp-for="Prod_Descripcion" class="form-control" required/>
                 </div>
                 <div class="form-group col-md-6">
                     <label asp-for="Marc_Id" class="control-label"></label>
-                    <select asp-for="Marc_Id" class="form-select" asp-items="ViewBag.Marc_Id">
+                    <select asp-for="Marc_Id" class="form-select" asp-items="ViewBag.Marc_Id" required>
                         <option value="">Seleccione Una Marca</option>
                     </select>
                     <br />
@@ -26,13 +26,13 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label asp-for="Cate_Id" class="control-label"></label>
-                    <select asp-for="Cate_Id" class="form-select" asp-items="ViewBag.Cate_Id">
+                    <select asp-for="Cate_Id" class="form-select" asp-items="ViewBag.Cate_Id" required>
                         <option value="">Seleccione Una Categoría</option>
                     </select>
                 </div>
                 <div class="form-group col-md-6">
                     <label asp-for="Prov_Id" class="control-label"></label>
-                    <select asp-for="Prov_Id" class="form-select" asp-items="ViewBag.Prov_Id">
+                    <select asp-for="Prov_Id" class="form-select" asp-items="ViewBag.Prov_Id" required>
                         <option value="">Seleccione Un Proveedor</option>
                     </select>
                     <br />
@@ -41,11 +41,11 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label asp-for="Prod_Modelo" class="control-label"></label>
-                    <input asp-for="Prod_Modelo" class="form-control" />
+                    <input asp-for="Prod_Modelo" class="form-control" required />
                 </div>
                 <div class="form-group col-md-6">
                     <label asp-for="Prod_Cantidad" class="control-label"></label>
-                    <input asp-for="Prod_Cantidad" class="form-control" />
+                    <input type="number" asp-for="Prod_Cantidad" class="form-control" required />
                     <br />
                 </div>
             </div>  <!-- Cierra la fila después de dos campos -->
@@ -56,7 +56,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label asp-for="Medi_Id" class="control-label"></label>
-                    <select asp-for="Medi_Id" class="form-select" asp-items="ViewBag.Medi_Id">
+                    <select asp-for="Medi_Id" class="form-select" asp-items="ViewBag.Medi_Id" required>
                         <option value="">Seleccione Una Medida</option>
                     </select>
                     <br />
@@ -65,7 +65,7 @@
 
             <div class="form-group d-flex justify-content-end mt-3">
                 <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
-                <a asp-action="Index" class="btn btn-danger"><i class="icofont icofont-close-circled"></i> Cancelar</a>
+                <a asp-action="Index" class="btn btn-rounded btn-outline-primary btn-md mx-2"><i class="icofont icofont-close-circled"></i> Cancelar</a>
             </div>
         </div>
     </div>

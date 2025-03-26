@@ -6,12 +6,9 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="EsCv_Id" />
         <div class="row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label asp-for="EsCv_Descripcion" class="control-label"></label>
-                <input asp-for="EsCv_Descripcion" class="form-control" />
-                    <div class="invalid-feedback">Por favor rellena el campo </div>
-                    <div class="valid-feedback">Excelente </div>
-                    <span asp-validation-for="EsCv_Descripcion" class="text-danger"></span>
+                <input asp-for="EsCv_Descripcion" class="form-control" required/>
                 </div>
         </div>  <!-- Cierra la fila después de dos campos -->
         

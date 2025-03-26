@@ -1,24 +1,18 @@
 ﻿@model Ferreteria_Frontend.Models.DepartamentoViewModel
 
 
-<form asp-action="Create" class="needs-validation custom-input was-validated">
+<form asp-action="Create">
 <div class="row">
     <div class="col-md-12">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
             <div class="form-group col-md-6">
                 <label asp-for="Depa_Codigo" class="control-label"></label>
-                <input asp-for="Depa_Codigo" class="form-control" id="validationCustom01" required />
-                <div class="invalid-feedback">Por favor rellena el campo </div>
-                <div class="valid-feedback">Excelente </div>
-                <span asp-validation-for="Depa_Codigo" class="text-danger"></span>
+                <input asp-for="Depa_Codigo" class="form-control" required />
             </div>
             <div class="form-group col-md-6">
                 <label asp-for="Depa_Descripcion" class="control-label"></label>
-                <input asp-for="Depa_Descripcion" class="form-control" id="validationCustom01" required />
-                <div class="invalid-feedback">Por favor rellena el campo </div>
-                <div class="valid-feedback">Excelente </div>
-                <span asp-validation-for="Depa_Descripcion" class="text-danger"></span>
+                <input asp-for="Depa_Descripcion" class="form-control" required />
             </div>
         </div>  
         
@@ -30,5 +24,3 @@
 </div>
 </form>
 
-
-<script src="/~/js/form-validation-custom.js"></script>

@@ -51,6 +51,7 @@ namespace Ferreteria_Frontend.Controllers
                 var response = await _httpClient.PostAsync("InsertarRol", content);
                 if (response.IsSuccessStatusCode)
                 {
+                    TempData["MensajeExito"] = "Creado Correctamente";
                     return RedirectToAction("Index");
                 }
                 else
@@ -79,6 +80,7 @@ namespace Ferreteria_Frontend.Controllers
 
             if (response.IsSuccessStatusCode)
             {
+                TempData["MensajeExito"] = "Eliminado Correctamente";
                 return RedirectToAction("Index");
             }
             else
