@@ -9,7 +9,7 @@
         <div class="card-body">
             <div class="list-product-header">
                 <div class="light-box"></div>
-                    <button type="button" class="btn btn-rounded btn-outline-primary btn-md" id="ModalNuevo"><i class="fa fa-plus"></i> Agregar municipio</a></button>
+                    <button type="button" class="btn btn-rounded btn-outline-primary btn-md" id="ModalNuevo"><i class="fa fa-plus"></i> Agregar Municipio</a></button>
             </div>
             <div class="list-product list-category">
                 <table class="table table-striped table-bordered" id="tablaIndex">
@@ -96,6 +96,23 @@
 <script src="~/js/sweet-alert/sweetalert.min.js"></script>
 <script src="~/js/js-datatables/simple-datatables@latest.js"></script>
 <script src="~/js/datatable/datatables/jquery.dataTables.min.js"></script>
+
+@if (TempData["MensajeExito"] != null)
+{
+    <script>
+        swal({
+            title: "¡Éxito!",
+            text: "@TempData["MensajeExito"]",
+            icon: "success",
+            buttons: {
+                confirm: {
+                    className : 'btn btn-success'
+                }
+            },
+        });
+    </script>
+}
+
 <script>
     $(document).ready(function(){
         $("#tablaIndex").DataTable();

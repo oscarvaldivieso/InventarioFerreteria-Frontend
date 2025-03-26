@@ -57,7 +57,7 @@
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Insertar un cargo</h5>
+                    <h5 class="modal-title">Insertar una categoria</h5>
                 </div>
                 <div class="modal-body">
                     <partial name="_Create" model="new Ferreteria_Frontend.Models.CategoriaViewModel()" />
@@ -70,7 +70,7 @@
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Editar un cargo</h5>
+                    <h5 class="modal-title">Editar un categoria</h5>
                 </div>
                 <div class="modal-body" id="modalBody">
                     <partial name="_Edit" model="new Ferreteria_Frontend.Models.CategoriaViewModel()" />
@@ -84,6 +84,23 @@
 <script src="~/js/sweet-alert/sweetalert.min.js"></script>
 <script src="~/js/js-datatables/simple-datatables@latest.js"></script>
 <script src="~/js/datatable/datatables/jquery.dataTables.min.js"></script>
+
+@if (TempData["MensajeExito"] != null)
+{
+    <script>
+        swal({
+            title: "¡Éxito!",
+            text: "@TempData["MensajeExito"]",
+            icon: "success",
+            buttons: {
+                confirm: {
+                    className : 'btn btn-success'
+                }
+            },
+        });
+    </script>
+}
+
 <script>
     $(document).ready(function(){
         $("#tablaIndex").DataTable();
