@@ -7,10 +7,12 @@
 
 <div class="row">
     <div class="col-md-4">
-        <select id="filtroProductos" class="form-select" asp-items="ViewBag.Cate_Id">
+        <select id="filtroProductos" class="form-select btn btn-warning rounded-pill dropdown-toggle show" asp-items="ViewBag.Cate_Id">
             <option value="">Seleccione Una Categoría</option>
         </select>
+        <br />
     </div>
+    <br>
 </div>
 <iframe id="pdfPreview" width="100%" height="500px"></iframe>
 
@@ -52,7 +54,7 @@
                 var filas = data.productos.map(p => [
                     p.prod_Id,
                     p.prod_Descripcion,
-                    p.Marc_Descripcion,
+                    p.marc_Descripcion,
                     p.cate_Descripcion,
                     p.prod_Modelo,
                     p.prod_Cantidad,
@@ -65,7 +67,7 @@
                     body: filas,
                     startY: 28,
                     theme: 'grid',
-                    headStyles: { fillColor: [104, 97, 206], textColor: [255, 255, 255], fontStyle: 'bold' },
+                    headStyles: { fillColor: [169, 143, 64], textColor: [255, 255, 255], fontStyle: 'bold' },
                     didDrawPage: function (data) {
                         var pageSize = doc.internal.pageSize;
                         var pageWidth = pageSize.width;

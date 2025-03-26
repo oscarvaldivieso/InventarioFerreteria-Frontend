@@ -51,6 +51,7 @@ namespace Ferreteria_Frontend.Models
 
         [NotMapped]
         public string? UsuaC_Nombre { get; set; }
+
         [NotMapped]
         public string? UsuaM_Nombre { get; set; }
 
