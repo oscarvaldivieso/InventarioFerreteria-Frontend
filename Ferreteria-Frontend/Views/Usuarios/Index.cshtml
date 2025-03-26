@@ -90,9 +90,24 @@
 					</div>
 					<span>@Html.DisplayFor(modelItem => item.Usua_Nombre)</span>
 					<p class="job">@Html.DisplayFor(modelItem => item.Role_Descripcion)</p>
-					<button>
+					<button data-bs-toggle="dropdown" aria-expanded="false" type="button">
 						Acciones
 					</button>
+					<ul class="dropdown-menu dropdown-block" style="">
+						<a class="dropdown-item" href="javascript:void(0);" onclick="editar(@item.Usua_Id)">
+							<i class="fa fa-edit"></i> Editar
+						</a>
+						<a class="dropdown-item" href="javascript:void(0);" onclick="toggleEstado(@item.Usua_Id, @item.Usua_Estado)">
+							<i class="fa @(item.Usua_Estado == true ? "fa-toggle-on" : "fa-toggle-off")"></i>
+							@(item.Usua_Estado == true ? "Desactivar" : "Activar")
+						</a>
+						<a class="dropdown-item" href="javascript:void(0);" onclick="restablecer(@item.Usua_Id)">
+							<i class="fa fa-trash-o"></i> Restablecer contraseña
+						</a>
+						<a class="dropdown-item" asp-action="Details" asp-route-id="@item.Usua_Id">
+							<i class="fa fa-info-circle"></i> Detalles
+						</a>
+					</ul>
 				</div>
 			}
 			<div class="card-user">
@@ -105,6 +120,7 @@
 				<button>
 					Acciones
 				</button>
+				
 			</div>
 		</div>
 	</div>
@@ -120,6 +136,34 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="modal fade modal-bookmark" id="modalEditar" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-hidden="true">
+		<div class="modal-dialog modal-md" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Editar un departamento</h5>
+				</div>
+				<div class="modal-body p-0" id="modalBody">
+					<partial name="_Edit" model="new Ferreteria_Frontend.Models.UsuarioViewModel()" />
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade modal-bookmark" id="modalRestablecer" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-hidden="true">
+		<div class="modal-dialog modal-md" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Restablecer contraseña</h5>
+				</div>
+				<div class="modal-body p-0" id="modalBody">
+					<partial name="_Restablecer" model="new Ferreteria_Frontend.Models.UsuarioViewModel()" />
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>
 
 
@@ -140,6 +184,26 @@
 	$("#btnCerrarCrear").click(function() {
 		$("#modalInsertar").modal('hide');
 		location.reload();
+	});
+
+	function restablecer(id){
+		var url = "/Usuarios/RestablecerClave/" + id;
+		$("#modalBody").load(url, function(){
+			$("#modalRestablecer").modal({ backdrop: 'static', keyboard: false });
+			$("#modalRestablecer").modal("show");
+		});
+	}
+
+	function editar(id) {
+		var url = '/Usuarios/Edit/' + id;
+		$("#modalBody").load(url, function () {
+			$("#modalEditar").modal({ backdrop: 'static', keyboard: false });
+			$("#modalEditar").modal('show');
+		});
+	}
+
+	$(document).on('click', '#btnCerrarEditar', function() {
+		$("#modalEditar").modal('hide');
 	});
 
 	function eliminar(id){
@@ -170,4 +234,10 @@
 			}
 		})
 	}
+
+
+
+
+
+
 </script>
