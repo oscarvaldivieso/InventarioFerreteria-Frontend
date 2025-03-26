@@ -5,6 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+<link rel="stylesheet" type="text/css" href="~/css/vendors/dropzone.css">
+
+
 <form asp-action="Create">
     <!-- Card Structure -->
     <div class="row">
@@ -61,7 +65,21 @@
                     </select>
                     <br />
                 </div>
-            </div>  <!-- Cierra la fila después de dos campos -->
+            </div>
+            <!-- Cierra la fila después de dos campos -->
+            <div class="row">
+                <div class="product-upload">
+                    <p>Product Image </p>
+                    <form class="dropzone dropzone-light" id="multiFileUploadA" action="/upload.php">
+                        <div class="dz-message needsclick">
+                            <svg>
+                                <use href="assets/svg/icon-sprite.svg#file-upload"></use>
+                            </svg>
+                            <h6>Drag your image here, or <a class="txt-primary" href="#!">browser</a></h6><span class="note needsclick">SVG,PNG,JPG or GIF</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
             <div class="form-group d-flex justify-content-end mt-3">
                 <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
@@ -70,3 +88,5 @@
         </div>
     </div>
 </form>
+
+<script src="~/js/dropzone/dropzone.js"></script>

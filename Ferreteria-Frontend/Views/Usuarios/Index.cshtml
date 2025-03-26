@@ -89,6 +89,11 @@
 					</div>
 					<div class="img">
 					</div>
+					@* <div class="status d-flex justify-content-center">
+						<span id="estado-@item.Usua_Id" class="badge rounded-pill @(item.Usua_Estado ? "badge-success" : "badge-danger") mt-3">
+							@(item.Usua_Estado ? true : false)
+						</span>
+					</div> *@
 					<div class="status d-flex justify-content-center">
 						@if (item.Usua_Estado == false)
 						{
@@ -191,6 +196,9 @@
 
 <script>
 
+		
+
+
 	$("#ModalNuevo").click(function () {
 		$("#modalInsertar").modal({ backdrop: 'static', keyboard: false });
 		$("#modalInsertar").modal('show');
@@ -200,6 +208,12 @@
 		$("#modalInsertar").modal('hide');
 		location.reload();
 	});
+
+	$("#btnCerrarRestablecer").click(function() {
+		$("#modalRestablecer").modal('hide');
+		location.reload();
+	});
+
 
 	function restablecer(id){
 		var url = "/Usuarios/RestablecerClave/" + id;
