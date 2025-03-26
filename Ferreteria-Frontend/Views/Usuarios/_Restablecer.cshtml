@@ -1,0 +1,38 @@
+﻿@model Ferreteria_Frontend.Models.UsuarioViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<div class="col-sm-12">
+    <div class="card mb-0" style="border-radius: 10px; overflow: hidden;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <form asp-action="RestablecerClave" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="Usua_Id" type="hidden" class="form-control" />
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="NuevaClave">Nueva Contraseña</label>
+                                <input asp-for="NuevaClave" type="password" class="form-control" required />
+                                <span asp-validation-for="NuevaClave" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ConfirmarClave">Confirmar Contraseña</label>
+                                <input asp-for="ConfirmarClave" type="password" class="form-control" required />
+                                <span asp-validation-for="ConfirmarClave" class="text-danger"></span>
+                            </div>
+                        </div>  <!-- Cierra la fila después de dos campos -->
+                        
+                        <div class="form-group d-flex justify-content-end mt-3">
+                            <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
+                            <button type="button" id="btnCerrarCrear" class="btn btn-rounded btn-outline-primary btn-md mx-2"><i class="icofont icofont-close-circled"></i> Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
