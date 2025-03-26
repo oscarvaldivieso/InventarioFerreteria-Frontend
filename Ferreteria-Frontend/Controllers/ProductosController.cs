@@ -16,16 +16,28 @@ namespace Ferreteria_Frontend.Controllers
             _httpClient.BaseAddress = new Uri("https://localhost:7214/");
         }
 
-        public async Task<IActionResult> ObtenerProductos()
+        public async Task<IActionResult> ReporteProducto()
         {
-            var response = await _httpClient.GetAsync("ListarProductos");
+            var response = await _httpClient.GetAsync("ProductoPorCategoria");
+
+            await CargarMarcas();
+            await CargarCategorias();
+            await CargarMedidas();
+            await CargarProveedores();
+            await ObtenerCategoriasAsync();
+            await ObtenerMarcasAsync();
+            await ObtenerMedidasAsync();
+            await ObtenerProveedoresAsync();
+
+
+            ViewBag.Marc_Id = await ObtenerMarcasAsync();
             if (response.IsSuccessStatusCode)
             {
-                var jsonString = await response.Content.ReadAsStringAsync();
-                var productos = JsonConvert.DeserializeObject<List<ProductoViewModel>>(jsonString);
-                return Json(productos);
+                var content = await response.Content.ReadAsStringAsync();
+                var productos = JsonConvert.DeserializeObject<IEnumerable<ProductoViewModel>>(content);
+                return View("ReporteProducto", productos);
             }
-            return Json(new List<ProductoViewModel>());
+            return View("ReporteProducto", new List<ProductoViewModel>());
         }
 
         private async Task CargarMarcas()

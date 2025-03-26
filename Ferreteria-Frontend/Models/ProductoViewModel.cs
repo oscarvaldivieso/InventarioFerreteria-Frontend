@@ -56,5 +56,14 @@ namespace Ferreteria_Frontend.Models
 
         [NotMapped]
         public string? Marc_Descripcion { get; set; }
+
+        [NotMapped]
+        public string? Medi_Descripcion { get; set; }
+
+        [NotMapped]
+        public string? Cate_Descripcion { get; set; }
+
+        [NotMapped]
+        public string? Prov_Nombre { get; set; }
     }
 }

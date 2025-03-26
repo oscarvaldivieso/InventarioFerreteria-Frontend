@@ -1,13 +1,15 @@
-﻿@model IEnumerable<Ferreteria_Frontend.Models.ProductoViewModel>
+@model IEnumerable<ProductoViewModel>
 
 @{
-    ViewData["Title"] = "Reporte de Productos";
+    ViewData["Title"] = "Reporte Producto";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="row">
     <div class="col-md-4">
-        <input type="text" id="filtroProductos" class="form-control" placeholder="Buscar por descripción" />
+        <select id="filtroProductos" class="form-select" asp-items="ViewBag.Marc_Id">
+            <option value="">Seleccione Una Marca</option>
+        </select>
     </div>
 </div>
 <iframe id="pdfPreview" width="100%" height="500px"></iframe>
@@ -42,20 +44,20 @@
                     creator: "Sistema de Gestión"
                 });
 
-                doc.addImage("@Url.Content("~/images/logo/logo.png")", "PNG", 30, 0, 29, 29);
+                doc.addImage("@Url.Content("~/images/Logo__2_-removebg-preview.png")", "PNG", 30, 0, 29, 29);
                 doc.setFontSize(16);
                 doc.text("Listado de Productos", 60, 17, 0, 0);
 
-                var columnas = ["ID", "Descripción", "ID Marca", "ID Categoría", "ID Proveedor", "Modelo", "Cantidad", "ID Medida"];
+                var columnas = ["ID", "Descripción", "Marca", "Categoría", "Proveedor", "Modelo", "Cantidad", "Medida"];
                 var filas = data.productos.map(p => [
                     p.prod_Id,
                     p.prod_Descripcion,
-                    p.marc_Id,
-                    p.cate_Id,
-                    p.prov_Id,
+                    p.Marc_Descripcion,
+                    p.cate_Descripcion,
+                    p.prov_Nombre,
                     p.prod_Modelo,
                     p.prod_Cantidad,
-                    p.medi_Id
+                    p.medi_Descripcion
                 ]);
 
                 doc.autoTable({
