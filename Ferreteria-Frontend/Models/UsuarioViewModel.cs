@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ferreteria_Frontend.Models
@@ -31,5 +32,17 @@ namespace Ferreteria_Frontend.Models
         public DateTime? Feca_Modificacion { get; set; }
 
         public bool? Usua_Estado { get; set; }
+
+
+        [NotMapped]
+        [Required(ErrorMessage = "Ingrese la nueva contraseña.")]
+        [DataType(DataType.Password)]
+        public string NuevaClave { get; set; }
+
+        [NotMapped]
+        [Required(ErrorMessage = "Confirme la nueva contraseña.")]
+        [DataType(DataType.Password)]
+        [Compare("NuevaClave", ErrorMessage = "Las contraseñas no coinciden.")]
+        public string ConfirmarClave { get; set; }
     }
 }

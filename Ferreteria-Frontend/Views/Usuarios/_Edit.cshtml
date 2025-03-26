@@ -126,49 +126,46 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    <form asp-action="Create" method="post">
+                    <form asp-action="Edit" >
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Usua_Id" />
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label asp-for="Usua_Nombre" class="control-label"></label>
                                 <input asp-for="Usua_Nombre" class="form-control" />
                             </div>
                             <div class="form-group col-md-6">
-                                <label asp-for="Usua_Clave" class="control-label"></label>
-                                <input asp-for="Usua_Clave" class="form-control" />
-                            </div>
-                        </div>  <!-- Cierra la fila después de dos campos -->
-                        <div class="row">
-                            <div class="form-group col-md-6">
                                 <label asp-for="Empl_Id" class="control-label"></label>
                                 <select asp-for="Empl_Id" class="form-select" asp-items="ViewBag.Empl_Id"></select>
                             </div>
+                        </div>  <!-- Cierra la fila después de dos campos -->
+                        <div class="row">
+                            
                             <div class="form-group col-md-6">
                                 <label asp-for="Role_Id" class="control-label"></label>
                                 <select asp-for="Role_Id" class="form-select" asp-items="ViewBag.Role_Id">
                                 </select>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="form-group col-md-6">
                                 <div class="mb-0 ">
                                     <label asp-for="Usua_EsAdmin" class="control-label"></label>
                                 </div>
-                                    <label class="switch">
-                                        <input asp-for="Usua_EsAdmin" class="cb" type="checkbox" />
-                                        <span class="toggle">
-                                            <span class="left">off</span>
-                                            <span class="right">on</span>
-                                        </span>
-                                    </label> 
-                                
-                            </div>
-                        </div>  <!-- Cierra la fila después de dos campos -->
+                                <label class="switch">
+                                    <input asp-for="Usua_EsAdmin" class="cb" type="checkbox" />
+                                    <span class="toggle">
+                                        <span class="left">off</span>
+                                        <span class="right">on</span>
+                                    </span>
+                                </label>
 
+                            </div>
+                        </div>
                         <div class="form-group d-flex justify-content-end mt-3">
                             <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
-                            <button type="button" id="btnCerrarCrear" class="btn btn-rounded btn-outline-primary btn-md mx-2"><i class="icofont icofont-close-circled"></i> Cancelar</button>
+                            <button type="button" id="btnCerrarEditar" class="btn btn-rounded btn-outline-primary btn-md mx-2"><i class="icofont icofont-close-circled"></i> Cancelar</button>
                         </div>
+
+                        
                     </form>
                 </div>
             </div>
@@ -176,49 +173,3 @@
     </div>
 </div>
 
-
-@* 
-<div class="select-box">
-    <div class="options-container active">
-        <div class="selection-option" style="display: block;">
-            <input class="radio" id="webdesigner" type="radio" name="category">
-            <label class="mb-0" for="webdesigner">web-designer</label>
-        </div>
-        <div class="selection-option" style="display: block;">
-            <input class="radio" id="film" type="radio" name="category">
-            <label class="mb-0" for="film">Film &amp; Animation</label>
-        </div>
-        <div class="selection-option" style="display: block;">
-            <input class="radio" id="software" type="radio" name="category">
-            <label class="mb-0" for="software">software-engineer</label>
-        </div>
-        <div class="selection-option" style="display: block;">
-            <input class="radio" id="art" type="radio" name="category">
-            <label class="mb-0" for="art">Art</label>
-        </div>
-        <div class="selection-option" style="display: block;">
-            <input class="radio" id="music" type="radio" name="category">
-            <label class="mb-0" for="music">Music</label>
-        </div>
-        <div class="selection-option" style="display: block;">
-            <input class="radio" id="travel" type="radio" name="category">
-            <label class="mb-0" for="travel">Travel &amp; Events</label>
-        </div>
-        <div class="selection-option" style="display: block;">
-            <input class="radio" id="sports" type="radio" name="category">
-            <label class="mb-0" for="sports">Sports</label>
-        </div>
-        <div class="selection-option" style="display: block;">
-            <input class="radio" id="news" type="radio" name="category">
-            <label class="mb-0" for="news">News &amp; Politics</label>
-        </div>
-        <div class="selection-option" style="display: block;">
-            <input class="radio" id="tutorials" type="radio" name="category">
-            <label class="mb-0" for="tutorials">Tutorials</label>
-        </div>
-    </div>
-    <div class="selected-box">Select Your Profession</div>
-    <div class="search-box">
-        <input type="text" placeholder="Start Typing...">
-    </div>
-</div> *@
