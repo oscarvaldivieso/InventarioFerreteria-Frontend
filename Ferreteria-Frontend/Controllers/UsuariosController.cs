@@ -205,9 +205,9 @@ namespace Ferreteria_Frontend.Controllers
         }
 
 
-        public async Task<IActionResult> ActivarDesactivarUsuario(int id)
+        public async Task<IActionResult> ActivarDesactivarUsuario(int id, bool estado)
         {
-            var data = new UsuarioViewModel { Usua_Id = id };
+            var data = new UsuarioViewModel { Usua_Id = id, Usua_Estado = estado };
 
             var json = JsonConvert.SerializeObject(data);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
