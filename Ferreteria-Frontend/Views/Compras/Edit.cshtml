@@ -1,0 +1,53 @@
+﻿@model Ferreteria_Frontend.Models.CompraViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form asp-action="Edit">
+<div class="row">
+    <div class="col-sm-12">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Comp_Id" />
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Prov_Id" class="control-label"></label>
+                    <select asp-for="Prov_Id" class="form-select" asp-items="ViewBag.Prov_Id" required disabled>
+                        <option value="">Seleccione Un Proveedor</option>
+                    </select>
+                </div>
+                <div class="form.group col-md-6">
+                    <label asp-for="Comp_Fecha" class="control-label"></label>
+                    <input type="date" asp-for="Comp_Fecha" class="form-control digits" required disabled/>
+                </div>
+            </div>  <!-- Cierra la fila después de dos campos -->
+            <hr />
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Prod_Id" class="control-label"></label>
+                    <select asp-for="Prod_Id" class="form-select" asp-items="ViewBag.Prod_Id" required>
+                        <option value="">Seleccione Un Producto</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="CpDe_Cantidad" class="control-label"></label>
+                    <input type="number" asp-for="CpDe_Cantidad" class="form-control" />
+                    <br />
+                </div>
+            </div>  <!-- Cierra la fila después de dos campos -->
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="CpDe_Precio" class="control-label"></label>
+                    <input asp-for="CpDe_Precio" class="form-control" />
+                </div>
+            </div>  <!-- Cierra la fila después de dos campos -->
+
+            <div class="form-group d-flex justify-content-end mt-3">
+                <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
+                <a asp-action="Index" class="btn btn-rounded btn-outline-primary btn-md mx-2"><i class="icofont icofont-close-circled"></i> Cancelar</a>
+            </div>
+    </div>
+</div>
+</form>

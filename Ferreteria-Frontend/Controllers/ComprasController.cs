@@ -180,8 +180,12 @@ namespace Ferreteria_Frontend.Controllers
                     comp.Prod_Id = item.Prod_Id;
                     comp.Prov_Id = item.Prov_Id;
                     comp.Comp_Fecha = item.Comp_Fecha;
+                    comp.CpDe_Cantidad = item.CpDe_Cantidad;
+                    comp.CpDe_Precio = item.CpDe_Precio;
                 }
 
+                await CargarProveedores();
+                await CargarProductos();
                 return View(comp);
             }
             else
@@ -191,7 +195,7 @@ namespace Ferreteria_Frontend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, CompraViewModel comp)
+        public async Task<IActionResult> Edit(int id, CompraViewModel comp, int Prod_Id, int CpDe_Cantidad, double CpDe_Precio)
         {
             comp.Usua_Modificacion = 1;
             comp.Feca_Modificacion = DateTime.Now;
@@ -201,17 +205,37 @@ namespace Ferreteria_Frontend.Controllers
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PutAsync("ActualizarCompra", content);
-
                 if (response.IsSuccessStatusCode)
                 {
-                    TempData["MensajeExito"] = "Actualizado Correctamente";
-                    return RedirectToAction("Index", new { id });
+                    CompraDetalleViewModel cpde = new CompraDetalleViewModel();
+                    cpde.Comp_Id = comp.Comp_Id;
+                    cpde.Prod_Id = Prod_Id;
+                    cpde.CpDe_Cantidad = CpDe_Cantidad;
+                    cpde.CpDe_Precio = CpDe_Precio;
+                    cpde.Usua_Modificacion = 1;
+                    cpde.Feca_Modificacion = DateTime.Now;
+
+                    var json2 = JsonConvert.SerializeObject(cpde);
+                    var content3 = new StringContent(json2, Encoding.UTF8, "application/json");
+
+                    var response2 = await _httpClient.PutAsync("ActualizarCompraDetalle", content3);
+                    if (response2.IsSuccessStatusCode)
+                    {
+                        TempData["MensajeExito"] = "Actualizado Correctamente";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Error al actualizar el detalle de la compra");
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Error al actualizar el cargo");
+                    ModelState.AddModelError(string.Empty, "Error al actualizar la compra");
                 }
             }
+            await CargarProveedores();
+            await CargarProductos();
             return View(comp);
         }
 
