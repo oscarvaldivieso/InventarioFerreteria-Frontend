@@ -1,4 +1,7 @@
 ﻿@model Ferreteria_Frontend.Models.ClienteViewModel
+@{
+    Context.Session.SetString("titulo", "Clientes");
+}
 
 <form asp-action="Edit" method="post">
     
