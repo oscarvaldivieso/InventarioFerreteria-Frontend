@@ -32,7 +32,7 @@ namespace Ferreteria_Frontend.Controllers
                 return View("Index"); 
             }
 
-            var loginData = new LoginViewModel{ Usuario = username, Contrasena = password };
+            var loginData = new LoginViewModel{ Usua_Nombre = username, Usua_Clave = password };
             var json = JsonConvert.SerializeObject(loginData);
             var content2 = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -49,25 +49,26 @@ namespace Ferreteria_Frontend.Controllers
                 {
                     foreach(var item in logins)
                     {
-                        login.Id = item.Id;
-                        login.Usuario = item.Usuario;
-                        login.Nombre_Empleado = item.Nombre_Empleado;
-                        login.Rol = item.Rol;
-                        login.Empleado_Id = item.Empleado_Id;
-                        login.Admin = item.Admin;
+                        login.Usua_Id = item.Usua_Id;
+                        login.Usua_Nombre = item.Usua_Nombre;
+                        login.Empl_NombreCompleto = item.Empl_NombreCompleto;
+                        login.Role_Id = item.Role_Id;
+                        login.Empl_Id = item.Empl_Id;
+                        login.Usua_EsAdmin = item.Usua_EsAdmin;
 
-                        HttpContext.Session.SetInt32("Id", item.Id);
-                        HttpContext.Session.SetString("Usuario", item.Usuario);
-                        HttpContext.Session.SetString("Empleado", item.Nombre_Empleado);
-                        HttpContext.Session.SetInt32("Rol", item.Rol);
-                        HttpContext.Session.SetString("esAdmin", item.Admin.ToString());
+                        HttpContext.Session.SetInt32("Id", item.Usua_Id);
+                        HttpContext.Session.SetString("Usuario", item.Usua_Nombre);
+                        HttpContext.Session.SetString("Empleado", item.Empl_NombreCompleto);
+                        HttpContext.Session.SetInt32("Rol_Id", item.Role_Id);
+                        HttpContext.Session.SetString("NombreEmpleado", item.Empl_NombreCompleto);
+                        HttpContext.Session.SetString("esAdmin", item.Usua_EsAdmin.ToString());
                         
                     }
 
 
-                    var data1 = new RolViewModel { Role_Id = (int)HttpContext.Session.GetInt32("Rol") };
+                    var data1 = new RolViewModel { Role_Id = (int)HttpContext.Session.GetInt32("Rol_Id") };
                     var content1 = new StringContent(JsonConvert.SerializeObject(data1), Encoding.UTF8, "application/json");
-                    var response1 = await _httpClient.PostAsync("BuscarRol", content1);
+                    var response1 = await _httpClient.PostAsync("BuscarPantallas", content1);
 
 
                     var rolExistenteContent = await response1.Content.ReadAsStringAsync();
@@ -97,6 +98,12 @@ namespace Ferreteria_Frontend.Controllers
                 TempData["Error"] = "Error";
                 return RedirectToAction("Index");
             }
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
         }
     }
 }

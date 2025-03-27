@@ -2,13 +2,13 @@
 {
     public class LoginViewModel
     {
-        public int Id { get; set; }
-        public string Usuario { get; set; }
-        public string Contrasena { get; set; }
+        public int Usua_Id { get; set; }
+        public string? Usua_Nombre { get; set; }
+        public string? Usua_Clave { get; set; }
 
-        public int Empleado_Id { get; set; }
-        public int Rol { get; set; }
-        public string Nombre_Empleado { get; set; }
-        public bool Admin { get; set; }
+        public int Empl_Id { get; set; }
+        public int Role_Id { get; set; }
+        public string? Empl_NombreCompleto { get; set; }
+        public bool Usua_EsAdmin { get; set; }
     }
 }
