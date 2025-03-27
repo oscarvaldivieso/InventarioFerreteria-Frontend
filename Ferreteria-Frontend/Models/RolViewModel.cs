@@ -20,5 +20,7 @@
 
         public int? Pant_Id { get; set; }
         public string? Pant_Descripcion { get; set; }
+
+        
     }
 }

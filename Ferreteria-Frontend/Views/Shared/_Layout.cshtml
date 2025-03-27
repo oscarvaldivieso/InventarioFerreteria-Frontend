@@ -42,6 +42,59 @@
     <link rel="stylesheet" href="~/css/responsive.css"> <!-- Responsive Styles -->
 </head>
 <body>
+
+    @{
+        string esAdmin ="";
+        bool Permitido = true;
+
+        if(Context.Session.GetInt32("Id") == null)
+        {
+            <script type="text/javascript">
+                window.location.href="/Login/Index"
+            </script>
+
+            var hola = 0;
+        }
+        else
+        {
+            esAdmin = Context.Session.GetString("esAdmin");
+
+
+            string[] pant1 = Context.Session.GetString("Pantallas").Split(',');
+            if (Context.Session.GetString("titulo") != "Home")
+            {
+                for (int i = 0; i < pant1.Length - 1; i++)
+                {
+                    if (pant1[i] == Context.Session.GetString("titulo") || esAdmin == "True")
+                    {
+                        Permitido = true;
+                        break;
+                    }
+                    else
+                    {
+                        Permitido = false;
+                    }
+                }
+                if (!Permitido)
+                {
+                    if (Context.Session.GetInt32("Rol_Id") != 0 && Context.Session.GetString("esAdmin") != "True")
+                    {
+                        <script>
+                            window.location.href = '/Home/Index';
+                        </script>
+
+                    }
+                    else
+                    {
+                        <script>
+                            window.location.href = '/Home/Index';
+                        </script>
+                    }
+
+                }
+            }
+        }
+    }
     <!-- loader starts-->
     <div class="loader-wrapper">
         <div class="loader">
@@ -95,7 +148,7 @@
                                 <li><a href="user-profile.html"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>My Profile</span></a></li>
                                 <li><a href="letter-box.html"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg><span>Inbox</span></a></li>
                                 <li> <a href="edit-profile.html"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Settings</span></a></li>
-                                <li><a class="btn btn-pill btn-outline-primary btn-sm" href="login.html">Log Out</a></li>
+                                <li><a class="btn btn-pill btn-outline-primary btn-sm" asp-controller="Login" asp-action="Logout">Log Out</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -131,219 +184,297 @@
                                 <a href="index.html" class="active"><img class="img-fluid" src="~/images/logo/logo-icon.png" alt=""></a>
                                 <div class="mobile-back text-end"> <span>Back </span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                             </li>
-                            <li class="pin-title sidebar-main-title">
-                                <div>
-                                    <h6>Pinned</h6>
-                                </div>
-                            </li>
-                            <li class="sidebar-main-title">
-                                <div>
-                                    <h6>Acceso</h6>
-                                </div>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Usuarios" asp-action="Index">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Usuarios</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Roles" asp-action="Index">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Roles</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            <li class="sidebar-main-title">
-                                <div>
-                                    <h6 class="lan-1">General</h6>
-                                </div>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Departamentos" asp-action="Index">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Departamentos</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav " asp-area="" asp-controller="Municipios" asp-action="Index">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Municipios</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="EstadosCiviles" asp-action="Index">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Estados Civiles</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Clientes" asp-action="Index">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Clientes</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            
-                            
-                           
-                            <li class="sidebar-main-title">
-                                <div>
-                                    <h6 >Ferreteria</h6>
-                                </div>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Empleados" asp-action="Index">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Empleados</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Cargos" asp-action="Index">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Cargos</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Sucursales" asp-action="Index">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Sucursales</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            <li class="sidebar-main-title">
-                                <div>
-                                    <h6>Productos</h6>
-                                </div>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Productos" asp-action="Index">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Productos</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Categorias" asp-action="Index">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Categorias</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Marcas" asp-action="Index">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Marcas</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Medidas" asp-action="Index">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Medidas</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            <li class="sidebar-main-title">
-                                <div>
-                                    <h6>Compras</h6>
-                                </div>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" href="file-manager.html">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Compras</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Proveedores" asp-action="Index">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Proveedores</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            <li class="sidebar-main-title">
-                                <div>
-                                    <h6>Ventas</h6>
-                                </div>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" href="file-manager.html">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#messages-2"></use>
-                                    </svg><span>Ventas</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                            <li class="sidebar-main-title">
-                                <div>
-                                    <h6>Reportes</h6>
-                                </div>
-                            </li>
-                            <li class="sidebar-list">
-                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Home" asp-action="ReporteProducto">
-                                    <svg class="stroke-icon">
-                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                    </svg>
-                                    <svg class="fill-icon">
-                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                    </svg><span>Reporte Producto</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
+
+
+                            @{
+                                esAdmin = Context.Session.GetString("esAdmin");
+
+                                if(Context.Session.GetInt32("Id") != null)
+                                {
+                                    string[] pant = Context.Session.GetString("Pantallas").Split(',');
+
+                                    bool tieneAcceso = pant.Contains("Usuarios") || pant.Contains("Roles") || esAdmin == "True";
+                                    bool tieneGeneral = pant.Contains("Departamentos") || pant.Contains("Municipios") || pant.Contains("Estados Civiles") || pant.Contains("Clientes") || esAdmin == "True";
+                                    bool tieneFerreteria = pant.Contains("Empleados") || pant.Contains("Cargos") || pant.Contains("Sucursales") || esAdmin == "True";
+                                    bool tieneProductos = pant.Contains("Productos") || pant.Contains("Categorias") || pant.Contains("Marcas") || pant.Contains("Medidas") || esAdmin == "True";
+                                    bool tieneCompras = pant.Contains("Compras") || pant.Contains("Proveedores") || esAdmin == "True";
+                                    bool tieneVentas = pant.Contains("Ventas") || esAdmin == "True";
+                                    bool tieneReportes = pant.Contains("Reporte Producto") || pant.Contains("Reporte Compra") || esAdmin == "True";
+
+                                    @if (tieneAcceso)
+                                    {
+                                        <li class="pin-title sidebar-main-title">
+                                            <div>
+                                                <h6>Pinned</h6>
+                                            </div>
+                                        </li>
+                                        <li class="sidebar-main-title">
+                                            <div>
+                                                <h6>Acceso</h6>
+                                            </div>
+                                        </li>
+                                        @if(pant.Contains("Usuarios") || esAdmin == "True"){
+                                            <li class="sidebar-list">
+                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Usuarios" asp-action="Index">
+                                                    <svg class="stroke-icon">
+                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                    </svg>
+                                                    <svg class="fill-icon">
+                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                    </svg><span>Usuarios</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                                </a>
+                                            </li>
+                                        }
+                                        @if (pant.Contains("Roles") || esAdmin == "True"){
+                                            <li class="sidebar-list">
+                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Roles" asp-action="Index">
+                                                    <svg class="stroke-icon">
+                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                    </svg>
+                                                    <svg class="fill-icon">
+                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                    </svg><span>Roles</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                    @if (tieneGeneral)
+                                    {
+                                        <li class="sidebar-main-title">
+                                            <div>
+                                                <h6 class="lan-1">General</h6>
+                                            </div>
+                                        </li>
+                                        @if (pant.Contains("Departamentos") || esAdmin == "True")
+                                        {
+                                            <li class="sidebar-list">
+                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Departamentos" asp-action="Index">
+                                                    <svg class="stroke-icon">
+                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                    </svg>
+                                                    <svg class="fill-icon">
+                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                    </svg><span>Departamentos</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                                </a>
+                                            </li>
+                                        }
+                                         @if(pant.Contains("Municipios") || esAdmin =="True")
+                                         {
+                                            <li class="sidebar-list">
+                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav " asp-area="" asp-controller="Municipios" asp-action="Index">
+                                                    <svg class="stroke-icon">
+                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                    </svg>
+                                                    <svg class="fill-icon">
+                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                    </svg><span>Municipios</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                                </a>
+                                            </li>
+                                         }
+                                        @if(pant.Contains("Estados Civiles")||esAdmin=="True"){
+                                            <li class="sidebar-list">
+                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="EstadosCiviles" asp-action="Index">
+                                                    <svg class="stroke-icon">
+                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                    </svg>
+                                                    <svg class="fill-icon">
+                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                    </svg><span>Estados Civiles</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                                </a>
+                                            </li>
+                                        }
+                                        
+                                        @if(pant.Contains("Clientes") || esAdmin =="True"){
+                                            <li class="sidebar-list">
+                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Clientes" asp-action="Index">
+                                                    <svg class="stroke-icon">
+                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                    </svg>
+                                                    <svg class="fill-icon">
+                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                    </svg><span>Clientes</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                    @if (tieneFerreteria)
+                                    {
+                                        <li class="sidebar-main-title">
+                                            <div>
+                                                <h6>Ferreteria</h6>
+                                            </div>
+                                        </li>
+                                        @if(pant.Contains("Empleados") || esAdmin =="True")
+                                        {
+                                            <li class="sidebar-list">
+                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Empleados" asp-action="Index">
+                                                    <svg class="stroke-icon">
+                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                    </svg>
+                                                    <svg class="fill-icon">
+                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                    </svg><span>Empleados</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                                </a>
+                                            </li>
+                                        }
+                                        @if(pant.Contains("Cargos") || esAdmin =="True"){
+                                            <li class="sidebar-list">
+                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Cargos" asp-action="Index">
+                                                    <svg class="stroke-icon">
+                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                    </svg>
+                                                    <svg class="fill-icon">
+                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                    </svg><span>Cargos</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                                </a>
+                                            </li>
+                                        }
+                                        @if(pant.Contains("Sucursales")|| esAdmin =="True"){
+                                            <li class="sidebar-list">
+                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Sucursales" asp-action="Index">
+                                                    <svg class="stroke-icon">
+                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                    </svg>
+                                                    <svg class="fill-icon">
+                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                    </svg><span>Sucursales</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                    @if (tieneProductos)
+                                    {
+                                        <li class="sidebar-main-title">
+                                            <div>
+                                                <h6>Productos</h6>
+                                            </div>
+                                        </li>
+                                        @if(pant.Contains("Productos")||esAdmin=="True"){
+                                            <li class="sidebar-list">
+                                            <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Productos" asp-action="Index">
+                                                <svg class="stroke-icon">
+                                                    <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                </svg>
+                                                <svg class="fill-icon">
+                                                    <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                </svg><span>Productos</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                            </a>
+                                        </li>
+                                        }
+                                        @if(pant.Contains("Categorias")||esAdmin=="True"){
+                                            <li class="sidebar-list">
+                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Categorias" asp-action="Index">
+                                                    <svg class="stroke-icon">
+                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                    </svg>
+                                                    <svg class="fill-icon">
+                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                    </svg><span>Categorias</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                                </a>
+                                            </li>
+                                        }
+                                        @if(pant.Contains("Marcas")||esAdmin=="True"){
+                                            <li class="sidebar-list">
+                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Marcas" asp-action="Index">
+                                                    <svg class="stroke-icon">
+                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                    </svg>
+                                                    <svg class="fill-icon">
+                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                    </svg><span>Marcas</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                                </a>
+                                            </li>
+                                        }
+                                        @if(pant.Contains("Medidas")||esAdmin=="True"){
+                                            <li class="sidebar-list">
+                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Medidas" asp-action="Index">
+                                                    <svg class="stroke-icon">
+                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                    </svg>
+                                                    <svg class="fill-icon">
+                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                    </svg><span>Medidas</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                    @if (tieneCompras)
+                                    {
+                                        <li class="sidebar-main-title">
+                                            <div>
+                                                <h6>Compras</h6>
+                                            </div>
+                                        </li>
+                                        @if(pant.Contains("Compras") || esAdmin =="True"){
+                                            <li class="sidebar-list">
+                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" href="file-manager.html">
+                                                    <svg class="stroke-icon">
+                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                    </svg>
+                                                    <svg class="fill-icon">
+                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                    </svg><span>Compras</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                                </a>
+                                            </li>
+                                        }
+                                        @if(pant.Contains("Proveedores") || esAdmin =="True"){
+                                            <li class="sidebar-list">
+                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Proveedores" asp-action="Index">
+                                                    <svg class="stroke-icon">
+                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                    </svg>
+                                                    <svg class="fill-icon">
+                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                    </svg><span>Proveedores</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                    @if (tieneVentas)
+                                    {
+                                        <li class="sidebar-main-title">
+                                            <div>
+                                                <h6>Ventas</h6>
+                                            </div>
+                                        </li>
+                                        @if(pant.Contains("Ventas") || esAdmin =="True"){
+
+                                        }
+                                        <li class="sidebar-list">
+                                            <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" href="file-manager.html">
+                                                <svg class="stroke-icon">
+                                                    <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                </svg>
+                                                <svg class="fill-icon">
+                                                    <use href="~/svg/icon-sprite.svg#messages-2"></use>
+                                                </svg><span>Ventas</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (tieneReportes)
+                                    {
+                                        <li class="sidebar-main-title">
+                                            <div>
+                                                <h6>Reportes</h6>
+                                            </div>
+                                        </li>
+                                        @if(pant.Contains("Reporte Producto") || esAdmin =="True"){
+                                            <li class="sidebar-list">
+                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Home" asp-action="ReporteProducto">
+                                                    <svg class="stroke-icon">
+                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                                    </svg>
+                                                    <svg class="fill-icon">
+                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                                    </svg><span>Reporte Producto</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                                </a>
+                                            </li>
+                                        }
+                                        
+                                    }
+
+                                }
+                            }
                     </div>
             </div>
         </div>
