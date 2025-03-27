@@ -5,6 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+<link rel="stylesheet" type="text/css" href="~/css/vendors/dropzone.css">
+
+
 <form asp-action="Create">
     <!-- Card Structure -->
     <div class="row">
@@ -61,7 +65,21 @@
                     </select>
                     <br />
                 </div>
-            </div>  <!-- Cierra la fila después de dos campos -->
+            </div>
+            <!-- Cierra la fila después de dos campos -->
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label>Upload project file</label>
+                        <form class="dropzone" id="singleFileUpload" action="/upload.php">
+                            <div class="dz-message needsclick">
+                                <i class="icon-cloud-up"></i>
+                                <h6 class="f-w-600">Drop files here or click to upload.</h6><span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
             <div class="form-group d-flex justify-content-end mt-3">
                 <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
@@ -70,3 +88,6 @@
         </div>
     </div>
 </form>
+
+<script src="~/js/dropzone/dropzone.js"></script>
+<script src="~/js/dropzone/dropzone-script.js"></script>

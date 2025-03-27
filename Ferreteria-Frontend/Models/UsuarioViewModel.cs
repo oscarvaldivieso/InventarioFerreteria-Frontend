@@ -31,7 +31,7 @@ namespace Ferreteria_Frontend.Models
 
         public DateTime? Feca_Modificacion { get; set; }
 
-        public bool? Usua_Estado { get; set; }
+        public bool Usua_Estado { get; set; }
 
 
         [NotMapped]

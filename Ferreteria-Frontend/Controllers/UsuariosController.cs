@@ -162,33 +162,32 @@ namespace Ferreteria_Frontend.Controllers
                 ModelState.AddModelError(string.Empty, "ID de usuario inválido");
                 return PartialView("_Restablecer", new UsuarioViewModel());
             }
-
+            HttpContext.Session.SetInt32("IdRestablecer", id);
+            ViewBag.Id = id; // Guardar el ID de usuario en una variable de vista
             var data = new UsuarioViewModel { Usua_Id = id }; // Crear el modelo con el ID de usuario
             return PartialView("_Restablecer", data); // Devolver la vista parcial con el modelo
         }
 
         [HttpPost]
-        public async Task<IActionResult> RestablecerClave(int id, UsuarioViewModel item)
+        public async Task<IActionResult> RestablecerClave(UsuarioViewModel item)
         {
+            int id = int.Parse(HttpContext.Session.GetInt32("IdRestablecer").ToString());
+            item.Usua_Id = id;
+            var json = JsonConvert.SerializeObject(item);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            if (ModelState.IsValid)
+            var response = await _httpClient.PostAsync("/RestablecerClave", content);
+
+            if (response.IsSuccessStatusCode)
             {
-                var json = JsonConvert.SerializeObject(item);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var response = await _httpClient.PutAsync("/RestablecerClave", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    TempData["MensajeExito"] = "Clave Actualizada Correctamente";
-                    return RedirectToAction("Index", new { id });
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Error al actualizar la clave");
-                }
+                TempData["MensajeExito"] = "Clave Actualizada Correctamente";
+                return RedirectToAction("Index", new { id });
             }
-            return View(item);
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Error al actualizar la clave");
+            }
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> ActivarDesactivarUsuario(int id)
