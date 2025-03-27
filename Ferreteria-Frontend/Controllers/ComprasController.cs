@@ -130,7 +130,7 @@ namespace Ferreteria_Frontend.Controllers
                     }
 
                     CompraDetalleViewModel cpde = new CompraDetalleViewModel();
-                    cpde.Comp_Id = comp.Comp_Id;
+                    cpde.Comp_Id = comp2.Comp_Id;
                     cpde.Prod_Id = Prod_Id;
                     cpde.CpDe_Cantidad = CpDe_Cantidad;
                     cpde.CpDe_Precio = CpDe_Precio;
@@ -138,14 +138,18 @@ namespace Ferreteria_Frontend.Controllers
                     cpde.Feca_Creacion = DateTime.Now;
 
                     var json2 = JsonConvert.SerializeObject(cpde);
-                    var content3 = new StringContent(json, Encoding.UTF8, "application/json");
+                    var content3 = new StringContent(json2, Encoding.UTF8, "application/json");
 
-                    var response2 = await _httpClient.PostAsync("InsertarCompraDetalle", content3);
+                    var response2 = await _httpClient.PostAsync("/InsertarCompraDetalle", content3);
 
                     if (response2.IsSuccessStatusCode)
                     {
+                        await CargarProveedores();
+                        await CargarProductos();
                         TempData["MensajeExito"] = "Creado Correctamente";
                     }
+                    await CargarProveedores();
+                    await CargarProductos();
 
                     TempData["MensajeExito"] = "Creado Correctamente";
                 }
@@ -154,6 +158,8 @@ namespace Ferreteria_Frontend.Controllers
                     ModelState.AddModelError(string.Empty, "Error al crear la compra");
                 }
             }
+            await CargarProveedores();
+            await CargarProductos();
             return View(comp);
         }
 

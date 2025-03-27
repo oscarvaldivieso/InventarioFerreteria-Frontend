@@ -22,22 +22,10 @@
                                     <span class="f-light f-w-600">Acciones</span>
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Prov_Id)
-                                </th>
-                                <th>
                                     @Html.DisplayNameFor(model => model.Prod_Id)
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.Comp_Fecha)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CpDe_Cantidad)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CpDe_Precio)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Prod_Descripcion)
                                 </th>
                             </tr>
                         </thead>
@@ -61,29 +49,10 @@
                                     </div>
                                 </td>
                                 <td>
-                                    @{
-                                        var proveedores = ViewBag.proveedores as List<Ferreteria_Frontend.Models.ProveedoresViewModel>;
-                                        var proveedor = proveedores?.FirstOrDefault(p => p.Prov_Id == item.Prov_Id);
-                                        if (proveedor != null)
-                                        {
-                                            @proveedor.Prov_Nombre
-                                        }
-                                    }
-                                </td>
-                                <td>
                                     @Html.DisplayFor(modelItem => item.Prod_Descripcion)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Comp_Fecha)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CpDe_Cantidad)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CpDe_Precio)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Prod_Descripcion)
                                 </td>
                             </tr>
                     }
@@ -95,42 +64,60 @@
     </div>
 </div>
 
+
 <script src="~/js/jquery.min.js"></script>
 <script src="~/js/sweet-alert/sweetalert.min.js"></script>
 <script src="~/js/js-datatables/simple-datatables@latest.js"></script>
 <script src="~/js/datatable/datatables/jquery.dataTables.min.js"></script>
+
+@if (TempData["MensajeExito"] != null)
+{
+    <script>
+        swal({
+            title: "¡Éxito!",
+            text: "@TempData["MensajeExito"]",
+            icon: "success",
+            buttons: {
+                confirm: {
+                    className : 'btn btn-success'
+                }
+            },
+        });
+    </script>
+}
+
 <script>
     $(document).ready(function(){
         $("#tablaIndex").DataTable();
     });
 
-	//eliminar
-    function eliminar(id) {
+    //eliminar
+    function eliminar(id){
         localStorage.setItem("Comp_Id", id);
-            swal({
-                icon : "error",
-                title: 'Eliminar',
-                text: "¿Deseas eliminar este registro?",
-                type: 'warning',
-                buttons:{
-                    confirm: {
-                        text : 'Si, eliminar',
-                        className : 'btn btn-danger'
-                    },
-                    cancel: {
-                        visible: true,
-                        className: 'btn btn-danger btn-border'
-                    }
+        swal({
+            icon:"error",
+            title:'Eliminar',
+            text: "¿Deseas eliminar este registro?",
+            type:'warning',
+            buttons:{
+                confirm:{
+                    text:'Si, eliminar',
+                    className: 'btn btn-danger'
+                },
+                cancel:{
+                    visible: true,
+                    className: 'btn btn-danger btn-outline'
                 }
-            }).then((Delete) => {
-                if (Delete) {
-                    var id = localStorage.getItem("Comp_Id");
-                    var url = "/Compras/Delete/" + id;
-                    location.href = url;
-                } else {
-                    swal.close();
-                }
-            });
+            }
+        }).then((Delete) => {
+            if(Delete){
+                var id = localStorage.getItem("Comp_Id");
+                var url = "/Compras/Delete/"+id;
+                location.href = url;
+            }
+            else{
+                swal.close();
+            }
+        })
     }
-    });
 </script>

@@ -5,6 +5,12 @@ namespace Ferreteria_Frontend.Models
 {
     public class CompraViewModel
     {
+        [NotMapped]
+        public DateOnly? Fecha_Inicio { get; set; }
+
+        [NotMapped]
+        public DateOnly? Fecha_Fin { get; set; }
+
         [Display(Name = "Id")]
         public int Comp_Id { get; set; }
 
