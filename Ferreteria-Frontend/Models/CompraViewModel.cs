@@ -1,0 +1,53 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Ferreteria_Frontend.Models
+{
+    public class CompraViewModel
+    {
+        [Display(Name = "Id")]
+        public int Comp_Id { get; set; }
+
+        [Display(Name = "Proveedor")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public int Prov_Id { get; set; }
+
+        [Display(Name = "Fecha Compra")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public DateOnly Comp_Fecha { get; set; }
+
+        public int Usua_Creacion { get; set; }
+
+        public DateTime Feca_Creacion { get; set; }
+
+        public int? Usua_Modificacion { get; set; }
+
+        public DateTime? Feca_Modificacion { get; set; }
+
+        public bool? Comp_Estado { get; set; }
+
+        [NotMapped]
+
+        public int? CpDe_Id { get; set; }
+
+        [NotMapped]
+        public int? Prod_Id { get; set; }
+
+        [NotMapped]
+        public int? CpDe_Cantidad { get; set; }
+
+        [NotMapped]
+        public double? CpDe_Precio { get; set; }
+
+        [NotMapped]
+        public bool? CpDe_Estado { get; set; }
+
+        [NotMapped]
+        public string? Prod_Descripcion { get; set; }
+        [NotMapped]
+        public string? Prov_Nombre { get; set; }
+
+        [NotMapped]
+        public List<CompraDetalleViewModel> CompraDetalles { get; set; }
+    }
+}

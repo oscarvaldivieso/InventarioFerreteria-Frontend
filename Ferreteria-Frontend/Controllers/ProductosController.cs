@@ -16,8 +16,6 @@ namespace Ferreteria_Frontend.Controllers
             _httpClient.BaseAddress = new Uri("https://localhost:7214/");
         }
 
-
-
         public async Task<IActionResult> ReporteProducto()
         {
             var response = await _httpClient.GetAsync("ProductoPorCategoria");

@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text;
+using Azure.Identity;
 
 namespace Ferreteria_Frontend.Controllers;
 
@@ -39,6 +40,8 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
+
+    //TODO DEL REPORTE DE PRODUCTOS
     private async Task CargarMarcas()
     {
         var response = await _httpClient.GetAsync("ListarMarcas");
@@ -157,5 +160,56 @@ public class HomeController : Controller
             return JsonConvert.DeserializeObject<List<ProveedoresViewModel>>(jsonString);
         }
         return new List<ProveedoresViewModel>();
+    }
+
+    //TODO SOBRE EL REPORTE DE COMPRAS
+    public async Task<IActionResult> ReporteCompra()
+    {
+        ViewBag.PageTitle = "Reporte Compra";
+        ViewBag.SubTitle = "Compra";
+        ViewBag.UsuarioSesion = "YO";
+        await CargarCategorias();
+        await CargarProveedores();
+
+        return View();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ObtenerCompra(DateTime fechaInicio, DateTime fechaFin)
+    {
+        var data = new { Fecha_Inicio = fechaInicio, Fecha_Fin = fechaFin };
+        var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync("/BuscarFecha", content2);
+        if (response.IsSuccessStatusCode)
+        {
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var compras = JsonConvert.DeserializeObject<List<CompraViewModel>>(jsonString);
+            return Json(new { compras });
+        }
+        return Json(new { compras = new List<CompraViewModel>() });
+    }
+
+
+
+    public async Task<List<ProductoViewModel>> ObtenerProductosAsync()
+    {
+        var response = await _httpClient.GetAsync("ListarProductos");
+        if (response.IsSuccessStatusCode)
+        {
+            var jsonString = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<List<ProductoViewModel>>(jsonString);
+        }
+        return new List<ProductoViewModel>();
+    }
+
+    private async Task CargarProductos()
+    {
+        var response = await _httpClient.GetAsync("ListarProductos");
+        if (response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            var productos = JsonConvert.DeserializeObject<IEnumerable<ProductoViewModel>>(content);
+            ViewBag.Prod_Id = new SelectList(productos, "Prod_Id", "Prod_Descripcion");
+        }
     }
 }
