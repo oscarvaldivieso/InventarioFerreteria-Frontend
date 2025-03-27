@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using NuGet.Protocol;
 using System.Text;
 
 namespace Ferreteria_Frontend.Controllers
@@ -20,7 +21,6 @@ namespace Ferreteria_Frontend.Controllers
         {
             var response = await _httpClient.GetAsync("BuscarFecha");
 
-            await ObtenerProveedoresAsync();
             await ObtenerProductosAsync();
 
             if (response.IsSuccessStatusCode)
@@ -30,17 +30,6 @@ namespace Ferreteria_Frontend.Controllers
                 return View("ReporteCompra", productos);
             }
             return View("ReporteCompra", new List<CompraViewModel>());
-        }
-
-        public async Task<List<ProveedoresViewModel>> ObtenerProveedoresAsync()
-        {
-            var response = await _httpClient.GetAsync("ListarProveedores");
-            if (response.IsSuccessStatusCode)
-            {
-                var jsonString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<ProveedoresViewModel>>(jsonString);
-            }
-            return new List<ProveedoresViewModel>();
         }
 
         public async Task<List<ProductoViewModel>> ObtenerProductosAsync()
@@ -54,17 +43,6 @@ namespace Ferreteria_Frontend.Controllers
             return new List<ProductoViewModel>();
         }
 
-        private async Task CargarProveedores()
-        {
-            var response = await _httpClient.GetAsync("ListarProveedores");
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                var proveedores = JsonConvert.DeserializeObject<IEnumerable<ProveedoresViewModel>>(content);
-                ViewBag.Prov_Id = new SelectList(proveedores, "Prov_Id", "Prov_Nombre");
-            }
-        }
-
         private async Task CargarProductos()
         {
             var response = await _httpClient.GetAsync("ListarProductos");
@@ -76,6 +54,28 @@ namespace Ferreteria_Frontend.Controllers
             }
         }
 
+        private async Task CargarProveedores()
+        {
+            var response = await _httpClient.GetAsync("ListarProveedores");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var proveedores = JsonConvert.DeserializeObject<IEnumerable<ProveedoresViewModel>>(content);
+                ViewBag.Prov_Id = new SelectList(proveedores, "Prov_Id", "Prov_Nombre");
+            }
+        }
+
+        public async Task<List<ProveedoresViewModel>> ObtenerProveedoresAsync()
+        {
+            var response = await _httpClient.GetAsync("/ListarProveedores");
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<ProveedoresViewModel>>(jsonString);
+            }
+            return new List<ProveedoresViewModel>();
+        }
+
         public async Task<IActionResult> Index()
         {
             ViewBag.PageTitle = "Compras";
@@ -83,6 +83,8 @@ namespace Ferreteria_Frontend.Controllers
 
             ViewBag.proveedores = await ObtenerProveedoresAsync();
             ViewBag.productos = await ObtenerProductosAsync();
+            await CargarProveedores();
+            await CargarProductos();
             var response = await _httpClient.GetAsync("ListarCompras");
 
             if (response.IsSuccessStatusCode)
@@ -94,30 +96,57 @@ namespace Ferreteria_Frontend.Controllers
             return View(new List<CompraViewModel>());
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.PageTitle = "Crear Comprar";
+            ViewBag.SubTitle = "Compra";
+
+            await CargarProveedores();
+            await CargarProductos();
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CompraViewModel comp, CompraDetalleViewModel cpde)
+        public async Task<IActionResult> Create(CompraViewModel comp, int Prod_Id, int CpDe_Cantidad, double CpDe_Precio)
         {
             comp.Usua_Creacion = 1;
             comp.Feca_Creacion = DateTime.Now;
-            cpde.Usua_Creacion = 1;
-            cpde.Feca_Creacion = DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 var json = JsonConvert.SerializeObject(comp);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                
-                var json2 = JsonConvert.SerializeObject(cpde);
-                var content2 = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync("InsertarCompra", content);
-                var response2 = await _httpClient.PostAsync("InsertarCompraDetalle", content2);
-                if (response.IsSuccessStatusCode || response2.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
+                    var content2 = await response.Content.ReadAsStringAsync();
+                    List<CompraViewModel> compras = JsonConvert.DeserializeObject<List<CompraViewModel>>(content2);
+
+                    CompraViewModel comp2 = new CompraViewModel();
+                    foreach (var item in compras)
+                    {
+                        comp2.Comp_Id = item.Comp_Id;
+                    }
+
+                    CompraDetalleViewModel cpde = new CompraDetalleViewModel();
+                    cpde.Comp_Id = comp.Comp_Id;
+                    cpde.Prod_Id = Prod_Id;
+                    cpde.CpDe_Cantidad = CpDe_Cantidad;
+                    cpde.CpDe_Precio = CpDe_Precio;
+                    cpde.Usua_Creacion = 1;
+                    cpde.Feca_Creacion = DateTime.Now;
+
+                    var json2 = JsonConvert.SerializeObject(cpde);
+                    var content3 = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    var response2 = await _httpClient.PostAsync("InsertarCompraDetalle", content3);
+
+                    if (response2.IsSuccessStatusCode)
+                    {
+                        TempData["MensajeExito"] = "Creado Correctamente";
+                    }
+
                     TempData["MensajeExito"] = "Creado Correctamente";
                 }
                 else
@@ -145,7 +174,6 @@ namespace Ferreteria_Frontend.Controllers
                     comp.Prod_Id = item.Prod_Id;
                     comp.Prov_Id = item.Prov_Id;
                     comp.Comp_Fecha = item.Comp_Fecha;
-
                 }
 
                 return View(comp);

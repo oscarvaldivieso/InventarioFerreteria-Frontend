@@ -14,7 +14,7 @@ namespace Ferreteria_Frontend.Models
 
         [Display(Name = "Fecha Compra")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public DateOnly Comp_Fecha { get; set; }
+        public DateTime Comp_Fecha { get; set; }
 
         public int Usua_Creacion { get; set; }
 
@@ -27,27 +27,32 @@ namespace Ferreteria_Frontend.Models
         public bool? Comp_Estado { get; set; }
 
         [NotMapped]
-
         public int? CpDe_Id { get; set; }
 
         [NotMapped]
+        [Display(Name = "Producto")]
         public int? Prod_Id { get; set; }
 
         [NotMapped]
+        [Display(Name = "Cantidad")]
         public int? CpDe_Cantidad { get; set; }
 
         [NotMapped]
+        [Display(Name = "Precio")]
         public double? CpDe_Precio { get; set; }
 
         [NotMapped]
         public bool? CpDe_Estado { get; set; }
 
         [NotMapped]
+        [Display(Name = "Producto")]
         public string? Prod_Descripcion { get; set; }
-        [NotMapped]
-        public string? Prov_Nombre { get; set; }
 
         [NotMapped]
-        public List<CompraDetalleViewModel> CompraDetalles { get; set; }
+        [Display(Name = "Proveedor")]
+        public string? Prov_Nombre { get; set; }
+
+        //[NotMapped]
+        //public List<CompraDetalleViewModel> CompraDetalles { get; set; }
     }
 }
