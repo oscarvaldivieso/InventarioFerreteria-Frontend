@@ -19,54 +19,55 @@
 	}
 
 	.card-user .card-border-top {
-		width: 60%;
-		height: 3%;
-		background: #6b64f3;
-		margin: auto;
-		border-radius: 0px 0px 15px 15px;
+	width: 60%;
+	height: 3%;
+	background: #6b64f3;
+	margin: auto;
+	border-radius: 0px 0px 15px 15px;
 	}
 
-	.card-user span {
-		font-weight: 600;
-		color: white;
-		text-align: center;
-		display: block;
-		padding-top: 10px;
-		font-size: 16px;
+	.card-user .text {
+	font-weight: 600;
+	color: white;
+	text-align: center;
+	display: block;
+	padding-top: 10px;
+	font-size: 16px;
 	}
 
 	.card-user .job {
-		font-weight: 400;
-		color: white;
-		display: block;
-		text-align: center;
-		padding-top: 3px;
-		font-size: 12px;
+	font-weight: 400;
+	color: white;
+	display: block;
+	text-align: center;
+	padding-top: 3px;
+	font-size: 12px;
 	}
 
 	.card-user .img {
-		width: 70px;
-		height: 80px;
-		background: #6b64f3;
-		border-radius: 15px;
-		margin: auto;
-		margin-top: 25px;
+	width: 70px;
+	height: 80px;
+	background: #6b64f3;
+	border-radius: 15px;
+	margin: auto;
+	margin-top: 15px;
 	}
 
 	.card-user button {
-		padding: 8px 25px;
+		padding: 8px 20px;
 		display: block;
 		margin: auto;
 		border-radius: 8px;
 		border: none;
-		margin-top: 30px;
+		margin-top: 5px;
 		background: #6b64f3;
 		color: white;
 		font-weight: 600;
+		font-size: 12px;
 	}
 
 	.card-user button:hover {
-		background: #534bf3;
+	background: #534bf3;
 	}
 </style>
 
@@ -88,8 +89,23 @@
 					</div>
 					<div class="img">
 					</div>
-					<span>@Html.DisplayFor(modelItem => item.Usua_Nombre)</span>
-					<p class="job">@Html.DisplayFor(modelItem => item.Role_Descripcion)</p>
+					@* <div class="status d-flex justify-content-center">
+						<span id="estado-@item.Usua_Id" class="badge rounded-pill @(item.Usua_Estado ? "badge-success" : "badge-danger") mt-3">
+							@(item.Usua_Estado ? true : false)
+						</span>
+					</div> *@
+					<div class="status d-flex justify-content-center">
+						@if (item.Usua_Estado == false)
+						{
+							<span class="badge rounded-pill badge-danger mt-3">Inactivo</span>
+						}
+						else
+						{
+							<span class="badge rounded-pill badge-success mt-3">Activo</span>
+						}
+					</div>
+					<span class="text">@Html.DisplayFor(modelItem => item.Usua_Nombre)</span>
+					<p class="job mb-0">@Html.DisplayFor(modelItem => item.Role_Descripcion)</p>
 					<button data-bs-toggle="dropdown" aria-expanded="false" type="button">
 						Acciones
 					</button>
@@ -102,7 +118,7 @@
 							@(item.Usua_Estado == true ? "Desactivar" : "Activar")
 						</a>
 						<a class="dropdown-item" href="javascript:void(0);" onclick="restablecer(@item.Usua_Id)">
-							<i class="fa fa-trash-o"></i> Restablecer contraseña
+							<i class="fa fa-lock"></i> Restablecer contraseña
 						</a>
 						<a class="dropdown-item" asp-action="Details" asp-route-id="@item.Usua_Id">
 							<i class="fa fa-info-circle"></i> Detalles
@@ -110,18 +126,6 @@
 					</ul>
 				</div>
 			}
-			<div class="card-user">
-				<div class="card-border-top">
-				</div>
-				<div class="img">
-				</div>
-				<span>Angel DiMaria</span>
-				<p class="job">Albañil</p>
-				<button>
-					Acciones
-				</button>
-				
-			</div>
 		</div>
 	</div>
 	<div class="modal fade modal-bookmark" id="modalInsertar" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-hidden="true">
@@ -192,6 +196,9 @@
 
 <script>
 
+		
+
+
 	$("#ModalNuevo").click(function () {
 		$("#modalInsertar").modal({ backdrop: 'static', keyboard: false });
 		$("#modalInsertar").modal('show');
@@ -201,6 +208,12 @@
 		$("#modalInsertar").modal('hide');
 		location.reload();
 	});
+
+	$("#btnCerrarRestablecer").click(function() {
+		$("#modalRestablecer").modal('hide');
+		location.reload();
+	});
+
 
 	function restablecer(id){
 		var url = "/Usuarios/RestablecerClave/" + id;
