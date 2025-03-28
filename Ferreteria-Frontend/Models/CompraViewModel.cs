@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ferreteria_Frontend.Models
@@ -52,7 +52,7 @@ namespace Ferreteria_Frontend.Models
 
         [NotMapped]
         [Display(Name = "Producto")]
-        public string Prod_Descripcion { get; set; }
+        public string? Prod_Descripcion { get; set; }
 
         [NotMapped]
         [Display(Name = "Proveedor")]
@@ -65,6 +65,6 @@ namespace Ferreteria_Frontend.Models
         public string? UsuaM_Nombre { get; set; }
 
         [NotMapped]
-        public List<CompraDetalleViewModel> Detalles { get; set; } = new List<CompraDetalleViewModel>();
+        public List<CompraDetalleViewModel>? Detalles { get; set; }
     }
 }

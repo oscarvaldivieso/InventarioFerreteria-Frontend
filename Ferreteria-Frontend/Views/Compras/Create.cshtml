@@ -6,7 +6,6 @@
     Context.Session.SetString("titulo", "Compras");
 }
 
-<!-- Card Structure -->
 <form asp-action="Create" method="post">
     <div class="row">
         <div class="col-sm-12">
@@ -18,7 +17,7 @@
                         <option value="">Seleccione Un Proveedor</option>
                     </select>
                 </div>
-                <div class="form.group col-md-6">
+                <div class="form-group col-md-6">
                     <label asp-for="Comp_Fecha" class="control-label"></label>
                     <input type="date" asp-for="Comp_Fecha" class="form-control digits" required />
                 </div>
@@ -60,10 +59,10 @@
                                 <th>Producto</th>
                                 <th>Cantidad</th>
                                 <th>Precio</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="detalleTableBody">
-                            <!-- Aquí se agregarán las filas dinámicamente -->
                         </tbody>
                     </table>
                 </div>
