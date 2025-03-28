@@ -152,6 +152,21 @@
         });
     </script>
 }
+@if (TempData["MensajeError"] != null)
+{
+    <script>
+        swal({
+            title: "¡Advertencia!",
+            text: "@TempData["MensajeError"]",
+            icon: "warning",
+            buttons: {
+                confirm: {
+                    className : 'btn btn-waring'
+                }
+            },
+        });
+    </script>
+}
 
 <script>
     $(document).ready(function(){

@@ -39,25 +39,33 @@ namespace Ferreteria_Frontend.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CategoriaViewModel cate)
         {
-            cate.Usua_Creacion = 1;
-            cate.Feca_Creacion = DateTime.Now;
-            if (ModelState.IsValid)
+            try
             {
-                var json = JsonConvert.SerializeObject(cate);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                cate.Usua_Creacion = 1;
+                cate.Feca_Creacion = DateTime.Now;
+                if (ModelState.IsValid)
+                {
+                    var json = JsonConvert.SerializeObject(cate);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync("InsertarCategoria", content);
-                if (response.IsSuccessStatusCode)
-                {
-                    TempData["MensajeExito"] = "Creado Correctamente";
-                    return RedirectToAction("Index");
+                    var response = await _httpClient.PostAsync("InsertarCategoria", content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        TempData["MensajeExito"] = "Creado Correctamente";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["MensajeError"] = "Error al crear la categoria";
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Error al crear la categoria");
-                }
+                return View(cate);
             }
-            return View(cate);
+            catch (Exception ex)
+            {
+                TempData["MensajeError"] = "Error al crear la categoria";
+                return RedirectToAction("Index");
+            }
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -88,26 +96,34 @@ namespace Ferreteria_Frontend.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, CategoriaViewModel cate)
         {
-            cate.Usua_Modificacion = 1;
-            cate.Feca_Modificacion = DateTime.Now;
-            if (ModelState.IsValid)
+            try
             {
-                var json = JsonConvert.SerializeObject(cate);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var response = await _httpClient.PutAsync("/ActualizarCategoria", content);
-
-                if (response.IsSuccessStatusCode)
+                cate.Usua_Modificacion = 1;
+                cate.Feca_Modificacion = DateTime.Now;
+                if (ModelState.IsValid)
                 {
-                    TempData["MensajeExito"] = "Actualizado Correctamente";
-                    return RedirectToAction("Index", new { id });
+                    var json = JsonConvert.SerializeObject(cate);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    var response = await _httpClient.PutAsync("/ActualizarCategoria", content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        TempData["MensajeExito"] = "Actualizado Correctamente";
+                        return RedirectToAction("Index", new { id });
+                    }
+                    else
+                    {
+                        TempData["MensajeError"] = "Error al actualizar la categoria";
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Error al actualizar la categoria");
-                }
+                return View(cate);
             }
-            return View(cate);
+            catch (Exception ex)
+            {
+                TempData["MensajeError"] = "Error al actualizar la categoria";
+                return RedirectToAction("Index");
+            }
         }
 
         public async Task<IActionResult> Delete(int id)

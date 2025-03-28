@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Newtonsoft.Json;
 using NuGet.Protocol;
 using System.Text;
@@ -107,32 +108,40 @@ namespace Ferreteria_Frontend.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ClienteViewModel clie)
         {
-            ViewBag.PageTitle = "Crear Cliente";
-            ViewBag.SubTitle = "General";
-
-            clie.Usua_Creacion = 1;
-            clie.Feca_Creacion = DateTime.Now;
-            if (ModelState.IsValid)
+            try
             {
-                var json = JsonConvert.SerializeObject(clie);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                ViewBag.PageTitle = "Crear Cliente";
+                ViewBag.SubTitle = "General";
 
-                var response = await _httpClient.PostAsync("InsertarCliente", content);
-                if (response.IsSuccessStatusCode)
+                clie.Usua_Creacion = 1;
+                clie.Feca_Creacion = DateTime.Now;
+                if (ModelState.IsValid)
                 {
-                    TempData["MensajeExito"] = "Creado Correctamente";
-                    return RedirectToAction("Index");
+                    var json = JsonConvert.SerializeObject(clie);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    var response = await _httpClient.PostAsync("InsertarCliente", content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        TempData["MensajeExito"] = "Creado Correctamente";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["MensajeError"] = "Error al crear al cliente";
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Error al crear el cliente");
-                }
+
+                await CargarEstadosCiviles();
+                await CargarMunicipios();
+                await CargarDepartamentos();
+                return View(clie);
             }
-
-            await CargarEstadosCiviles();
-            await CargarMunicipios();
-            await CargarDepartamentos();
-            return View(clie);
+            catch (Exception ex)
+            {
+                TempData["MensajeError"] = "Error al crear al cliente";
+                return RedirectToAction("Index");
+            }
         }
 
         public async Task<IActionResult> Edit(string id)
@@ -176,33 +185,41 @@ namespace Ferreteria_Frontend.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, ClienteViewModel clie)
         {
-            ViewBag.PageTitle = "Editar Cliente";
-            ViewBag.SubTitle = "General";
-
-            clie.Usua_Modificacion = 1;
-            clie.Feca_Modificacion = DateTime.Now;
-            clie.Clie_Id = id;
-            if (ModelState.IsValid)
+            try
             {
-                var json = JsonConvert.SerializeObject(clie);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                ViewBag.PageTitle = "Editar Cliente";
+                ViewBag.SubTitle = "General";
 
-                var response = await _httpClient.PutAsync("ActualizarCLiente", content);
+                clie.Usua_Modificacion = 1;
+                clie.Feca_Modificacion = DateTime.Now;
+                clie.Clie_Id = id;
+                if (ModelState.IsValid)
+                {
+                    var json = JsonConvert.SerializeObject(clie);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                if (response.IsSuccessStatusCode)
-                {
-                    TempData["MensajeExito"] = "Actualizado Correctamente";
-                    return RedirectToAction("Index", new { id });
+                    var response = await _httpClient.PutAsync("ActualizarCLiente", content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        TempData["MensajeExito"] = "Actualizado Correctamente";
+                        return RedirectToAction("Index", new { id });
+                    }
+                    else
+                    {
+                        TempData["MensajeError"] = "Error al actualizar el cliente";
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Error al actualizar el cliente");
-                }
+                await CargarEstadosCiviles();
+                await CargarMunicipios();
+                await CargarDepartamentos();
+                return View(clie);
             }
-            await CargarEstadosCiviles();
-            await CargarMunicipios();
-            await CargarDepartamentos();
-            return View(clie);
+            catch (Exception ex)
+            {
+                TempData["MensajeError"] = "Error al actualizar el cliente";
+                return RedirectToAction("Index");
+            }
         }
 
         public async Task<IActionResult> Delete(int id)

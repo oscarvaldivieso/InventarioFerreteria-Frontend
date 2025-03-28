@@ -55,34 +55,50 @@ public class HomeController : Controller
 
     public async Task<IActionResult> ReporteProductoAsync()
     {
-        ViewBag.PageTitle = "Reporte Productos";
-        ViewBag.SubTitle = "Producto";
-        ViewBag.UsuarioSesion = "YO";
-        await CargarMedidas();
-        await CargarMarcas();
-        await CargarCategorias();
-        await CargarProveedores();
+        try
+        {
+            ViewBag.PageTitle = "Reporte Productos";
+            ViewBag.SubTitle = "Producto";
+            ViewBag.UsuarioSesion = "YO";
+            await CargarMedidas();
+            await CargarMarcas();
+            await CargarCategorias();
+            await CargarProveedores();
 
-        await ObtenerCategoriasAsync();
-        await ObtenerMarcasAsync();
-        await ObtenerMedidasAsync();
-        await ObtenerProveedoresAsync();
-        return View();
+            await ObtenerCategoriasAsync();
+            await ObtenerMarcasAsync();
+            await ObtenerMedidasAsync();
+            await ObtenerProveedoresAsync();
+            return View();
+        }
+        catch (Exception ex)
+        {
+            TempData["MensajeError"] = "Error al mostrar el reporte";
+            return View();
+        }
     }
 
     [HttpGet]
     public async Task<IActionResult> ObtenerProductos(int filtro)
     {
-        var data = new { Cate_Id = filtro };
-        var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-        var response = await _httpClient.PostAsync("/ProductoPorCategoria", content2);
-        if (response.IsSuccessStatusCode)
+        try
         {
-            var jsonString = await response.Content.ReadAsStringAsync();
-            var productos = JsonConvert.DeserializeObject<List<ProductoViewModel>>(jsonString);
-            return Json(new { productos });
+            var data = new { Cate_Id = filtro };
+            var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/ProductoPorCategoria", content2);
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var productos = JsonConvert.DeserializeObject<List<ProductoViewModel>>(jsonString);
+                return Json(new { productos });
+            }
+            return Json(new { productos = new List<ProductoViewModel>() });
         }
-        return Json(new { productos = new List<ProductoViewModel>() });
+        catch (Exception ex)
+        {
+            TempData["MensajeError"] = "Error al mostrar el reporte";
+            return RedirectToAction("Index");
+        }
     }
 
     private async Task CargarCategorias()
@@ -165,27 +181,43 @@ public class HomeController : Controller
     //TODO SOBRE EL REPORTE DE COMPRAS
     public async Task<IActionResult> ReporteCompra()
     {
-        ViewBag.PageTitle = "Reporte Compra";
-        ViewBag.SubTitle = "Compra";
-        ViewBag.UsuarioSesion = "YO";
-        await CargarCategorias();
-        await CargarProveedores();
+        try
+        {
+            ViewBag.PageTitle = "Reporte Compra";
+            ViewBag.SubTitle = "Compra";
+            ViewBag.UsuarioSesion = "YO";
+            await CargarCategorias();
+            await CargarProveedores();
 
-        return View();
+            return View();
+        }
+        catch (Exception ex)
+        {
+            TempData["MensajeError"] = "Error al mostrar el reporte";
+            return View();
+        }
     }
 
     [HttpGet]
     public async Task<IActionResult> ObtenerCompra(DateTime fechaInicio, DateTime fechaFin)
     {
-        var data = new { Fecha_Inicio = fechaInicio, Fecha_Fin = fechaFin };
-        var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-        var response = await _httpClient.PostAsync("/BuscarFecha", content2);
-        if (response.IsSuccessStatusCode)
+        try
         {
-            var jsonString = await response.Content.ReadAsStringAsync();
-            var compras = JsonConvert.DeserializeObject<List<CompraViewModel>>(jsonString);
-            return Json(new { compras });
+            var data = new { Fecha_Inicio = fechaInicio, Fecha_Fin = fechaFin };
+            var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/BuscarFecha", content2);
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var compras = JsonConvert.DeserializeObject<List<CompraViewModel>>(jsonString);
+                return Json(new { compras });
+            }
+            return Json(new { compras = new List<CompraViewModel>() });
         }
-        return Json(new { compras = new List<CompraViewModel>() });
+        catch (Exception ex)
+        {
+            TempData["MensajeError"] = "Error al mostrar el reporte";
+            return RedirectToAction("Index");
+        }
     }
 }

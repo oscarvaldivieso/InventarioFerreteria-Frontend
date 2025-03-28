@@ -173,6 +173,8 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
+            ViewBag.PageTitle = "Actualizar Comprar";
+            ViewBag.SubTitle = "Compra";
             var data = new CompraViewModel { Comp_Id = id };
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("BuscarCompra", content2);

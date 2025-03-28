@@ -109,4 +109,20 @@
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
     <script src="~/js/script.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" />
+    <script>
+        $(document).ready(function(){
+            var mensajeError = '@TempData["Error"]';
+
+            if (mensajeError) {
+                iziToast.error({
+                    title: 'Error',
+                    message: mensajeError,
+                    position: 'topRight'
+                });
+            }
+        });
+    </script>
 </div>

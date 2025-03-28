@@ -6,3 +6,24 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/sweet-alert/sweetalert.min.js"></script>
+<script src="~/js/js-datatables/simple-datatables@latest.js"></script>
+<script src="~/js/datatable/datatables/jquery.dataTables.min.js"></script>
+
+@if (TempData["MensajeError"] != null)
+{
+    <script>
+        swal({
+            title: "¡Advertencia!",
+            text: "@TempData["MensajeError"]",
+            icon: "warning",
+            buttons: {
+                confirm: {
+                    className : 'btn btn-waring'
+                }
+            },
+        });
+    </script>
+}

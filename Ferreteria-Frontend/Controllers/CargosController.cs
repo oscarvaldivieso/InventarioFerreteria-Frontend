@@ -39,25 +39,33 @@ namespace Ferreteria_Frontend.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CargoViewModel carg)
         {
-            carg.Usua_Creacion = 1;
-            carg.Feca_Creacion = DateTime.Now;
-            if (ModelState.IsValid)
+            try
             {
-                var json = JsonConvert.SerializeObject(carg);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                carg.Usua_Creacion = 1;
+                carg.Feca_Creacion = DateTime.Now;
+                if (ModelState.IsValid)
+                {
+                    var json = JsonConvert.SerializeObject(carg);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync("InsertarCargo", content);
-                if (response.IsSuccessStatusCode)
-                {
-                    TempData["MensajeExito"] = "Creado Correctamente";
-                    return RedirectToAction("Index");
+                    var response = await _httpClient.PostAsync("InsertarCargo", content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        TempData["MensajeExito"] = "Creado Correctamente";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["MensajeError"] = "Error al crear cargo";
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Error al crear el cargo");
-                }
+                return View(carg);
             }
-            return View(carg);
+            catch (Exception ex)
+            {
+                TempData["MensajeError"] = "Error al crear cargo" + ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -88,26 +96,34 @@ namespace Ferreteria_Frontend.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, CargoViewModel carg)
         {
-            carg.Usua_Modificacion = 1;
-            carg.Feca_Modificacion = DateTime.Now;
-            if (ModelState.IsValid)
+            try
             {
-                var json = JsonConvert.SerializeObject(carg);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var response = await _httpClient.PutAsync("ActualizarCargo", content);
-
-                if (response.IsSuccessStatusCode)
+                carg.Usua_Modificacion = 1;
+                carg.Feca_Modificacion = DateTime.Now;
+                if (ModelState.IsValid)
                 {
-                    TempData["MensajeExito"] = "Actualizado Correctamente";
-                    return RedirectToAction("Index", new { id });
+                    var json = JsonConvert.SerializeObject(carg);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    var response = await _httpClient.PutAsync("ActualizarCargo", content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        TempData["MensajeExito"] = "Actualizado Correctamente";
+                        return RedirectToAction("Index", new { id });
+                    }
+                    else
+                    {
+                        TempData["MensajeError"] = "Error al actualizar cargo";
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Error al actualizar el cargo");
-                }
+                return View(carg);
             }
-            return View(carg);
+            catch (Exception ex)
+            {
+                TempData["MensajeError"] = "Error al actualizar cargo";
+                return RedirectToAction("Index");
+            }
         }
 
         public async Task<IActionResult> Delete(int id)

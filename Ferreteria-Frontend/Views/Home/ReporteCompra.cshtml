@@ -40,13 +40,9 @@
         var fechaInicio = document.getElementById("fechaInicio").value;
         var fechaFin = document.getElementById("fechaFin").value;
 
-        if (!fechaInicio || !fechaFin) {
-            alert("Por favor, seleccione ambas fechas");
-            return;
-        }
 
         console.log("Fetching data for dates:", fechaInicio, fechaFin);
-        fetch(`/Home/ObtenerCompra?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`)
+        fetch(`/Home/ObtenerCompra?FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`)
             .then(response => {
                 console.log("Response received:", response);
                 return response.json();
@@ -54,12 +50,12 @@
             .then(data => {
                 console.log("Data received:", data);
                 if (data.error) {
-                    alert("Error: " + data.error);
+                    '@TempData["MensajeError"] = "Error al generar reporte"';
                     return;
                 }
 
                 if (!data.compras || data.compras.length === 0) {
-                    alert("No se encontraron compras para el período seleccionado");
+                    '@TempData["MensajeError"] = "Error al generar reporte"';
                     return;
                 }
 
@@ -132,8 +128,7 @@
                 window.generatedPDF = doc;
             })
             .catch(error => {
-                console.error("Error al obtener las compras:", error);
-                alert("Error al generar el reporte. Por favor, intente de nuevo.");
+                    '@TempData["MensajeError"] = "Error al generar reporte"';
             });
     }
 </script>

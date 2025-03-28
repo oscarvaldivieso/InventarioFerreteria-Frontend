@@ -44,9 +44,9 @@
             </div>  <!-- Cierra la fila después de dos campos -->
 
             <div class="form-group d-flex justify-content-end mt-3">
-                <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
+                <button type="submit" id="btnGuardar" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
                 <a asp-action="Index" class="btn btn-rounded btn-outline-primary btn-md mx-2"><i class="icofont icofont-close-circled"></i> Cancelar</a>
-                <button type="button" id="addDetailButton" class="btn btn-secondary mx-2"><i class="icofont icofont-plus-circle"></i> Agregar Detalle</button>
+                <button type="button" id="btnDetalles" class="btn btn-secondary mx-2"><i class="icofont icofont-plus-circle"></i> Agregar Detalle</button>
             </div>
 
             <hr />
@@ -73,7 +73,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("addDetailButton").addEventListener("click", function () {
+        document.getElementById("btnDetalles").addEventListener("click", function () {
             var prodId = document.getElementById("Prod_Id").value;
             var prodDescripcion = document.getElementById("Prod_Id").selectedOptions[0].text;
             var cantidad = document.getElementById("CpDe_Cantidad").value;
@@ -95,7 +95,6 @@
 
                 tableBody.appendChild(newRow);
 
-                // Limpiar los campos después de agregar el detalle
                 document.getElementById("Prod_Id").value = "";
                 document.getElementById("CpDe_Cantidad").value = "";
                 document.getElementById("CpDe_Precio").value = "";
