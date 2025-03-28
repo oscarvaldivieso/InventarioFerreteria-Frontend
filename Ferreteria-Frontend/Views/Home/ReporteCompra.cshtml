@@ -7,82 +7,133 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form method="get" asp-action="ReporteCompra">
-            <label class="control-label">Fecha Inicio</label>
-            <input type="date" id="fechaInicio" name="fechaInicio" class="form-control" />
-            <label class="control-label">Fecha Fin</label>
-            <input type="date" id="fechaFin" name="fechaFin" class="form-control" />
-        </form>
+        <label class="control-label">Fecha Inicio:</label>
+        <input type="date" id="fechaInicio" class="form-control btn btn-warning rounded-pill" />
+        <br />
     </div>
+    <div class="col-md-4">
+        <label class="control-label">Fecha Fin:</label>
+        <input type="date" id="fechaFin" class="form-control btn btn-warning rounded-pill" />
+        <br />
+    </div>
+    <div class="col-md-4">
+        <label class="control-label">&nbsp;</label>
+        <button id="filtrarButton" class="btn btn-primary form-control">Filtrar</button>
+    </div>
+    <br>
 </div>
+
 <iframe id="pdfPreview" width="100%" height="500px"></iframe>
 
+<!-- Scripts necesarios para jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        generarVistaPrevia();
+        document.getElementById("filtrarButton").addEventListener("click", generarVistaPrevia);
+        console.log("DOM loaded, event listener added");
     });
 
     function generarVistaPrevia() {
-        var compras = @Html.Raw(Json.Serialize(Model));
+        console.log("Generating preview...");
+        var fechaInicio = document.getElementById("fechaInicio").value;
+        var fechaFin = document.getElementById("fechaFin").value;
 
-        var { jsPDF } = window.jspdf;
-        var doc = new jsPDF();
+        if (!fechaInicio || !fechaFin) {
+            alert("Por favor, seleccione ambas fechas");
+            return;
+        }
 
-        var usuarioSesion = "@ViewBag.UsuarioSesion";
-        var fechaHoraActual = new Date().toLocaleString();
+        console.log("Fetching data for dates:", fechaInicio, fechaFin);
+        fetch(`/Home/ObtenerCompra?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`)
+            .then(response => {
+                console.log("Response received:", response);
+                return response.json();
+            })
+            .then(data => {
+                console.log("Data received:", data);
+                if (data.error) {
+                    alert("Error: " + data.error);
+                    return;
+                }
 
-        doc.setProperties({
-            title: "Reporte de Compras",
-            subject: "Compras Filtradas",
-            author: usuarioSesion,
-            keywords: "Compras, Reporte, PDF",
-            creator: "Sistema de Gestión"
-        });
+                if (!data.compras || data.compras.length === 0) {
+                    alert("No se encontraron compras para el período seleccionado");
+                    return;
+                }
 
-        doc.addImage("@Url.Content("~/images/Logo__2_-removebg-preview.png")", "PNG", 30, 0, 29, 29);
-        doc.setFontSize(16);
-        doc.text("Listado de Compras", 60, 17, 0, 0);
+                var { jsPDF } = window.jspdf;
+                var doc = new jsPDF();
 
-        var columnas = ["ID", "Proveedor", "Fecha De Compra", "Producto", "Cantidad", "Precio"];
-        var filas = compras.map(c => [
-            c.comp_Id,
-            c.prov_Nombre,
-            c.comp_Fecha,
-            c.prod_Descripcion,
-            c.cpde_Cantidad,
-            c.cpde_Precio
-        ]);
+                var usuarioSesion = "@ViewBag.UsuarioSesion";
+                var fechaHoraActual = new Date().toLocaleString();
 
-        doc.autoTable({
-            head: [columnas],
-            body: filas,
-            startY: 28,
-            theme: 'grid',
-            headStyles: { fillColor: [169, 143, 64], textColor: [255, 255, 255], fontStyle: 'bold' },
-            didDrawPage: function (data) {
-                var pageSize = doc.internal.pageSize;
-                var pageWidth = pageSize.width;
-                var pageHeight = pageSize.height;
-                var pageNumber = doc.internal.getNumberOfPages();
+                doc.setProperties({
+                    title: "Reporte de Compras",
+                    subject: "Compras Filtradas",
+                    author: usuarioSesion,
+                    keywords: "Compras, Reporte, PDF",
+                    creator: "Sistema de Gestión"
+                });
 
-                doc.setDrawColor(150);
-                doc.line(20, pageHeight - 15, pageWidth - 20, pageHeight - 15);
+                doc.addImage("@Url.Content("~/images/Logo__2_-removebg-preview.png")", "PNG", 30, 0, 29, 29);
+                doc.setFontSize(16);
+                doc.text("Listado de Compras", 60, 17, 0, 0);
+                doc.setFontSize(12);
+                doc.text(`Período: ${new Date(fechaInicio).toLocaleDateString()} - ${new Date(fechaFin).toLocaleDateString()}`, 60, 25);
 
-                doc.setFontSize(10);
-                doc.text(`Generado por: ${usuarioSesion}`, 20, pageHeight - 10);
-                doc.text(`Fecha y Hora: ${fechaHoraActual}`, pageWidth / 2, pageHeight - 10, { align: "center" });
-                doc.text(`Página ${pageNumber}`, pageWidth - 20, pageHeight - 10, { align: "right" });
-            }
-        });
+                var columnas = ["ID", "Fecha", "Proveedor", "Producto", "Cantidad", "Precio", "Total"];
+                var filas = data.compras.map(c => [
+                    c.comp_Id,
+                    new Date(c.comp_Fecha).toLocaleDateString(),
+                    c.prov_Nombre,
+                    c.prod_Descripcion,
+                    c.cpDe_Cantidad,
+                    c.cpDe_Precio.toFixed(2),
+                    (c.cpDe_Cantidad * c.cpDe_Precio).toFixed(2)
+                ]);
 
-        var pdfBlob = doc.output("blob");
-        var pdfUrl = URL.createObjectURL(pdfBlob);
+                // Calcular el total general
+                var totalGeneral = data.compras.reduce((sum, c) => sum + (c.cpDe_Cantidad * c.cpDe_Precio), 0);
 
-        document.getElementById("pdfPreview").src = pdfUrl;
+                doc.autoTable({
+                    head: [columnas],
+                    body: filas,
+                    startY: 35,
+                    theme: 'grid',
+                    headStyles: { fillColor: [169, 143, 64], textColor: [255, 255, 255], fontStyle: 'bold' },
+                    didDrawPage: function (data) {
+                        var pageSize = doc.internal.pageSize;
+                        var pageWidth = pageSize.width;
+                        var pageHeight = pageSize.height;
+                        var pageNumber = doc.internal.getNumberOfPages();
 
-        window.generatedPDF = doc;
+                        doc.setDrawColor(150);
+                        doc.line(20, pageHeight - 25, pageWidth - 20, pageHeight - 25);
+
+                        // Agregar total general en la última página
+                        if (pageNumber === doc.internal.getNumberOfPages()) {
+                            doc.setFontSize(12);
+                            doc.text(`Total General: $${totalGeneral.toFixed(2)}`, pageWidth - 20, pageHeight - 30, { align: "right" });
+                        }
+
+                        doc.setFontSize(10);
+                        doc.text(`Generado por: ${usuarioSesion}`, 20, pageHeight - 15);
+                        doc.text(`Fecha y Hora: ${fechaHoraActual}`, pageWidth / 2, pageHeight - 15, { align: "center" });
+                        doc.text(`Página ${pageNumber}`, pageWidth - 20, pageHeight - 15, { align: "right" });
+                    }
+                });
+
+                var pdfBlob = doc.output("blob");
+                var pdfUrl = URL.createObjectURL(pdfBlob);
+                document.getElementById("pdfPreview").src = pdfUrl;
+
+                window.generatedPDF = doc;
+            })
+            .catch(error => {
+                console.error("Error al obtener las compras:", error);
+                alert("Error al generar el reporte. Por favor, intente de nuevo.");
+            });
     }
 </script>

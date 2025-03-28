@@ -188,28 +188,4 @@ public class HomeController : Controller
         }
         return Json(new { compras = new List<CompraViewModel>() });
     }
-
-
-
-    public async Task<List<ProductoViewModel>> ObtenerProductosAsync()
-    {
-        var response = await _httpClient.GetAsync("ListarProductos");
-        if (response.IsSuccessStatusCode)
-        {
-            var jsonString = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<List<ProductoViewModel>>(jsonString);
-        }
-        return new List<ProductoViewModel>();
-    }
-
-    private async Task CargarProductos()
-    {
-        var response = await _httpClient.GetAsync("ListarProductos");
-        if (response.IsSuccessStatusCode)
-        {
-            var content = await response.Content.ReadAsStringAsync();
-            var productos = JsonConvert.DeserializeObject<IEnumerable<ProductoViewModel>>(content);
-            ViewBag.Prod_Id = new SelectList(productos, "Prod_Id", "Prod_Descripcion");
-        }
-    }
 }
