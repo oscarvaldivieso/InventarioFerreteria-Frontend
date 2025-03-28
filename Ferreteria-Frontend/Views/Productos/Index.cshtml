@@ -228,13 +228,13 @@
                                     <div class="product-hover">
                                         <ul>
                                             <li>
-                                                <button class="btn" type="button"><i class="icon-shopping-cart"></i></button>
+                                                <a class="btn"><i class="icofont icofont-pencil-alt-2"></i></a>
                                             </li>
                                             <li>
                                                 <button class="btn" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="icon-eye"></i></button>
                                             </li>
                                             <li>
-                                                <button class="btn" type="button"><i class="icofont icofont-law-alt-2"></i></button>
+                                                <a class="btn" href="javascript:void(0);" onclick="eliminar(@item.Prod_Id)"><i class="icofont icofont-trash"></i></a>
                                             </li>
                                         </ul>
                                     </div>
@@ -244,38 +244,24 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <div class="product-box row align-items-center">
-                                                    <div class="product-img col-lg-6"><img class="img-fluid" src="assets/images/ecommerce/01.jpg" alt=""></div>
+                                                    <div class="product-img col-lg-6"><img class="img-fluid" src="@Url.Content(item.Prod_URLImg)" alt=""></div>
                                                     <div class="product-details col-lg-6 text-start">
-                                                        <h4>Woman T-shirt</h4>
+                                                        <h4>@Html.DisplayFor(modelItem => item.Prod_Descripcion)</h4>
                                                         <div class="product-price">
-                                                            @item.Prod_URLImg
-                                                            <del>$350.00    </del>
+                                                            
                                                         </div>
                                                         <div class="product-view">
-                                                            <h6 class="f-w-600">Product Details</h6>
-                                                            <p class="mb-0">Elevate your casual wardrobe with our Women's T-Shirt, a versatile and comfortable addition to your everyday style.Crafted from soft and breathable cotton ease of movement.</p>
+                                                            <h6 class="f-w-600">Detalles del producto</h6>
+                                                            <p class="mb-0">Producto de ferreteria que cumple con sus funcionalidades, de la mejor calidad y precio para nuestros clientes.</p>
                                                         </div>
-                                                        <div class="product-size">
-                                                            <ul>
-                                                                <li>
-                                                                    <button class="btn btn-outline-light" type="button">M</button>
-                                                                </li>
-                                                                <li>
-                                                                    <button class="btn btn-outline-light" type="button">L</button>
-                                                                </li>
-                                                                <li>
-                                                                    <button class="btn btn-outline-light" type="button">Xl</button>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
+                                                        
                                                         <div class="product-qnty">
-                                                            <h6 class="f-w-600">Quantity</h6>
+                                                            <h6 class="f-w-600">Cantidad</h6>
                                                             <fieldset>
                                                                 <div class="input-group">
-                                                                    <input class="touchspin text-center" type="text" value="5">
+                                                                    <input class="touchspin text-center" type="text" value="@item.Prod_Cantidad">
                                                                 </div>
                                                             </fieldset>
-                                                            <div class="addcart-btn"><a class="btn btn-primary" href="cart.html">Add to Cart</a><a class="btn btn-primary ms-2" href="product-page.html">View Details</a></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -300,8 +286,8 @@
                                     
                                     <p>@Html.DisplayFor(modelItem => item.Marc_Descripcion)</p>
                                     <div class="product-price">
-                                        $26.00
-                                        <del>$350.00    </del>
+                                        <h4 class="text-primary">Categoria: </h4>
+                                        <span class="badge rounded-pill badge-success mt-3 text-white">@item.Cate_Descripcion</span>
                                     </div>
                                 </div>
                             </div>
