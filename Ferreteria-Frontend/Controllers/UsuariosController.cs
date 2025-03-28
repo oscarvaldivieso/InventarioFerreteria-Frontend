@@ -190,18 +190,42 @@ namespace Ferreteria_Frontend.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> ActivarDesactivarUsuario(int id)
+        [HttpPost]
+        public async Task<IActionResult> ActivarUsuario(int id)
         {
             var data = new UsuarioViewModel { Usua_Id = id };
 
             var json = JsonConvert.SerializeObject(data);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PutAsync("ActivarDesactivarUsuario", content);
+            var response = await _httpClient.PutAsync("ActivarUsuario", content);
 
             if (response.IsSuccessStatusCode)
             {
-                TempData["MensajeExito"] = "Ináctivado Correctamente";
+                TempData["MensajeExito"] = "Activado Correctamente";
+                return RedirectToAction("Index");  // Redirige a la lista de usuarios después de realizar la acción
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Error al activar/desactivar el usuario");
+                return RedirectToAction("Index");  // Redirige a la lista con un mensaje de error si no tuvo éxito
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DesactivarUsuario(int id)
+        {
+            var data = new UsuarioViewModel { Usua_Id = id };
+
+            var json = JsonConvert.SerializeObject(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync("DesactivarUsuario", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["MensajeExito"] = "Desactivado Correctamente";
                 return RedirectToAction("Index");  // Redirige a la lista de usuarios después de realizar la acción
             }
             else
