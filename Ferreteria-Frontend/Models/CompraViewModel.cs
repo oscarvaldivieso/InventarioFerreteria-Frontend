@@ -52,13 +52,19 @@ namespace Ferreteria_Frontend.Models
 
         [NotMapped]
         [Display(Name = "Producto")]
-        public string? Prod_Descripcion { get; set; }
+        public string Prod_Descripcion { get; set; }
 
         [NotMapped]
         [Display(Name = "Proveedor")]
         public string? Prov_Nombre { get; set; }
 
-        //[NotMapped]
-        //public List<CompraDetalleViewModel> CompraDetalles { get; set; }
+        [NotMapped]
+        public string? UsuaC_Nombre { get; set; }
+
+        [NotMapped]
+        public string? UsuaM_Nombre { get; set; }
+
+        [NotMapped]
+        public List<CompraDetalleViewModel> Detalles { get; set; } = new List<CompraDetalleViewModel>();
     }
 }

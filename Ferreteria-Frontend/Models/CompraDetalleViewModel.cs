@@ -1,4 +1,6 @@
-﻿namespace Ferreteria_Frontend.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Ferreteria_Frontend.Models
 {
     public class CompraDetalleViewModel
     {
@@ -7,6 +9,9 @@
         public int Comp_Id { get; set; }
 
         public int Prod_Id { get; set; }
+
+        [NotMapped]
+        public string Prod_Descripcion { get; set; }
 
         public int CpDe_Cantidad { get; set; }
 

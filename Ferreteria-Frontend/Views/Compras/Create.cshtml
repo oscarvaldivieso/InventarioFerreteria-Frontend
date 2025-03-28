@@ -6,21 +6,21 @@
     Context.Session.SetString("titulo", "Compras");
 }
 
-    <!-- Card Structure -->
-<form asp-action="Create">
-	<div class="row">
+<!-- Card Structure -->
+<form asp-action="Create" method="post">
+    <div class="row">
         <div class="col-sm-12">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="row"> 
+            <div class="row">
                 <div class="form-group col-md-6">
                     <label asp-for="Prov_Id" class="control-label"></label>
                     <select asp-for="Prov_Id" class="form-select" asp-items="ViewBag.Prov_Id" required>
-						<option value="">Seleccione Un Proveedor</option>
+                        <option value="">Seleccione Un Proveedor</option>
                     </select>
                 </div>
                 <div class="form.group col-md-6">
                     <label asp-for="Comp_Fecha" class="control-label"></label>
-                    <input type="date" asp-for="Comp_Fecha" class="form-control digits" required/>
+                    <input type="date" asp-for="Comp_Fecha" class="form-control digits" required />
                 </div>
             </div>  <!-- Cierra la fila después de dos campos -->
             <hr />
@@ -33,48 +33,37 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label asp-for="CpDe_Cantidad" class="control-label"></label>
-                    <input type="number" asp-for="CpDe_Cantidad" class="form-control" />
+                    <input type="number" asp-for="CpDe_Cantidad" class="form-control" required />
                     <br />
                 </div>
             </div>  <!-- Cierra la fila después de dos campos -->
             <div class="row">
                 <div class="form-group col-md-6">
                     <label asp-for="CpDe_Precio" class="control-label"></label>
-                    <input asp-for="CpDe_Precio" class="form-control" />
+                    <input asp-for="CpDe_Precio" class="form-control" required />
                 </div>
             </div>  <!-- Cierra la fila después de dos campos -->
 
             <div class="form-group d-flex justify-content-end mt-3">
                 <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
                 <a asp-action="Index" class="btn btn-rounded btn-outline-primary btn-md mx-2"><i class="icofont icofont-close-circled"></i> Cancelar</a>
+                <button type="button" id="addDetailButton" class="btn btn-secondary mx-2"><i class="icofont icofont-plus-circle"></i> Agregar Detalle</button>
             </div>
 
             <hr />
-
-           
 
             <div class="list-product list-category">
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered" id="tablaIndex">
                         <thead>
                             <tr>
-                                <th>
-                                    Producto
-                                </th>
-                                <th>
-                                    Cantidad
-                                </th>
-                                <th>
-                                    Precio
-                                </th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    
-                                </td>
-                            </tr>
+                        <tbody id="detalleTableBody">
+                            <!-- Aquí se agregarán las filas dinámicamente -->
                         </tbody>
                     </table>
                 </div>
@@ -82,3 +71,38 @@
         </div>
     </div>
 </form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("addDetailButton").addEventListener("click", function () {
+            var prodId = document.getElementById("Prod_Id").value;
+            var prodDescripcion = document.getElementById("Prod_Id").selectedOptions[0].text;
+            var cantidad = document.getElementById("CpDe_Cantidad").value;
+            var precio = document.getElementById("CpDe_Precio").value;
+
+            if (prodId && cantidad && precio) {
+                var tableBody = document.getElementById("detalleTableBody");
+                var newRow = document.createElement("tr");
+
+                newRow.innerHTML = `
+                    <td>${prodDescripcion}</td>
+                    <td>${cantidad}</td>
+                    <td>${precio}</td>
+                    <input type="hidden" name="Detalles[${tableBody.rows.length}].Prod_Id" value="${prodId}" />
+                    <input type="hidden" name="Detalles[${tableBody.rows.length}].Prod_Descripcion" value="${prodDescripcion}" />
+                    <input type="hidden" name="Detalles[${tableBody.rows.length}].CpDe_Cantidad" value="${cantidad}" />
+                    <input type="hidden" name="Detalles[${tableBody.rows.length}].CpDe_Precio" value="${precio}" />
+                `;
+
+                tableBody.appendChild(newRow);
+
+                // Limpiar los campos después de agregar el detalle
+                document.getElementById("Prod_Id").value = "";
+                document.getElementById("CpDe_Cantidad").value = "";
+                document.getElementById("CpDe_Precio").value = "";
+            } else {
+                alert("Por favor, complete todos los campos antes de agregar un detalle.");
+            }
+        });
+    });
+</script>
