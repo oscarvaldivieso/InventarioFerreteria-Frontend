@@ -6,11 +6,13 @@
     Context.Session.SetString("titulo", "Productos");
 }
 
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/vendors/dropzone.css">
+</head>
 
-<link rel="stylesheet" type="text/css" href="~/css/vendors/dropzone.css">
 
 
-<form asp-action="Create">
+<form asp-action="Create" enctype="multipart/form-data">
     <!-- Card Structure -->
     <div class="row">
         <div class="col-sm-12">
@@ -71,13 +73,14 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label>Upload project file</label>
-                        <form class="dropzone" id="singleFileUpload" action="/upload.php">
-                            <div class="dz-message needsclick">
-                                <i class="icon-cloud-up"></i>
-                                <h6 class="f-w-600">Drop files here or click to upload.</h6><span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                        <label>Añadir imagen del producto</label>
+                            <div class="dropzone dz-clickable dropzone-wrapper">
+                                <div class="dz-message needsclick">
+                                    <i class="icon-cloud-up"></i>
+                                    <h6 class="f-w-600">Carga una imagen para tu producto</h6><span class="note needsclick"></span>
+                                </div>
+                                <input type="file" name="Prod_Imagen" class="dz-clickable "/>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -90,5 +93,6 @@
     </div>
 </form>
 
+<script src="~/js/jquery.min.js"></script>
 <script src="~/js/dropzone/dropzone.js"></script>
 <script src="~/js/dropzone/dropzone-script.js"></script>
