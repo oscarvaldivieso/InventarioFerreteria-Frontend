@@ -168,6 +168,21 @@ namespace Ferreteria_Frontend.Controllers
             prod.Feca_Creacion = DateTime.Now;
             if (ModelState.IsValid)
             {
+                if (prod.Prod_Imagen != null)
+                {
+                    var fileName = Path.GetFileName(prod.Prod_Imagen.FileName);
+
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagenes", fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await prod.Prod_Imagen.CopyToAsync(stream);
+                    }
+
+                    prod.Prod_URLImg = $"~/imagenes/{fileName}";
+                }
+
+
                 var json = JsonConvert.SerializeObject(prod);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
