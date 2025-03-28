@@ -22998,7 +22998,8 @@ footer.blockquote-footer {
 }
 .product-box .product-img {
     position: relative;
-    min-height: 20em;
+    height: 20em;
+    overflow:hidden;
 }
 .product-box .product-img .product-hover {
   position: absolute;

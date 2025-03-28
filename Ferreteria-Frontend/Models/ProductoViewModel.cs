@@ -45,6 +45,9 @@ namespace Ferreteria_Frontend.Models
         [Display(Name = "Imagen")]
         public string? Prod_URLImg { get; set; }
 
+        public IFormFile Prod_Imagen { get; set; }
+
+
         [Display(Name = "Medida")]
         [Required(ErrorMessage = "El campo {0} es requerido")]
         public int? Medi_Id { get; set; }

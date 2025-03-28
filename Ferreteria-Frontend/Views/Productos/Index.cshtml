@@ -121,7 +121,6 @@
     </div>
 </div> *@
 
-<link rel="stylesheet" type="text/css" href="~/css/vendors/dropzone.css">
 
 <div class="container-fluid product-wrapper">
     <div class="product-grid">
@@ -222,7 +221,10 @@
                         <div class="card">
                             <div class="product-box">
                                 <div class="product-img">
-                                    <img class="img-fluid" src="~/images/ecommerce/01.jpg" alt="">
+                                    @{
+                                        string imageUrl = Url.Content(item.Prod_URLImg);
+                                    }
+                                    <img class="img-fluid" src="@imageUrl" alt="">
                                     <div class="product-hover">
                                         <ul>
                                             <li>
@@ -246,7 +248,7 @@
                                                     <div class="product-details col-lg-6 text-start">
                                                         <h4>Woman T-shirt</h4>
                                                         <div class="product-price">
-                                                            $26.00
+                                                            @item.Prod_URLImg
                                                             <del>$350.00    </del>
                                                         </div>
                                                         <div class="product-view">
@@ -318,8 +320,6 @@
 <script src="~/js/sweet-alert/sweetalert.min.js"></script>
 <script src="~/js/js-datatables/simple-datatables@latest.js"></script>
 <script src="~/js/datatable/datatables/jquery.dataTables.min.js"></script>
-<script src="~/js/dropzone/dropzone.js"></script>
-<script src="~/js/dropzone/dropzone-script.js"></script>
 
 @if (TempData["MensajeExito"] != null)
 {
