@@ -60,6 +60,21 @@
                     </select>
                 </div>
             </div>  <!-- Cierra la fila después de dos campos -->
+
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label>Añadir imagen del producto</label>
+                        <div class="dropzone dz-clickable dropzone-wrapper">
+                            <div class="dz-message needsclick">
+                                <i class="icon-cloud-up"></i>
+                                <h6 class="f-w-600">Carga una imagen para tu producto</h6><span class="note needsclick"></span>
+                            </div>
+                            <input type="file" name="Prod_Imagen" class="dz-clickable " />
+                        </div>
+                    </div>
+                </div>
+            </div>
             
             <div class="form-group d-flex justify-content-end mt-3">
                 <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
@@ -68,3 +83,9 @@
     </div>
 </div>
 </form>
+
+
+
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/dropzone/dropzone.js"></script>
+<script src="~/js/dropzone/dropzone-script.js"></script>
