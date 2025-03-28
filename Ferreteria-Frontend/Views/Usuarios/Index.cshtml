@@ -12,9 +12,9 @@
 	.card-user {
 		width: 190px;
 		height: 254px;
-		background: #3405a3;
+		background: #006666;
 		border-radius: 15px;
-		box-shadow: 1px 5px 60px 0px #100a886b;
+		box-shadow: 1px 5px 60px 0px #006666;
 		margin-right: 15px;
 		margin-bottom: 15px;
 	}
@@ -22,7 +22,7 @@
 	.card-user .card-border-top {
 	width: 60%;
 	height: 3%;
-	background: #6b64f3;
+	background: #5c9967;
 	margin: auto;
 	border-radius: 0px 0px 15px 15px;
 	}
@@ -48,7 +48,7 @@
 	.card-user .img {
 	width: 70px;
 	height: 80px;
-	background: #6b64f3;
+	background: #0c351e66;
 	border-radius: 15px;
 	margin: auto;
 	margin-top: 15px;
@@ -61,14 +61,16 @@
 		border-radius: 8px;
 		border: none;
 		margin-top: 5px;
-		background: #6b64f3;
+		background: #5d9b67;
 		color: white;
 		font-weight: 600;
 		font-size: 12px;
+		transition: ease;
+		animation: ease-in .3s:
 	}
 
 	.card-user button:hover {
-	background: #534bf3;
+	background: #004720;
 	}
 </style>
 
@@ -89,6 +91,7 @@
 					<div class="card-border-top">
 					</div>
 					<div class="img">
+
 					</div>
 					@* <div class="status d-flex justify-content-center">
 						<span id="estado-@item.Usua_Id" class="badge rounded-pill @(item.Usua_Estado ? "badge-success" : "badge-danger") mt-3">
@@ -114,7 +117,7 @@
 						<a class="dropdown-item" href="javascript:void(0);" onclick="editar(@item.Usua_Id)">
 							<i class="fa fa-edit"></i> Editar
 						</a>
-						<a class="dropdown-item" href="javascript:void(0);" onclick="toggleEstado(@item.Usua_Id, @item.Usua_Estado)">
+						<a class="dropdown-item" href="javascript:void(0);" onclick="toggleEstado(@item.Usua_Id, '@item.Usua_Estado')">
 							<i class="fa @(item.Usua_Estado == true ? "fa-toggle-on" : "fa-toggle-off")"></i>
 							@(item.Usua_Estado == true ? "Desactivar" : "Activar")
 						</a>
@@ -265,7 +268,29 @@
 		})
 	}
 
+			function toggleEstado(id, estado) {
+		// Determina la URL en función del estado
+		var url = estado ? "http://localhost:7214/DesactivarUsuario" : "http://localhost:7214/ActivarUsuario";
 
+		// Realiza la solicitud AJAX
+		$.ajax({
+			url: url,  // La URL que se utilizará para la solicitud
+			type: "PUT",  // El tipo de solicitud HTTP
+			contentType: "application/json",  // Indica que el cuerpo es un JSON
+			data: JSON.stringify({ Usua_Id: id }),  // Convierte el objeto a JSON
+			success: function(response) {
+				// Si la solicitud es exitosa, muestra el mensaje de éxito
+				alert(response.message);
+				// Recarga la página para reflejar los cambios
+				location.reload();
+			},
+			error: function(xhr, status, error) {
+				// Si ocurre un error, muestra el mensaje de error
+				console.error("Error:", error);
+				alert("Hubo un problema al actualizar el usuario.");
+			}
+		});
+	}
 
 
 
