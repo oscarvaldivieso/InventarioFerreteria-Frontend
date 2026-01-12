@@ -4,25 +4,28 @@
 @model Ferreteria_Frontend.Models.RolViewModel
 @{
     Context.Session.SetString("titulo", "Roles");
+    ViewBag.PageTitle = "Editar un rol";
+    ViewBag.SubTitle = "Acceso";
 }
-
-
-
 
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header">
             <div class="list-product-header ">
-                <a type="button" class="btn btn-rounded btn-primary btn-outline btn-md" asp-area="" asp-controller="Roles" asp-action="Create" id="ModalNuevo"><i class="fa fa-arrow"></i>Regresar</a>
+                <!-- El botón envía el formulario con id editarRolForm -->
+                <button type="submit" form="editarRolForm" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
+                <a asp-action="Index" class="btn btn-rounded btn-outline-primary btn-md mx-2"><i class="icofont icofont-close-circled"></i> Cancelar</a>
             </div>
         </div>
         <div card="card-body d-flex">
-            <form id="crearRolForm" asp-action="Create" method="post" class="p-3">
+            <!-- Form apunta a Edit y envía POST -->
+            <form id="editarRolForm" asp-action="Edit" asp-route-id="@Model.Role_Id" method="post" class="p-3">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Role_Id" />
+
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label asp-for="Role_Descripcion" class="control-label">
-                            Rol
-                        </label>
+                        <label asp-for="Role_Descripcion" class="control-label">Rol</label>
                         <input asp-for="Role_Descripcion" placeholder="Ingresa un rol" class="form-control" />
                     </div>
                 </div>
@@ -32,24 +35,11 @@
                         <div class="table-responsive">
                             <table class="table table-borderless my-5">
                                 <thead>
-                                <th>
-                                    Acceso
-                                </th>
-                                <th>
-                                    General
-                                </th>
-                                <th>
-                                    Ferreteria
-                                </th>
-                                <th>
-                                    Productos
-                                </th>
-                                <th>
-                                    Compras
-                                </th>
-                                <th>
-                                    Ventas
-                                </th>
+                                <th>Acceso</th>
+                                <th>General</th>
+                                <th>Ferreteria</th>
+                                <th>Productos</th>
+                                <th>Compras</th>
                                 </thead>
                                 <tbody>
                                     <tr>
@@ -57,7 +47,7 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="Usuarios" class="me-2">Usuarios</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Usuarios" name="pantIds" value="1">
+                                                    <input class="form-check-input" type="checkbox" id="Usuarios" name="PantIds" value="1" @(Model?.PantIds != null && Model.PantIds.Contains(1) ? "checked" : "")>
                                                 </div>
                                             </div>
                                         </td>
@@ -65,7 +55,7 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="Departamentos" class="me-2">Departamentos</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Departamentos" name="pantIds" value="3">
+                                                    <input class="form-check-input" type="checkbox" id="Departamentos" name="PantIds" value="3" @(Model?.PantIds != null && Model.PantIds.Contains(3) ? "checked" : "")>
                                                 </div>
                                             </div>
                                         </td>
@@ -73,7 +63,7 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="Sucursales" class="me-2">Sucursales</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Sucursales" name="pantIds" value="9">
+                                                    <input class="form-check-input" type="checkbox" id="Sucursales" name="PantIds" value="9" @(Model?.PantIds != null && Model.PantIds.Contains(9) ? "checked" : "")>
                                                 </div>
                                             </div>
                                         </td>
@@ -81,7 +71,7 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="Productos" class="me-2">Productos</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Productos" name="pantIds" value="10">
+                                                    <input class="form-check-input" type="checkbox" id="Productos" name="PantIds" value="10" @(Model?.PantIds != null && Model.PantIds.Contains(10) ? "checked" : "")>
                                                 </div>
                                             </div>
                                         </td>
@@ -89,15 +79,7 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="Compras" class="me-2">Compras</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Compras" name="Compras" value="14">
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-between ">
-                                                <label for="Ventas" class="me-2">Ventas</label>
-                                                <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Ventas" name="pantIds" value="16">
+                                                    <input class="form-check-input" type="checkbox" id="Compras" name="PantIds" value="14" @(Model?.PantIds != null && Model.PantIds.Contains(14) ? "checked" : "")>
                                                 </div>
                                             </div>
                                         </td>
@@ -107,7 +89,7 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="Roles" class="me-2">Roles</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Roles" name="pantIds" value="2">
+                                                    <input class="form-check-input" type="checkbox" id="Roles" name="PantIds" value="8" @(Model?.PantIds != null && Model.PantIds.Contains(2) ? "checked" : "")>
                                                 </div>
                                             </div>
                                         </td>
@@ -115,7 +97,7 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="Municipios" class="me-2">Municipios</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Municipios" name="pantIds" value="4">
+                                                    <input class="form-check-input" type="checkbox" id="Municipios" name="PantIds" value="4" @(Model?.PantIds != null && Model.PantIds.Contains(4) ? "checked" : "")>
                                                 </div>
                                             </div>
                                         </td>
@@ -123,7 +105,7 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="Empleados" class="me-2">Empleados</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Empleados" name="pantIds" value="7">
+                                                    <input class="form-check-input" type="checkbox" id="Empleados" name="PantIds" value="7" @(Model?.PantIds != null && Model.PantIds.Contains(7) ? "checked" : "")>
                                                 </div>
                                             </div>
                                         </td>
@@ -131,7 +113,7 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="Categorias" class="me-2">Categorias</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Categorias" name="pantIds" value="11">
+                                                    <input class="form-check-input" type="checkbox" id="Categorias" name="PantIds" value="11" @(Model?.PantIds != null && Model.PantIds.Contains(11) ? "checked" : "")>
                                                 </div>
                                             </div>
                                         </td>
@@ -139,19 +121,18 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="Proveedores" class="me-2">Proveedores</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Proveedores" name="pantIds" value="15">
+                                                    <input class="form-check-input" type="checkbox" id="Proveedores" name="PantIds" value="15" @(Model?.PantIds != null && Model.PantIds.Contains(15) ? "checked" : "")>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                        </td>
+                                        <td></td>
                                         <td>
                                             <div class="d-flex align-items-between ">
                                                 <label for="EstadosCiviles" class="me-2">Estados Civiles</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="EstadosCiviles" name="pantIds" value="5">
+                                                    <input class="form-check-input" type="checkbox" id="EstadosCiviles" name="PantIds" value="5" @(Model?.PantIds != null && Model.PantIds.Contains(5) ? "checked" : "")>
                                                 </div>
                                             </div>
                                         </td>
@@ -159,7 +140,7 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="Cargos" class="me-2">Cargos</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Cargos" name="pantIds" value="8">
+                                                    <input class="form-check-input" type="checkbox" id="Cargos" name="PantIds" value="8" @(Model?.PantIds != null && Model.PantIds.Contains(8) ? "checked" : "")>
                                                 </div>
                                             </div>
                                         </td>
@@ -167,38 +148,32 @@
                                             <div class="d-flex align-items-between ">
                                                 <label for="Marcas" class="me-2">Marcas</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Marcas" name="pantIds" value="12">
+                                                    <input class="form-check-input" type="checkbox" id="Marcas" name="PantIds" value="12" @(Model?.PantIds != null && Model.PantIds.Contains(12) ? "checked" : "")>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>
-                                        </td>
+                                        <td></td>
                                     </tr>
                                     <tr>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                        </td>
+                                        <td></td>
                                         <td>
                                             <div class="d-flex align-items-between ">
                                                 <label for="Clientes" class="me-2">Clientes</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Clientes" name="pantIds" value="6">
+                                                    <input class="form-check-input" type="checkbox" id="Clientes" name="PantIds" value="6" @(Model?.PantIds != null && Model.PantIds.Contains(6) ? "checked" : "")>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>
+                                        <td></td>
                                         <td>
                                             <div class="d-flex align-items-between ">
                                                 <label for="Medidas" class="me-2">Medidas</label>
                                                 <div class="form-check form-switch m-0">
-                                                    <input class="form-check-input" type="checkbox" id="Medidas" name="pantIds" value="13">
+                                                    <input class="form-check-input" type="checkbox" id="Medidas" name="PantIds" value="13" @(Model?.PantIds != null && Model.PantIds.Contains(13) ? "checked" : "")>
                                                 </div>
                                             </div>
                                         </td>
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -206,31 +181,7 @@
 
                     </div>
                 </div>
-                <!--El gpt dis que si funciona pa guardar los id de las pantIdss en el servidor, como ni idea-->
-                <input type="text" id="pantIdssSeleccionadasInput" asp-for="PantIds" name="pantIds[]" />
-
-                <div class="form-group d-flex justify-content-end mt-3">
-                    <button type="submit" class="btn btn-primary mx-2"><i class="icofont icofont-save"></i> Guardar</button>
-                    <button type="button" id="btnCerrarCrear" class="btn btn-rounded btn-outline-primary btn-md mx-2"><i class="icofont icofont-close-circled"></i> Cancelar</button>
-                </div>
             </form>
         </div>
     </div>
 </div>
-<script src="~/js/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#crearRolForm').submit(function () {
-            var selectedpantIdss = [];
-            $('input[name="pantIds"]:checked').each(function () {
-                selectedpantIdss.push(parseInt($(this).val())); // Convertimos a entero
-            });
-
-            console.log("Seleccionados:", selectedpantIdss);
-
-            // Asignamos los valores al input oculto
-            $('#pantIdssSeleccionadasInput').val(selectedpantIdss.join(',')); // Convertimos el array a string separado por comas
-        });
-    });
-
-</script>

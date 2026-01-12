@@ -197,7 +197,7 @@
                                     bool tieneProductos = pant.Contains("Productos") || pant.Contains("Categorias") || pant.Contains("Marcas") || pant.Contains("Medidas") || esAdmin == "True";
                                     bool tieneCompras = pant.Contains("Compras") || pant.Contains("Proveedores") || esAdmin == "True";
                                     bool tieneVentas = pant.Contains("Ventas") || esAdmin == "True";
-                                    bool tieneReportes = pant.Contains("Reporte Producto") || pant.Contains("Reporte Compra") || esAdmin == "True";
+                                    // bool tieneReportes = pant.Contains("Reporte Producto") || pant.Contains("Reporte Compra") || esAdmin == "True";
 
                                     @if (tieneAcceso)
                                     {
@@ -428,60 +428,60 @@
                                             </li>
                                         }
                                     }
-                                    @if (tieneVentas)
-                                    {
-                                        <li class="sidebar-main-title">
-                                            <div>
-                                                <h6>Ventas</h6>
-                                            </div>
-                                        </li>
-                                        @if(pant.Contains("Ventas") || esAdmin =="True"){
+                                    // @if (tieneVentas)
+                                    // {
+                                    //     <li class="sidebar-main-title">
+                                    //         <div>
+                                    //             <h6>Ventas</h6>
+                                    //         </div>
+                                    //     </li>
+                                    //     @if(pant.Contains("Ventas") || esAdmin =="True"){
 
-                                        }
-                                        <li class="sidebar-list">
-                                            <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" href="file-manager.html">
-                                                <svg class="stroke-icon">
-                                                    <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                                </svg>
-                                                <svg class="fill-icon">
-                                                    <use href="~/svg/icon-sprite.svg#messages-2"></use>
-                                                </svg><span>Ventas</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (tieneReportes)
-                                    {
-                                        <li class="sidebar-main-title">
-                                            <div>
-                                                <h6>Reportes</h6>
-                                            </div>
-                                        </li>
-                                        @if(pant.Contains("Reporte Producto") || esAdmin =="True"){
-                                            <li class="sidebar-list">
-                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Home" asp-action="ReporteProducto">
-                                                    <svg class="stroke-icon">
-                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                                    </svg>
-                                                    <svg class="fill-icon">
-                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                                    </svg><span>Reporte Producto</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                                </a>
-                                            </li>
-                                        }
-                                        @if(pant.Contains("Reporte Compra") || esAdmin =="True"){
-                                            <li class="sidebar-list">
-                                                <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Home" asp-action="ReporteCompra">
-                                                    <svg class="stroke-icon">
-                                                        <use href="~/svg/icon-sprite.svg#stroke-file"></use>
-                                                    </svg>
-                                                    <svg class="fill-icon">
-                                                        <use href="~/svg/icon-sprite.svg#fill-file"></use>
-                                                    </svg><span>Reporte Compra</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                                </a>
-                                            </li>
-                                        }
+                                    //     }
+                                    //     <li class="sidebar-list">
+                                    //         <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" href="file-manager.html">
+                                    //             <svg class="stroke-icon">
+                                    //                 <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                    //             </svg>
+                                    //             <svg class="fill-icon">
+                                    //                 <use href="~/svg/icon-sprite.svg#messages-2"></use>
+                                    //             </svg><span>Ventas</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                    //         </a>
+                                    //     </li>
+                                    // }
+                                    // @if (tieneReportes)
+                                    // {
+                                    //     <li class="sidebar-main-title">
+                                    //         <div>
+                                    //             <h6>Reportes</h6>
+                                    //         </div>
+                                    //     </li>
+                                    //     @if(pant.Contains("Reporte Producto") || esAdmin =="True"){
+                                    //         <li class="sidebar-list">
+                                    //             <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Home" asp-action="ReporteProducto">
+                                    //                 <svg class="stroke-icon">
+                                    //                     <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                    //                 </svg>
+                                    //                 <svg class="fill-icon">
+                                    //                     <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                    //                 </svg><span>Reporte Producto</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                    //             </a>
+                                    //         </li>
+                                    //     }
+                                    //     @if(pant.Contains("Reporte Compra") || esAdmin =="True"){
+                                    //         <li class="sidebar-list">
+                                    //             <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" asp-area="" asp-controller="Home" asp-action="ReporteCompra">
+                                    //                 <svg class="stroke-icon">
+                                    //                     <use href="~/svg/icon-sprite.svg#stroke-file"></use>
+                                    //                 </svg>
+                                    //                 <svg class="fill-icon">
+                                    //                     <use href="~/svg/icon-sprite.svg#fill-file"></use>
+                                    //                 </svg><span>Reporte Compra</span><div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                    //             </a>
+                                    //         </li>
+                                    //     }
                                         
-                                    }
+                                    // }
 
                                 }
                             }

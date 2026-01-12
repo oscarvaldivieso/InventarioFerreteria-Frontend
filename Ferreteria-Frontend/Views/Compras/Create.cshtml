@@ -26,20 +26,20 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label asp-for="Prod_Id" class="control-label"></label>
-                    <select asp-for="Prod_Id" class="form-select" asp-items="ViewBag.Prod_Id" required>
+                    <select asp-for="Prod_Id" class="form-select" asp-items="ViewBag.Prod_Id" id="Prod_Id">
                         <option value="">Seleccione Un Producto</option>
                     </select>
                 </div>
                 <div class="form-group col-md-6">
                     <label asp-for="CpDe_Cantidad" class="control-label"></label>
-                    <input type="number" asp-for="CpDe_Cantidad" class="form-control" required />
+                    <input type="number" asp-for="CpDe_Cantidad" id="CpDe_Cantidad" class="form-control"/>
                     <br />
                 </div>
             </div>  <!-- Cierra la fila después de dos campos -->
             <div class="row">
                 <div class="form-group col-md-6">
                     <label asp-for="CpDe_Precio" class="control-label"></label>
-                    <input asp-for="CpDe_Precio" class="form-control" required />
+                    <input asp-for="CpDe_Precio" id="CpDe_Precio" class="form-control"/>
                 </div>
             </div>  <!-- Cierra la fila después de dos campos -->
 
@@ -73,34 +73,84 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("btnDetalles").addEventListener("click", function () {
-            var prodId = document.getElementById("Prod_Id").value;
-            var prodDescripcion = document.getElementById("Prod_Id").selectedOptions[0].text;
+        var btnAgregar = document.getElementById("btnDetalles");
+        var tableBody = document.getElementById("detalleTableBody");
+
+        btnAgregar.addEventListener("click", function () {
+            var prodSelect = document.getElementById("Prod_Id");
+            var prodId = prodSelect.value;
+            var prodDescripcion = prodSelect.selectedOptions.length ? prodSelect.selectedOptions[0].text : "";
             var cantidad = document.getElementById("CpDe_Cantidad").value;
             var precio = document.getElementById("CpDe_Precio").value;
 
             if (prodId && cantidad && precio) {
-                var tableBody = document.getElementById("detalleTableBody");
+                var index = tableBody.rows.length;
+
                 var newRow = document.createElement("tr");
 
                 newRow.innerHTML = `
-                    <td>${prodDescripcion}</td>
-                    <td>${cantidad}</td>
-                    <td>${precio}</td>
-                    <input type="hidden" name="Detalles[${tableBody.rows.length}].Prod_Id" value="${prodId}" />
-                    <input type="hidden" name="Detalles[${tableBody.rows.length}].Prod_Descripcion" value="${prodDescripcion}" />
-                    <input type="hidden" name="Detalles[${tableBody.rows.length}].CpDe_Cantidad" value="${cantidad}" />
-                    <input type="hidden" name="Detalles[${tableBody.rows.length}].CpDe_Precio" value="${precio}" />
+                    <td>${escapeHtml(prodDescripcion)}
+                        <input type="hidden" name="Detalles[${index}].Prod_Id" value="${escapeHtml(prodId)}" />
+                        <input type="hidden" name="Detalles[${index}].Prod_Descripcion" value="${escapeHtml(prodDescripcion)}" />
+                    </td>
+                    <td>
+                        ${escapeHtml(cantidad)}
+                        <input type="hidden" name="Detalles[${index}].CpDe_Cantidad" value="${escapeHtml(cantidad)}" />
+                    </td>
+                    <td>
+                        ${escapeHtml(precio)}
+                        <input type="hidden" name="Detalles[${index}].CpDe_Precio" value="${escapeHtml(precio)}" />
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-danger btn-eliminar">Eliminar</button>
+                    </td>
                 `;
 
                 tableBody.appendChild(newRow);
 
-                document.getElementById("Prod_Id").value = "";
+                // limpiar campos
+                prodSelect.value = "";
                 document.getElementById("CpDe_Cantidad").value = "";
                 document.getElementById("CpDe_Precio").value = "";
             } else {
                 alert("Por favor, complete todos los campos antes de agregar un detalle.");
             }
         });
+
+        // Delegación de eventos para eliminar filas
+        tableBody.addEventListener("click", function (e) {
+            if (e.target && e.target.classList.contains("btn-eliminar")) {
+                var row = e.target.closest("tr");
+                if (row) {
+                    row.remove();
+                    reindexDetalles();
+                }
+            }
+        });
+
+        // Reindexa los nombres de los inputs hidden para que el model binding funcione
+        function reindexDetalles() {
+            var rows = tableBody.querySelectorAll("tr");
+            for (var i = 0; i < rows.length; i++) {
+                var inputs = rows[i].querySelectorAll("input[type='hidden']");
+                inputs.forEach(function (inp) {
+                    var m = inp.name.match(/^Detalles\[\d+\]\.(.+)$/);
+                    if (m) {
+                        inp.name = "Detalles[" + i + "]." + m[1];
+                    }
+                });
+            }
+        }
+
+        // Simple escape para evitar inyección de HTML en el contenido de celdas
+        function escapeHtml(text) {
+            if (text === null || text === undefined) return "";
+            return String(text)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
     });
 </script>

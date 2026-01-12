@@ -59,10 +59,10 @@ namespace Ferreteria_Frontend.Models
         public string? Prov_Nombre { get; set; }
 
         [NotMapped]
-        public string? UsuaC_Nombre { get; set; }
+        public string? UsuarioCreacion { get; set; }
 
         [NotMapped]
-        public string? UsuaM_Nombre { get; set; }
+        public string? UsuarioModificacion { get; set; }
 
         [NotMapped]
         public List<CompraDetalleViewModel>? Detalles { get; set; }
