@@ -23,9 +23,9 @@ namespace Ferreteria_Frontend.Models
 
 
         [NotMapped]
-        public string? UsuaC_Nombre { get; set; }
+        public string? UsuarioCreacion { get; set; }
         [NotMapped]
-        public string? UsuaM_Nombre { get; set; }
+        public string? UsuarioModificacion { get; set; }
 
         //public virtual tbUsuarios Usua_CreacionNavigation { get; set; }
 

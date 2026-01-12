@@ -192,8 +192,8 @@ namespace Ferreteria_Frontend.Controllers
                     prov.Feca_Modificacion = item.Feca_Modificacion;
                     prov.Usua_Creacion = item.Usua_Creacion;
                     prov.Usua_Modificacion = item.Usua_Modificacion;
-                    prov.UsuaC_Nombre = item.UsuaC_Nombre;
-                    prov.UsuaM_Nombre = item.UsuaM_Nombre;
+                    prov.UsuarioCreacion = item.UsuarioCreacion;
+                    prov.UsuarioModificacion = item.UsuarioModificacion;
                 }
                 return View(prov);
             }

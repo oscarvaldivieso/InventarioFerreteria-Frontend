@@ -32,10 +32,10 @@
                                     @Html.DisplayNameFor(model => model.Clie_Sexo)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.EsCv_Id)
+                                    @Html.DisplayNameFor(model => model.EstadoCivil)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Muni_Codigo)
+                                    @Html.DisplayNameFor(model => model.Municipio)
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.Clie_Direccion)
@@ -81,16 +81,7 @@
                                     }
                                 </td>
                                 <td>
-                                    @{
-                                        var municipios = ViewBag.municipios as List<Ferreteria_Frontend.Models.MunicipioViewModel>;
-                                        var municipio = municipios?.FirstOrDefault(p => p.Muni_Codigo == item.Muni_Codigo);
-                                        if (municipio != null)
-                                        {
-                                            @municipio.Muni_Codigo 
-                                            <text> - </text>
-                                            @municipio.Muni_Descripcion
-                                        }
-                                    }
+                                    @Html.DisplayFor(modelItem => item.Municipio)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Clie_Direccion)

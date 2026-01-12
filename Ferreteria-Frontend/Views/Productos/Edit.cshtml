@@ -6,6 +6,10 @@
     Context.Session.SetString("titulo", "Productos");
 }
 
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/vendors/dropzone.css">
+</head>
+
 <form asp-action="Edit">
     <div class="row">
         <div class="col-sm-12">
@@ -49,10 +53,10 @@
                 </div>
             </div>  <!-- Cierra la fila después de dos campos -->
             <div class="row"> 
-                <div class="form-group col-md-6">
+                @* <div class="form-group col-md-6">
                     <label asp-for="Prod_URLImg" class="control-label"></label>
                     <input asp-for="Prod_URLImg" class="form-control" />
-                </div>
+                </div> *@
                 <div class="form-group col-md-6">
                     <label asp-for="Medi_Id" class="control-label"></label>
                     <select asp-for="Medi_Id" class="form-select" asp-items="ViewBag.Medi_Id" required>
@@ -83,7 +87,6 @@
     </div>
 </div>
 </form>
-
 
 
 <script src="~/js/jquery.min.js"></script>

@@ -130,29 +130,37 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label asp-for="Usua_Nombre" class="control-label"></label>
+                                <label asp-for="Usua_Nombre" class="control-label">Usuario</label>
                                 <input asp-for="Usua_Nombre" class="form-control" />
+                                <span asp-validation-for="Usua_Nombre" class="text-danger"></span>
                             </div>
                             <div class="form-group col-md-6">
-                                <label asp-for="Usua_Clave" class="control-label"></label>
-                                <input asp-for="Usua_Clave" class="form-control" />
+                                <label asp-for="Usua_Clave" class="control-label" >Contraseña</label>
+                                <input asp-for="Usua_Clave" class="form-control" type="password" />
+                                <span asp-validation-for="Usua_Clave" class="text-danger"></span>
                             </div>
                         </div>  <!-- Cierra la fila después de dos campos -->
+                        <br />
+                        <br />
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label asp-for="Empl_Id" class="control-label"></label>
-                                <select asp-for="Empl_Id" class="form-select" asp-items="ViewBag.Empl_Id"></select>
+                                <label asp-for="Empl_Id" class="control-label">Empleado</label>
+                                <select asp-for="Empl_Id" class="form-select" asp-items="ViewBag.Empl_Id" onselect="0"></select>
+                                <span asp-validation-for="Empl_Id" class="text-danger"></span>
                             </div>
                             <div class="form-group col-md-6">
-                                <label asp-for="Role_Id" class="control-label"></label>
+                                <label asp-for="Role_Id" class="control-label">Rol</label>
                                 <select asp-for="Role_Id" class="form-select" asp-items="ViewBag.Role_Id">
                                 </select>
+                                <span asp-validation-for="Role_Id" class="text-danger"></span>
                             </div>
                         </div>
+                        <br />
+                        <br />
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <div class="mb-0 ">
-                                    <label asp-for="Usua_EsAdmin" class="control-label"></label>
+                                    <label asp-for="Usua_EsAdmin" class="control-label">Es Admin?</label>
                                 </div>
                                     <label class="switch">
                                         <input asp-for="Usua_EsAdmin" class="cb" type="checkbox" />

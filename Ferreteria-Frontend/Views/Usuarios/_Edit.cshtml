@@ -131,14 +131,16 @@
                         <input type="hidden" asp-for="Usua_Id" />
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label asp-for="Usua_Nombre" class="control-label"></label>
+                                <label asp-for="Usua_Nombre" class="control-label">Usuario</label>
                                 <input asp-for="Usua_Nombre" class="form-control" />
                             </div>
                             <div class="form-group col-md-6">
-                                <label asp-for="Empl_Id" class="control-label"></label>
+                                <label asp-for="Empl_Id" class="control-label">Empleado</label>
                                 <select asp-for="Empl_Id" class="form-select" asp-items="ViewBag.Empl_Id"></select>
                             </div>
                         </div>  <!-- Cierra la fila después de dos campos -->
+                        <br />
+                        <br />
                         <div class="row">
                             
                             <div class="form-group col-md-6">

@@ -26,7 +26,7 @@
                                     @Html.DisplayNameFor(model => model.Prov_Contacto)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Muni_Codigo)
+                                    @Html.DisplayNameFor(model => model.Municipio)
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.Prov_DireccionExacta)
@@ -59,7 +59,7 @@
                                     @Html.DisplayFor(modelItem => item.Prov_Contacto)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Muni_Codigo)
+                                    @Html.DisplayFor(modelItem => item.Municipio)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Prov_DireccionExacta)
@@ -75,10 +75,10 @@
 
 @* <link rel="stylesheet" type="text/css" href="~/css/vendors/js-datatables/style.css"> *@
 
-<script src="~/js/jquery.min.js"></script>
-<script src="~/js/sweet-alert/sweetalert.min.js"></script>
-<script src="~/js/js-datatables/simple-datatables@latest.js"></script>
-<script src="~/js/datatable/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/sweet-alert/sweetalert.min.js"></script>
+    <script src="~/js/js-datatables/simple-datatables@latest.js"></script>
+    <script src="~/js/datatable/datatables/jquery.dataTables.min.js"></script>
 
     @if (TempData["MensajeExito"] != null)
     {

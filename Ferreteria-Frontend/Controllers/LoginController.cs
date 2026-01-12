@@ -66,13 +66,13 @@ namespace Ferreteria_Frontend.Controllers
                     }
 
 
-                    var data1 = new RolViewModel { Role_Id = (int)HttpContext.Session.GetInt32("Rol_Id") };
+                    var data1 = new RolViewModel { Role_Id = HttpContext.Session.GetInt32("Rol_Id") ?? 0 };
                     var content1 = new StringContent(JsonConvert.SerializeObject(data1), Encoding.UTF8, "application/json");
                     var response1 = await _httpClient.PostAsync("BuscarPantallas", content1);
 
 
                     var rolExistenteContent = await response1.Content.ReadAsStringAsync();
-                    var rolExistenteList = JsonConvert.DeserializeObject<List<RolViewModel>>(rolExistenteContent);
+                    var rolExistenteList = JsonConvert.DeserializeObject<List<RolViewModel>>(rolExistenteContent) ?? new List<RolViewModel>();
 
                     string cadenaPantallas = "";
                     foreach(var item in rolExistenteList)

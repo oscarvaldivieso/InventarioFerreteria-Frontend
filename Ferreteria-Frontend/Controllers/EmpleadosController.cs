@@ -232,9 +232,35 @@ namespace Ferreteria_Frontend.Controllers
                     empl.Feca_Modificacion = item.Feca_Modificacion;
                     empl.Usua_Creacion = item.Usua_Creacion;
                     empl.Usua_Modificacion = item.Usua_Modificacion;
-                    empl.UsuaC_Nombre = item.UsuaC_Nombre;
-                    empl.UsuaM_Nombre = item.UsuaM_Nombre;
+                    empl.UsuarioCreacion= item.UsuarioCreacion;
+                    empl.UsuarioModificacion = item.UsuarioModificacion;
                 }
+                var respEstados = await _httpClient.GetAsync("ListarEstadosCiviles");
+                if (respEstados.IsSuccessStatusCode)
+                {
+                    var jsonEstados = await respEstados.Content.ReadAsStringAsync();
+                    var estados = JsonConvert.DeserializeObject<List<EstadoCivilViewModel>>(jsonEstados);
+                    empl.EstadoCivil = estados.FirstOrDefault(e => e.EsCv_Id == empl.EsCv_Id)?.EsCv_Descripcion;
+                }
+
+                // Cargo
+                var respCargos = await _httpClient.GetAsync("ListarCargos");
+                if (respCargos.IsSuccessStatusCode)
+                {
+                    var jsonCargos = await respCargos.Content.ReadAsStringAsync();
+                    var cargos = JsonConvert.DeserializeObject<List<CargoViewModel>>(jsonCargos);
+                    empl.Cargo = cargos.FirstOrDefault(c => c.Carg_Id == empl.Carg_Id)?.Carg_Descripcion;
+                }
+
+                // Municipio
+                var respMunicipios = await _httpClient.GetAsync("ListarMunicipios");
+                if (respMunicipios.IsSuccessStatusCode)
+                {
+                    var jsonMunicipios = await respMunicipios.Content.ReadAsStringAsync();
+                    var municipios = JsonConvert.DeserializeObject<List<MunicipioViewModel>>(jsonMunicipios);
+                    empl.Municipio = municipios.FirstOrDefault(m => m.Muni_Codigo == empl.Muni_Codigo)?.Muni_Descripcion;
+                }
+
                 return View(empl);
             }
             else

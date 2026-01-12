@@ -23,9 +23,9 @@ namespace Ferreteria_Frontend.Models
         public bool? Marc_Estado { get; set; }
 
         [NotMapped]
-        public string? UsuaC_Nombre { get; set; }
+        public string? UsuarioCreacion { get; set; }
 
         [NotMapped]
-        public string? UsuaM_Nombre { get; set; }
+        public string? UsuarioModificacion { get; set; }
     }
 }

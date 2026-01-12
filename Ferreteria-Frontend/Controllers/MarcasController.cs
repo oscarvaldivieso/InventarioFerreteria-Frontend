@@ -147,8 +147,8 @@ namespace Ferreteria_Frontend.Controllers
                     marc.Feca_Modificacion = item.Feca_Modificacion;
                     marc.Usua_Creacion = item.Usua_Creacion;
                     marc.Usua_Modificacion = item.Usua_Modificacion;
-                    marc.UsuaC_Nombre = item.UsuaC_Nombre;
-                    marc.UsuaM_Nombre = item.UsuaM_Nombre;
+                    marc.UsuarioCreacion = item.UsuarioCreacion;
+                    marc.UsuarioModificacion = item.UsuarioModificacion;
                 }
                 return View(marc);
             }

@@ -163,8 +163,8 @@ namespace Ferreteria_Frontend.Controllers
                     cate.Feca_Modificacion = item.Feca_Modificacion;
                     cate.Usua_Creacion = item.Usua_Creacion;
                     cate.Usua_Modificacion = item.Usua_Modificacion;
-                    cate.UsuaC_Nombre = item.UsuaC_Nombre;
-                    cate.UsuaM_Nombre = item.UsuaM_Nombre;
+                    cate.UsuarioCreacion = item.UsuarioCreacion;
+                    cate.UsuarioModificacion = item.UsuarioModificacion;
                 }
                 return View(cate);
             }

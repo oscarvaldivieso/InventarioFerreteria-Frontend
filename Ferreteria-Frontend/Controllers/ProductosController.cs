@@ -206,9 +206,35 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            var data = new ProductoViewModel { Prod_Id = id };
+            // Construimos un objeto completo con valores por defecto para asegurarnos
+            // de que la API reciba la estructura que espera (evita model binding null)
+            var data = new ProductoViewModel
+            {
+                Prod_Id = id,
+                Prod_Descripcion = string.Empty,
+                Marc_Id = 0,
+                Cate_Id = 0,
+                Prov_Id = 0,
+                Prod_Modelo = string.Empty,
+                Prod_Cantidad = 0,
+                Usua_Creacion = 0,
+                UsuarioCreacion = string.Empty,
+                Feca_Creacion = DateTime.Now,
+                Usua_Modificacion = 0,
+                UsuarioModificacion = string.Empty,
+                Feca_Modificacion = DateTime.Now,
+                Prod_Estado = true,
+                Prod_URLImg = string.Empty,
+                Medi_Id = 0,
+                Medi_Descripcion = string.Empty,
+                Cate_Descripcion = string.Empty,
+                Prov_Nombre = string.Empty,
+                Marc_Descripcion = string.Empty
+            };
+
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/BuscarProducto", content2);
+            // Llamada a la API que busca el producto por el body (la API espera la estructura completa)
+            var response = await _httpClient.PostAsync("BuscarProducto", content2);
             if (response.IsSuccessStatusCode)
             {
                 ViewBag.marcas = await ObtenerMarcasAsync();
@@ -228,7 +254,7 @@ namespace Ferreteria_Frontend.Controllers
                     prod.Prov_Id = item.Prov_Id;
                     prod.Prod_Modelo = item.Prod_Modelo;
                     prod.Prod_Cantidad = item.Prod_Cantidad;
-                    prod.Prod_URLImg = item.Prod_URLImg;
+                    prod.Prod_URLImg = "https://www.bing.com/images/search?view=detailV2&ccid=DRZ11rJ7&id=5152FEE58DC8AB356A341EF896620D28B55BE8AA&thid=OIP.DRZ11rJ7_32bo6X2xzlc3QHaHU&mediaurl=https%3a%2f%2fhttp2.mlstatic.com%2fD_NQ_NP_633420-MLA45467093493_042021-F.jpg&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.0d1675d6b27bff7d9ba3a5f6c7395cdd%3frik%3dquhbtSgNYpb4Hg%26pid%3dImgRaw%26r%3d0&exph=1185&expw=1200&q=taladro+dewalt&FORM=IRPRST&ck=141700AF764EC0D0FA4830D2D9DAC925&selectedIndex=0&itb=0";
                     prod.Medi_Id = item.Medi_Id;
                 }
                 await CargarMarcas();
@@ -243,11 +269,12 @@ namespace Ferreteria_Frontend.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> Edit(int id, ProductoViewModel prod)
         {
             prod.Usua_Modificacion = 1;
             prod.Feca_Modificacion = DateTime.Now;
+            prod.Prod_Id = id;
             if (ModelState.IsValid)
             {
                 if (prod.Prod_Imagen != null)
@@ -264,12 +291,9 @@ namespace Ferreteria_Frontend.Controllers
                     prod.Prod_URLImg = $"~/imagenes/{fileName}";
                 }
 
-
                 var json = JsonConvert.SerializeObject(prod);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-
                 var response = await _httpClient.PutAsync("ActualizarProducto", content);
-
                 if (response.IsSuccessStatusCode)
                 {
                     TempData["MensajeExito"] = "Actualizado Correctamente";
@@ -280,6 +304,10 @@ namespace Ferreteria_Frontend.Controllers
                     ModelState.AddModelError(string.Empty, "Error al actualizar el producto");
                 }
             }
+            await CargarMarcas();
+            await CargarMedidas();
+            await CargarProveedores();
+            await CargarCategorias();
             return View(prod);
         }
 
@@ -303,9 +331,33 @@ namespace Ferreteria_Frontend.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var data = new ProductoViewModel { Prod_Id = id };
+            // En Details también enviamos la estructura completa para evitar body null en la API
+            var data = new ProductoViewModel
+            {
+                Prod_Id = id,
+                Prod_Descripcion = string.Empty,
+                Marc_Id = 0,
+                Cate_Id = 0,
+                Prov_Id = 0,
+                Prod_Modelo = string.Empty,
+                Prod_Cantidad = 0,
+                Usua_Creacion = 0,
+                UsuarioCreacion = string.Empty,
+                Feca_Creacion = DateTime.Now,
+                Usua_Modificacion = 0,
+                UsuarioModificacion = string.Empty,
+                Feca_Modificacion = DateTime.Now,
+                Prod_Estado = true,
+                Prod_URLImg = string.Empty,
+                Medi_Id = 0,
+                Medi_Descripcion = string.Empty,
+                Cate_Descripcion = string.Empty,
+                Prov_Nombre = string.Empty,
+                Marc_Descripcion = string.Empty
+            };
+
             var content2 = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/BuscarProducto", content2);
+            var response = await _httpClient.PostAsync("BuscarProducto", content2);
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -327,8 +379,8 @@ namespace Ferreteria_Frontend.Controllers
                     prod.Feca_Modificacion = item.Feca_Modificacion;
                     prod.Usua_Creacion = item.Usua_Creacion;
                     prod.Usua_Modificacion = item.Usua_Modificacion;
-                    prod.UsuaC_Nombre = item.UsuaC_Nombre;
-                    prod.UsuaM_Nombre = item.UsuaM_Nombre;
+                    prod.UsuarioCreacion = item.UsuarioCreacion;
+                    prod.UsuarioModificacion= item.UsuarioModificacion;
                 }
                 return View(prod);
             }

@@ -148,8 +148,8 @@ namespace Ferreteria_Frontend.Controllers
                     depa.Feca_Creacion = item.Feca_Creacion;
                     depa.Usua_Creacion = item.Usua_Creacion;
                     depa.Usua_Modificacion = item.Usua_Modificacion;
-                    depa.UsuaC_Nombre = item.UsuaC_Nombre;
-                    depa.UsuaM_Nombre = item.UsuaM_Nombre;
+                    depa.UsuarioCreacion = item.UsuarioCreacion;
+                    depa.UsuarioModificacion = item.UsuarioModificacion;
                 }
                 return View(depa);
             }

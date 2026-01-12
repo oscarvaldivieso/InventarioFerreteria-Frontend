@@ -47,13 +47,19 @@ namespace Ferreteria_Frontend.Models
         public bool? Clie_Estado { get; set; }
 
         [NotMapped]
-        public string? UsuaC_Nombre { get; set; }
+        public string? UsuarioCreacion{ get; set; }
 
         [NotMapped]
-        public string? UsuaM_Nombre { get; set; }
+        public string? UsuarioModificacion{ get; set; }
 
         [NotMapped]
         public string? Muni_Descripcion { get; set; }
+
+        [NotMapped]
+        public string? Municipio { get; set; }
+
+        [NotMapped]
+        public string? Departamento { get; set; }
 
         [NotMapped]
         [Display(Name = "Departamento")]
@@ -63,6 +69,6 @@ namespace Ferreteria_Frontend.Models
         public string? Depa_Descripcion { get; set; }
 
         [NotMapped]
-        public string? EsCv_Descripcion { get; set; }
+        public string? EstadoCivil { get; set; }
     }
 }

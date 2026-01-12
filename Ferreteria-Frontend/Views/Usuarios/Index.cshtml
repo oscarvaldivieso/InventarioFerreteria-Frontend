@@ -91,13 +91,7 @@
 					<div class="card-border-top">
 					</div>
 					<div class="img">
-
 					</div>
-					@* <div class="status d-flex justify-content-center">
-						<span id="estado-@item.Usua_Id" class="badge rounded-pill @(item.Usua_Estado ? "badge-success" : "badge-danger") mt-3">
-							@(item.Usua_Estado ? true : false)
-						</span>
-					</div> *@
 					<div class="status d-flex justify-content-center">
 						@if (item.Usua_Estado == false)
 						{
@@ -124,19 +118,20 @@
 						<a class="dropdown-item" href="javascript:void(0);" onclick="restablecer(@item.Usua_Id)">
 							<i class="fa fa-lock"></i> Restablecer contraseña
 						</a>
-						<a class="dropdown-item" asp-action="Details" asp-route-id="@item.Usua_Id">
+						@* <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Usua_Id">
 							<i class="fa fa-info-circle"></i> Detalles
-						</a>
+						</a> *@
 					</ul>
 				</div>
 			}
+
 		</div>
 	</div>
 	<div class="modal fade modal-bookmark" id="modalInsertar" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-hidden="true">
 		<div class="modal-dialog modal-md" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Insertar un departamento</h5>
+					<h5 class="modal-title">Insertar un Usuario</h5>
 				</div>
 				<div class="modal-body p-0">
 					<partial name="_Create" model="new Ferreteria_Frontend.Models.UsuarioViewModel()" />
@@ -149,7 +144,7 @@
 		<div class="modal-dialog modal-md" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Editar un departamento</h5>
+					<h5 class="modal-title">Editar un Usuario</h5>
 				</div>
 				<div class="modal-body p-0" id="modalBody">
 					<partial name="_Edit" model="new Ferreteria_Frontend.Models.UsuarioViewModel()" />
@@ -182,6 +177,7 @@
 <script src="~/js/js-datatables/simple-datatables@latest.js"></script>
 <script src="~/js/datatable/datatables/jquery.dataTables.min.js"></script>
 
+
 @if (TempData["MensajeExito"] != null)
 {
 	<script>
@@ -200,8 +196,79 @@
 
 <script>
 
-		
+	function toggleEstado(id, estadoStr) {
+		// estadoStr viene de Razor como 'True' o 'False' (string). Convertimos a boolean.
+		var isActive = (estadoStr === 'True' || estadoStr === 'true' || estadoStr === '1');
 
+		var accion = isActive ? "Desactivar" : "Activar";
+		var texto = isActive ? "¿Deseas desactivar este usuario?" : "¿Deseas activar este usuario?";
+		var confirmText = isActive ? "Si, desactivar" : "Si, activar";
+		var confirmClass = isActive ? 'btn btn-danger' : 'btn btn-success';
+
+		localStorage.setItem("Usua_Id", id);
+
+		swal({
+			icon: "warning",
+			title: accion,
+			text: texto,
+			type: 'warning',
+			buttons:{
+				confirm:{
+					text: confirmText,
+					className: confirmClass
+				},
+				cancel:{
+					visible: true,
+					className: 'btn btn-danger btn-outline text-danger bg-white'
+				}
+			}
+		}).then((willDo) => {
+			if (willDo) {
+				var usuarioId = localStorage.getItem("Usua_Id");
+				// Creamos y enviamos un formulario POST para llamar al action del controller (coincide con el comportamiento en Roles)
+				var actionUrl = "/Usuarios/" + (isActive ? "DesactivarUsuario" : "ActivarUsuario");
+				var form = $('<form>', {
+					method: 'post',
+					action: actionUrl
+				});
+				form.append($('<input>', { type: 'hidden', name: 'id', value: usuarioId }));
+				// Anti-forgery token no añadido aquí; si tu app usa __RequestVerificationToken, considera incluirlo dinámicamente.
+				$('body').append(form);
+				form.submit();
+			} else {
+				swal.close();
+			}
+		});
+	}
+
+	// function toggleEstado(id){
+	// 	localStorage.setItem("Usua_Id", id);
+	// 	swal({
+	// 		icon:"error",
+	// 		title:'Eliminar',
+	// 		text: "¿Deseas cambiar el estado de este usuario??",
+	// 		type:'warning',
+	// 		buttons:{
+	// 			confirm:{
+	// 				text:'Si, cambiar',
+	// 				className: 'btn btn-danger'
+	// 			},
+	// 			cancel:{
+	// 				visible: true,
+	// 				className: 'btn btn-danger btn-outline text-danger bg-white'
+	// 			}
+	// 		}
+	// 	}).then((Delete) => {
+	// 		if(Delete){
+	// 			var id = localStorage.getItem("Usua_Id");
+	// 			var url = "/Usuarios/ActivarUsuario/"+id;
+	// 			location.href = url;
+	// 		}
+	// 		else{
+	// 			swal.close();
+	// 		}
+	// 	})
+	// }
 
 	$("#ModalNuevo").click(function () {
 		$("#modalInsertar").modal({ backdrop: 'static', keyboard: false });
@@ -238,61 +305,4 @@
 	$(document).on('click', '#btnCerrarEditar', function() {
 		$("#modalEditar").modal('hide');
 	});
-
-	function eliminar(id){
-		localStorage.setItem("Role_Id", id);
-		swal({
-			icon:"error",
-			title:'Eliminar',
-			text: "¿Deseas eliminar este registro?",
-			type:'warning',
-			buttons:{
-				confirm:{
-					text:'Si, eliminar',
-					className: 'btn btn-danger'
-				},
-				cancel:{
-					visible: true,
-					className: 'btn btn-danger btn-outline text-danger bg-white'
-				}
-			}
-		}).then((Delete) => {
-			if(Delete){
-				var id = localStorage.getItem("Role_Id");
-				var url = "/Roles/Delete/"+id;
-				location.href = url;
-			}
-			else{
-				swal.close();
-			}
-		})
-	}
-
-			function toggleEstado(id, estado) {
-		// Determina la URL en función del estado
-		var url = estado ? "http://localhost:7214/DesactivarUsuario" : "http://localhost:7214/ActivarUsuario";
-
-		// Realiza la solicitud AJAX
-		$.ajax({
-			url: url,  // La URL que se utilizará para la solicitud
-			type: "PUT",  // El tipo de solicitud HTTP
-			contentType: "application/json",  // Indica que el cuerpo es un JSON
-			data: JSON.stringify({ Usua_Id: id }),  // Convierte el objeto a JSON
-			success: function(response) {
-				// Si la solicitud es exitosa, muestra el mensaje de éxito
-				alert(response.message);
-				// Recarga la página para reflejar los cambios
-				location.reload();
-			},
-			error: function(xhr, status, error) {
-				// Si ocurre un error, muestra el mensaje de error
-				console.error("Error:", error);
-				alert("Hubo un problema al actualizar el usuario.");
-			}
-		});
-	}
-
-
-
-
 </script>

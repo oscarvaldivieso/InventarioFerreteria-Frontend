@@ -265,8 +265,8 @@ namespace Ferreteria_Frontend.Controllers
                     clie.Feca_Modificacion = item.Feca_Modificacion;
                     clie.Usua_Creacion = item.Usua_Creacion;
                     clie.Usua_Modificacion = item.Usua_Modificacion;
-                    clie.UsuaC_Nombre = item.UsuaC_Nombre;
-                    clie.UsuaM_Nombre = item.UsuaM_Nombre;
+                    clie.UsuarioCreacion= item.UsuarioCreacion;
+                    clie.UsuarioModificacion = item.UsuarioModificacion;
                 }
                 return View(clie);
             }
